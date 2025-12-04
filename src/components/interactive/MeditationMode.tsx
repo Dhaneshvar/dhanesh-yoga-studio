@@ -1,7 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Volume2, VolumeX } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 interface MeditationModeProps {
   isOpen: boolean;
@@ -10,8 +9,45 @@ interface MeditationModeProps {
 
 const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
   const [breathPhase, setBreathPhase] = useState<"inhale" | "hold" | "exhale">("inhale");
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const [timer, setTimer] = useState(0);
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  // Create gentle tone for breathing
+  const playBreathSound = useCallback((type: "inhale" | "exhale") => {
+    if (!soundEnabled) return;
+    
+    try {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
+      
+      const ctx = audioContextRef.current;
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      // Different frequencies for inhale/exhale
+      oscillator.frequency.value = type === "inhale" ? 220 : 165; // A3 for inhale, E3 for exhale
+      oscillator.type = "sine";
+      
+      const duration = type === "inhale" ? 4 : 6;
+      const now = ctx.currentTime;
+      
+      // Gentle fade in and out
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.08, now + 0.5);
+      gainNode.gain.linearRampToValueAtTime(0.08, now + duration - 0.5);
+      gainNode.gain.linearRampToValueAtTime(0, now + duration);
+      
+      oscillator.start(now);
+      oscillator.stop(now + duration);
+    } catch (e) {
+      console.log("Audio not available");
+    }
+  }, [soundEnabled]);
 
   // Breathing cycle: 4s inhale, 4s hold, 6s exhale
   useEffect(() => {
@@ -24,11 +60,18 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
     ];
 
     let currentPhaseIndex = 0;
+    let timeoutId: NodeJS.Timeout;
     
     const runPhase = () => {
-      setBreathPhase(phases[currentPhaseIndex].phase);
+      const phase = phases[currentPhaseIndex].phase;
+      setBreathPhase(phase);
       
-      setTimeout(() => {
+      // Play sound for inhale and exhale
+      if (phase === "inhale" || phase === "exhale") {
+        playBreathSound(phase);
+      }
+      
+      timeoutId = setTimeout(() => {
         currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
         runPhase();
       }, phases[currentPhaseIndex].duration);
@@ -42,14 +85,19 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
     }, 1000);
 
     return () => {
+      clearTimeout(timeoutId);
       clearInterval(timerInterval);
     };
-  }, [isOpen]);
+  }, [isOpen, playBreathSound]);
 
-  // Reset timer when closing
+  // Reset timer and cleanup when closing
   useEffect(() => {
     if (!isOpen) {
       setTimer(0);
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+        audioContextRef.current = null;
+      }
     }
   }, [isOpen]);
 
@@ -85,7 +133,8 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center"
+          onClick={onClose}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center cursor-pointer"
           style={{
             background: "linear-gradient(180deg, hsl(258 25% 8%) 0%, hsl(258 30% 12%) 100%)",
           }}
@@ -95,7 +144,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            onClick={onClose}
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
             className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
           >
             <X className="w-6 h-6 text-white" />
@@ -106,7 +155,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            onClick={() => setSoundEnabled(!soundEnabled)}
+            onClick={(e) => { e.stopPropagation(); setSoundEnabled(!soundEnabled); }}
             className="absolute top-6 left-6 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
           >
             {soundEnabled ? (
@@ -121,7 +170,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="absolute top-6 left-1/2 -translate-x-1/2"
+            className="absolute top-6 inset-x-0 text-center"
           >
             <p className="font-body text-white/60 text-lg tracking-widest">
               {formatTime(timer)}
@@ -207,7 +256,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
 
           {/* Breath instruction */}
           <motion.div
-            className="absolute bottom-32 left-1/2 -translate-x-1/2 text-center"
+            className="mt-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
@@ -225,7 +274,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
               </motion.p>
             </AnimatePresence>
             
-            <p className="font-body text-white/40 mt-2 text-sm">
+            <p className="font-body text-white/40 mt-3 text-sm">
               {breathPhase === "inhale" && "4 seconds"}
               {breathPhase === "hold" && "4 seconds"}
               {breathPhase === "exhale" && "6 seconds"}
@@ -237,7 +286,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 font-body text-white/30 text-sm"
+            className="absolute bottom-8 inset-x-0 text-center font-body text-white/30 text-sm"
           >
             Click anywhere or press ESC to exit
           </motion.p>
