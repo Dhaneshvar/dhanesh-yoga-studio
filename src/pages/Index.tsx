@@ -5,13 +5,24 @@ import ProgramsPreview from "@/components/home/ProgramsPreview";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import CTASection from "@/components/home/CTASection";
+import BreathingBackground from "@/components/interactive/BreathingBackground";
+import FloatingQuote from "@/components/interactive/FloatingQuote";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Interactive breathing background */}
+      <BreathingBackground variant="landing" enableClickBreath={true} />
+      
       <Navbar />
       <main>
         <HeroSection />
+        
+        {/* Floating quote between sections */}
+        <section className="py-16 relative">
+          <FloatingQuote interval={10000} className="max-w-3xl mx-auto px-4" />
+        </section>
+        
         <ProgramsPreview />
         <FeaturesSection />
         <TestimonialsSection />

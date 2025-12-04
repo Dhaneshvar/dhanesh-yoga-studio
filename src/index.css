@@ -6,114 +6,151 @@
 
 @layer base {
   :root {
-    /* Yoga-inspired color palette */
-    --background: 40 30% 97%;
-    --foreground: 30 15% 15%;
+    /* New Bold + Calm Yoga Palette */
+    --background: 250 20% 98%;
+    --foreground: 258 25% 20%;
 
-    --card: 40 25% 95%;
-    --card-foreground: 30 15% 15%;
+    --card: 250 25% 96%;
+    --card-foreground: 258 25% 20%;
 
-    --popover: 40 30% 97%;
-    --popover-foreground: 30 15% 15%;
+    --popover: 250 20% 98%;
+    --popover-foreground: 258 25% 20%;
 
-    /* Sage green primary */
-    --primary: 145 25% 42%;
-    --primary-foreground: 40 30% 97%;
+    /* Deep Indigo primary - spiritual, grounding */
+    --primary: 258 30% 35%;
+    --primary-foreground: 250 20% 98%;
 
-    /* Warm cream secondary */
-    --secondary: 35 40% 90%;
-    --secondary-foreground: 30 15% 25%;
+    /* Soft Mint secondary - peace, breath */
+    --secondary: 150 50% 92%;
+    --secondary-foreground: 258 25% 25%;
 
-    /* Muted sage */
-    --muted: 145 15% 90%;
-    --muted-foreground: 145 10% 40%;
+    /* Muted indigo */
+    --muted: 258 15% 92%;
+    --muted-foreground: 258 15% 45%;
 
-    /* Terracotta accent */
-    --accent: 18 50% 55%;
-    --accent-foreground: 40 30% 97%;
+    /* Turquoise accent - refreshing, calming */
+    --accent: 172 70% 55%;
+    --accent-foreground: 258 25% 15%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 40 30% 97%;
+    --destructive-foreground: 250 20% 98%;
 
-    --border: 35 20% 88%;
-    --input: 35 20% 88%;
-    --ring: 145 25% 42%;
+    --border: 258 15% 90%;
+    --input: 258 15% 90%;
+    --ring: 258 30% 35%;
 
     --radius: 0.75rem;
 
-    /* Custom yoga colors */
-    --sage: 145 25% 42%;
-    --sage-light: 145 20% 85%;
-    --sage-dark: 145 30% 30%;
+    /* Vibrant Yoga Colors */
+    --indigo: 258 30% 35%;
+    --indigo-light: 258 25% 55%;
+    --indigo-dark: 258 35% 25%;
+    --turquoise: 172 70% 55%;
+    --turquoise-light: 172 60% 80%;
+    --turquoise-dark: 172 75% 40%;
+    --sunset: 32 95% 55%;
+    --sunset-light: 32 90% 75%;
+    --lotus: 345 85% 60%;
+    --lotus-light: 345 75% 80%;
+    --mint: 150 50% 92%;
+    --mint-dark: 150 45% 75%;
+
+    /* Legacy colors for compatibility */
+    --sage: 150 40% 45%;
+    --sage-light: 150 35% 85%;
+    --sage-dark: 150 45% 30%;
     --terracotta: 18 50% 55%;
     --terracotta-light: 18 45% 75%;
-    --cream: 40 30% 97%;
-    --cream-dark: 35 25% 90%;
+    --cream: 250 20% 98%;
+    --cream-dark: 250 18% 94%;
     --forest: 150 35% 25%;
     --gold: 42 65% 55%;
     --gold-light: 42 60% 80%;
 
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(145 25% 42% / 0.1), hsl(18 50% 55% / 0.05));
-    --gradient-card: linear-gradient(180deg, hsl(40 30% 97%), hsl(35 25% 94%));
-    --gradient-sage: linear-gradient(135deg, hsl(145 25% 42%), hsl(150 35% 30%));
-    --gradient-warm: linear-gradient(135deg, hsl(18 50% 55%), hsl(25 55% 45%));
+    /* Multi-color Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(258 30% 35% / 0.08), hsl(172 70% 55% / 0.05), hsl(345 85% 60% / 0.03));
+    --gradient-card: linear-gradient(180deg, hsl(250 20% 98%), hsl(258 15% 96%));
+    --gradient-indigo-turquoise: linear-gradient(135deg, hsl(258 30% 35%), hsl(172 70% 55%));
+    --gradient-pink-orange: linear-gradient(135deg, hsl(345 85% 60%), hsl(32 95% 55%));
+    --gradient-mint-turquoise: linear-gradient(135deg, hsl(150 50% 92%), hsl(172 70% 55%));
+    --gradient-spiritual: linear-gradient(135deg, hsl(258 30% 35%), hsl(345 85% 60%), hsl(32 95% 55%));
+    --gradient-calm: linear-gradient(180deg, hsl(150 50% 92%), hsl(172 60% 80%));
+    --gradient-warm: linear-gradient(135deg, hsl(32 95% 55%), hsl(345 85% 60%));
+
+    /* Aura/Glow Effects */
+    --glow-indigo: 0 0 60px hsl(258 30% 35% / 0.3);
+    --glow-turquoise: 0 0 60px hsl(172 70% 55% / 0.4);
+    --glow-lotus: 0 0 60px hsl(345 85% 60% / 0.3);
+    --glow-sunset: 0 0 60px hsl(32 95% 55% / 0.3);
 
     /* Shadows */
-    --shadow-soft: 0 4px 20px -4px hsl(145 25% 42% / 0.15);
-    --shadow-card: 0 8px 30px -8px hsl(30 15% 15% / 0.1);
-    --shadow-elevated: 0 20px 50px -15px hsl(30 15% 15% / 0.15);
+    --shadow-soft: 0 4px 20px -4px hsl(258 30% 35% / 0.15);
+    --shadow-card: 0 8px 30px -8px hsl(258 25% 20% / 0.1);
+    --shadow-elevated: 0 20px 50px -15px hsl(258 25% 20% / 0.15);
+    --shadow-glow: 0 0 40px hsl(172 70% 55% / 0.2);
 
     /* Typography */
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'Lato', sans-serif;
 
-    --sidebar-background: 40 30% 97%;
-    --sidebar-foreground: 30 15% 25%;
-    --sidebar-primary: 145 25% 42%;
-    --sidebar-primary-foreground: 40 30% 97%;
-    --sidebar-accent: 35 40% 90%;
-    --sidebar-accent-foreground: 30 15% 25%;
-    --sidebar-border: 35 20% 88%;
-    --sidebar-ring: 145 25% 42%;
+    --sidebar-background: 250 20% 98%;
+    --sidebar-foreground: 258 25% 25%;
+    --sidebar-primary: 258 30% 35%;
+    --sidebar-primary-foreground: 250 20% 98%;
+    --sidebar-accent: 150 50% 92%;
+    --sidebar-accent-foreground: 258 25% 25%;
+    --sidebar-border: 258 15% 90%;
+    --sidebar-ring: 258 30% 35%;
   }
 
   .dark {
-    --background: 30 15% 10%;
-    --foreground: 40 20% 92%;
+    --background: 258 25% 8%;
+    --foreground: 250 20% 92%;
 
-    --card: 30 15% 13%;
-    --card-foreground: 40 20% 92%;
+    --card: 258 25% 12%;
+    --card-foreground: 250 20% 92%;
 
-    --popover: 30 15% 10%;
-    --popover-foreground: 40 20% 92%;
+    --popover: 258 25% 8%;
+    --popover-foreground: 250 20% 92%;
 
-    --primary: 145 30% 55%;
-    --primary-foreground: 30 15% 10%;
+    --primary: 172 65% 55%;
+    --primary-foreground: 258 25% 8%;
 
-    --secondary: 30 15% 18%;
-    --secondary-foreground: 40 20% 92%;
+    --secondary: 258 20% 18%;
+    --secondary-foreground: 250 20% 92%;
 
-    --muted: 30 15% 20%;
-    --muted-foreground: 40 15% 60%;
+    --muted: 258 20% 20%;
+    --muted-foreground: 250 15% 60%;
 
-    --accent: 18 45% 60%;
-    --accent-foreground: 30 15% 10%;
+    --accent: 345 80% 65%;
+    --accent-foreground: 258 25% 8%;
 
     --destructive: 0 62.8% 50%;
-    --destructive-foreground: 40 20% 92%;
+    --destructive-foreground: 250 20% 92%;
 
-    --border: 30 15% 20%;
-    --input: 30 15% 20%;
-    --ring: 145 30% 55%;
+    --border: 258 20% 20%;
+    --input: 258 20% 20%;
+    --ring: 172 65% 55%;
 
-    --sage: 145 30% 55%;
-    --sage-light: 145 20% 25%;
-    --sage-dark: 145 35% 70%;
+    --indigo: 258 35% 55%;
+    --indigo-light: 258 30% 70%;
+    --indigo-dark: 258 40% 40%;
+    --turquoise: 172 65% 55%;
+    --turquoise-light: 172 55% 35%;
+    --turquoise-dark: 172 70% 70%;
+    --sunset: 32 90% 60%;
+    --sunset-light: 32 85% 35%;
+    --lotus: 345 80% 65%;
+    --lotus-light: 345 70% 40%;
+    --mint: 150 45% 20%;
+    --mint-dark: 150 40% 40%;
+    --sage: 150 35% 55%;
+    --sage-light: 150 30% 25%;
+    --sage-dark: 150 40% 70%;
     --terracotta: 18 45% 60%;
     --terracotta-light: 18 40% 30%;
-    --cream: 30 15% 10%;
-    --cream-dark: 30 15% 15%;
+    --cream: 258 25% 8%;
+    --cream-dark: 258 25% 12%;
     --forest: 150 30% 45%;
     --gold: 42 60% 60%;
     --gold-light: 42 55% 25%;
@@ -131,6 +168,7 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -139,16 +177,29 @@
 }
 
 @layer components {
+  /* Text Gradients */
+  .text-gradient-spiritual {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-indigo-turquoise);
+  }
+
+  .text-gradient-warm {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-pink-orange);
+  }
+
+  .text-gradient-calm {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-mint-turquoise);
+  }
+
+  /* Legacy gradients */
   .text-gradient-sage {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(135deg, hsl(var(--sage)), hsl(var(--forest)));
   }
 
-  .text-gradient-warm {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--terracotta)), hsl(var(--gold)));
-  }
-
+  /* Background Gradients */
   .bg-gradient-hero {
     background: var(--gradient-hero);
   }
@@ -157,14 +208,40 @@
     background: var(--gradient-card);
   }
 
-  .bg-gradient-sage {
-    background: var(--gradient-sage);
+  .bg-gradient-spiritual {
+    background: var(--gradient-spiritual);
+  }
+
+  .bg-gradient-calm {
+    background: var(--gradient-calm);
   }
 
   .bg-gradient-warm {
     background: var(--gradient-warm);
   }
 
+  .bg-gradient-indigo-turquoise {
+    background: var(--gradient-indigo-turquoise);
+  }
+
+  .bg-gradient-sage {
+    background: linear-gradient(135deg, hsl(var(--sage)), hsl(var(--forest)));
+  }
+
+  /* Glow Effects */
+  .glow-indigo {
+    box-shadow: var(--glow-indigo);
+  }
+
+  .glow-turquoise {
+    box-shadow: var(--glow-turquoise);
+  }
+
+  .glow-lotus {
+    box-shadow: var(--glow-lotus);
+  }
+
+  /* Shadow Classes */
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
@@ -177,6 +254,10 @@
     box-shadow: var(--shadow-elevated);
   }
 
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
   /* Organic blob shapes */
   .blob-shape {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
@@ -186,14 +267,14 @@
     border-radius: 40% 60% 70% 30% / 30% 70% 40% 60%;
   }
 
-  /* Breathing animation */
+  /* Breathing animation - for background */
   @keyframes breathe {
     0%, 100% {
       transform: scale(1);
-      opacity: 0.8;
+      opacity: 0.6;
     }
     50% {
-      transform: scale(1.05);
+      transform: scale(1.08);
       opacity: 1;
     }
   }
@@ -202,13 +283,29 @@
     animation: breathe 4s ease-in-out infinite;
   }
 
+  /* Deep breathing - slower */
+  @keyframes deep-breathe {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.15);
+      opacity: 0.9;
+    }
+  }
+
+  .animate-deep-breathe {
+    animation: deep-breathe 6s ease-in-out infinite;
+  }
+
   /* Float animation */
   @keyframes float {
     0%, 100% {
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-10px);
+      transform: translateY(-15px);
     }
   }
 
@@ -219,7 +316,7 @@
   /* Gentle pulse */
   @keyframes gentle-pulse {
     0%, 100% {
-      opacity: 0.6;
+      opacity: 0.4;
     }
     50% {
       opacity: 1;
@@ -228,6 +325,127 @@
 
   .animate-gentle-pulse {
     animation: gentle-pulse 3s ease-in-out infinite;
+  }
+
+  /* Chakra ripple */
+  @keyframes chakra-ripple {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  .animate-chakra-ripple {
+    animation: chakra-ripple 2s ease-out infinite;
+  }
+
+  /* Aura pulse */
+  @keyframes aura-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(172 70% 55% / 0.3), 0 0 40px hsl(258 30% 35% / 0.2);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(172 70% 55% / 0.5), 0 0 80px hsl(258 30% 35% / 0.3);
+    }
+  }
+
+  .animate-aura-pulse {
+    animation: aura-pulse 3s ease-in-out infinite;
+  }
+
+  /* Lotus bloom */
+  @keyframes lotus-bloom {
+    0% {
+      transform: scale(0) rotate(-45deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  .animate-lotus-bloom {
+    animation: lotus-bloom 0.8s ease-out forwards;
+  }
+
+  /* Color shift background */
+  @keyframes color-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-color-shift {
+    background-size: 200% 200%;
+    animation: color-shift 15s ease infinite;
+  }
+
+  /* Glow trail */
+  @keyframes glow-trail {
+    0% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+  }
+
+  .animate-glow-trail {
+    animation: glow-trail 1s ease-out forwards;
+  }
+
+  /* Rotate slow */
+  @keyframes rotate-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-rotate-slow {
+    animation: rotate-slow 20s linear infinite;
+  }
+
+  /* Section transition backgrounds */
+  .section-landing {
+    background: linear-gradient(180deg, 
+      hsl(32 95% 55% / 0.05) 0%, 
+      hsl(345 85% 60% / 0.03) 50%,
+      hsl(172 70% 55% / 0.02) 100%);
+  }
+
+  .section-asanas {
+    background: linear-gradient(180deg,
+      hsl(172 70% 55% / 0.08) 0%,
+      hsl(258 30% 35% / 0.05) 100%);
+  }
+
+  .section-kids {
+    background: linear-gradient(180deg,
+      hsl(32 95% 55% / 0.1) 0%,
+      hsl(345 85% 60% / 0.05) 100%);
+  }
+
+  .section-senior {
+    background: linear-gradient(180deg,
+      hsl(150 50% 92% / 0.5) 0%,
+      hsl(172 60% 80% / 0.3) 100%);
   }
 }
 
@@ -238,5 +456,14 @@
 
   .font-body {
     font-family: var(--font-body);
+  }
+
+  /* Glass morphism */
+  .glass {
+    @apply bg-background/70 backdrop-blur-xl border border-border/50;
+  }
+
+  .glass-strong {
+    @apply bg-background/90 backdrop-blur-2xl border border-border/30;
   }
 }
