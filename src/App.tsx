@@ -15,7 +15,7 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import MeditationMode from "./components/interactive/MeditationMode";
 import MeditationToggle from "./components/interactive/MeditationToggle";
-import AnimatedYogaCursor from "./components/interactive/AnimatedYogaCursor";
+
 
 const queryClient = new QueryClient();
 
@@ -47,10 +47,7 @@ const AppContent = () => {
   }, [meditationOpen]);
 
   return (
-    <div className="yoga-cursor-active">
-      {/* Animated yoga pose cursor */}
-      <AnimatedYogaCursor />
-      
+    <div>
       <PageTransition>
         <Routes>
           <Route path="/" element={<Index />} />
