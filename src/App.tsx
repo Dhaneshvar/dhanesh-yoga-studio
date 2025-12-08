@@ -15,10 +15,11 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import MeditationMode from "./components/interactive/MeditationMode";
 import MeditationToggle from "./components/interactive/MeditationToggle";
+import AnimatedYogaCursor from "./components/interactive/AnimatedYogaCursor";
 
 const queryClient = new QueryClient();
 
-// Simple page transition wrapper - no AnimatePresence to avoid blank pages
+// Simple page transition wrapper
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.div
@@ -30,7 +31,6 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
     </motion.div>
   );
 };
-
 
 const AppContent = () => {
   const [meditationOpen, setMeditationOpen] = useState(false);
@@ -47,7 +47,10 @@ const AppContent = () => {
   }, [meditationOpen]);
 
   return (
-    <div className="yoga-cursor">
+    <div className="yoga-cursor-active">
+      {/* Animated yoga pose cursor */}
+      <AnimatedYogaCursor />
+      
       <PageTransition>
         <Routes>
           <Route path="/" element={<Index />} />
