@@ -12,17 +12,36 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [timer, setTimer] = useState(0);
   const audioContextRef = useRef<AudioContext | null>(null);
+  const activeOscillatorRef = useRef<OscillatorNode | null>(null);
+
+  // Initialize audio context on first interaction
+  const initAudioContext = useCallback(() => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+    // Resume if suspended (required by browsers)
+    if (audioContextRef.current.state === 'suspended') {
+      audioContextRef.current.resume();
+    }
+    return audioContextRef.current;
+  }, []);
 
   // Create gentle tone for breathing
   const playBreathSound = useCallback((type: "inhale" | "exhale") => {
     if (!soundEnabled) return;
     
     try {
-      if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const ctx = initAudioContext();
+      
+      // Stop previous oscillator if playing
+      if (activeOscillatorRef.current) {
+        try {
+          activeOscillatorRef.current.stop();
+        } catch (e) {
+          // Ignore if already stopped
+        }
       }
       
-      const ctx = audioContextRef.current;
       const oscillator = ctx.createOscillator();
       const gainNode = ctx.createGain();
       
@@ -30,7 +49,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
       gainNode.connect(ctx.destination);
       
       // Different frequencies for inhale/exhale
-      oscillator.frequency.value = type === "inhale" ? 220 : 165; // A3 for inhale, E3 for exhale
+      oscillator.frequency.value = type === "inhale" ? 220 : 165;
       oscillator.type = "sine";
       
       const duration = type === "inhale" ? 4 : 6;
@@ -38,16 +57,31 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
       
       // Gentle fade in and out
       gainNode.gain.setValueAtTime(0, now);
-      gainNode.gain.linearRampToValueAtTime(0.08, now + 0.5);
-      gainNode.gain.linearRampToValueAtTime(0.08, now + duration - 0.5);
+      gainNode.gain.linearRampToValueAtTime(0.1, now + 0.5);
+      gainNode.gain.setValueAtTime(0.1, now + duration - 0.5);
       gainNode.gain.linearRampToValueAtTime(0, now + duration);
       
       oscillator.start(now);
       oscillator.stop(now + duration);
+      activeOscillatorRef.current = oscillator;
     } catch (e) {
-      console.log("Audio not available");
+      console.log("Audio not available:", e);
     }
-  }, [soundEnabled]);
+  }, [soundEnabled, initAudioContext]);
+
+  // Handle close button
+  const handleClose = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onClose();
+  }, [onClose]);
+
+  // Handle sound toggle
+  const handleSoundToggle = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSoundEnabled(prev => !prev);
+  }, []);
 
   // Breathing cycle: 4s inhale, 4s hold, 6s exhale
   useEffect(() => {
@@ -63,18 +97,18 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
     let timeoutId: NodeJS.Timeout;
     
     const runPhase = () => {
-      const phase = phases[currentPhaseIndex].phase;
-      setBreathPhase(phase);
+      const currentPhase = phases[currentPhaseIndex];
+      setBreathPhase(currentPhase.phase);
       
       // Play sound for inhale and exhale
-      if (phase === "inhale" || phase === "exhale") {
-        playBreathSound(phase);
+      if (currentPhase.phase === "inhale" || currentPhase.phase === "exhale") {
+        playBreathSound(currentPhase.phase);
       }
       
       timeoutId = setTimeout(() => {
         currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
         runPhase();
-      }, phases[currentPhaseIndex].duration);
+      }, currentPhase.duration);
     };
 
     runPhase();
@@ -94,6 +128,15 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
   useEffect(() => {
     if (!isOpen) {
       setTimer(0);
+      setBreathPhase("inhale");
+      if (activeOscillatorRef.current) {
+        try {
+          activeOscillatorRef.current.stop();
+        } catch (e) {
+          // Ignore
+        }
+        activeOscillatorRef.current = null;
+      }
       if (audioContextRef.current) {
         audioContextRef.current.close();
         audioContextRef.current = null;
@@ -132,47 +175,54 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
-          onClick={onClose}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center cursor-pointer"
+          transition={{ duration: 0.5 }}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
           style={{
             background: "linear-gradient(180deg, hsl(258 25% 8%) 0%, hsl(258 30% 12%) 100%)",
           }}
         >
-          {/* Close button */}
+          {/* Close button - positioned top right */}
           <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+            type="button"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            onClick={handleClose}
+            className="absolute top-6 right-6 p-4 rounded-full bg-white/10 hover:bg-white/30 transition-all duration-300 hover:scale-110 active:scale-95 z-[110]"
+            aria-label="Close meditation mode"
           >
-            <X className="w-6 h-6 text-white" />
+            <X className="w-7 h-7 text-white" />
           </motion.button>
 
-          {/* Sound toggle */}
+          {/* Sound toggle - positioned top left */}
           <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            onClick={(e) => { e.stopPropagation(); setSoundEnabled(!soundEnabled); }}
-            className="absolute top-6 left-6 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+            type="button"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            onClick={handleSoundToggle}
+            className={`absolute top-6 left-6 p-4 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 z-[110] ${
+              soundEnabled 
+                ? 'bg-turquoise/30 hover:bg-turquoise/50' 
+                : 'bg-white/10 hover:bg-white/30'
+            }`}
+            aria-label={soundEnabled ? "Mute sound" : "Unmute sound"}
           >
             {soundEnabled ? (
-              <Volume2 className="w-6 h-6 text-white" />
+              <Volume2 className="w-7 h-7 text-white" />
             ) : (
-              <VolumeX className="w-6 h-6 text-white/50" />
+              <VolumeX className="w-7 h-7 text-white/50" />
             )}
           </motion.button>
 
-          {/* Timer */}
+          {/* Timer - centered at top */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="absolute top-6 inset-x-0 text-center"
+            className="absolute top-8 left-1/2 -translate-x-1/2"
           >
-            <p className="font-body text-white/60 text-lg tracking-widest">
+            <p className="font-body text-white/60 text-2xl tracking-widest tabular-nums">
               {formatTime(timer)}
             </p>
           </motion.div>
@@ -268,16 +318,34 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.5 }}
-                className="font-display text-3xl md:text-4xl text-white/90 tracking-wide"
+                className="font-display text-4xl md:text-5xl text-white tracking-wide"
               >
                 {breathInstructions[breathPhase]}
               </motion.p>
             </AnimatePresence>
             
-            <p className="font-body text-white/40 mt-3 text-sm">
+            <motion.p 
+              className="font-body text-white/40 mt-4 text-base"
+              key={`duration-${breathPhase}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
               {breathPhase === "inhale" && "4 seconds"}
               {breathPhase === "hold" && "4 seconds"}
               {breathPhase === "exhale" && "6 seconds"}
+            </motion.p>
+          </motion.div>
+
+          {/* Sound status indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="absolute bottom-20 left-1/2 -translate-x-1/2"
+          >
+            <p className="font-body text-white/30 text-sm">
+              Sound: {soundEnabled ? "On" : "Off"}
             </p>
           </motion.div>
 
@@ -285,10 +353,10 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-            className="absolute bottom-8 inset-x-0 text-center font-body text-white/30 text-sm"
+            transition={{ delay: 1.5 }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 font-body text-white/20 text-sm"
           >
-            Click anywhere or press ESC to exit
+            Press ESC or click X to exit
           </motion.p>
         </motion.div>
       )}
