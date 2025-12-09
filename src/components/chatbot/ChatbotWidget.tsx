@@ -157,7 +157,7 @@ const ChatbotWidget: React.FC = () => {
       >
         <div className={cn(
           "w-full h-full flex flex-col overflow-hidden",
-          "bg-gradient-to-b from-yoga-mint/30 to-background border border-yoga-lotus/20 shadow-2xl",
+          "bg-[hsl(170_50%_97%)] dark:bg-[hsl(240_10%_15%)] border border-yoga-indigo/30 shadow-2xl",
           isFullScreen || "rounded-2xl max-md:rounded-none"
         )}>
           {/* Header - Warm yoga gradient */}
@@ -194,10 +194,10 @@ const ChatbotWidget: React.FC = () => {
             </div>
           </div>
 
-          {/* Messages Area - Soft mint background */}
+          {/* Messages Area - Solid background */}
           <div
             ref={chatContainerRef}
-            className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-yoga-mint/20 via-background to-yoga-turquoise-light/10"
+            className="flex-1 overflow-y-auto p-4 space-y-4 bg-[hsl(170_40%_95%)] dark:bg-[hsl(240_10%_12%)]"
           >
             {messages.map((message, index) => (
               <div
@@ -226,7 +226,7 @@ const ChatbotWidget: React.FC = () => {
                   "max-w-[75%] px-4 py-2.5 rounded-2xl text-sm shadow-soft",
                   message.sender === 'user'
                     ? "bg-gradient-to-br from-yoga-turquoise to-yoga-indigo text-white rounded-br-sm"
-                    : "bg-white/80 dark:bg-card/90 backdrop-blur-sm border border-yoga-lotus/20 text-foreground rounded-bl-sm"
+                    : "bg-white dark:bg-[hsl(240_10%_25%)] border border-yoga-indigo/15 text-foreground rounded-bl-sm"
                 )}>
                   {message.text}
                 </div>
@@ -239,7 +239,7 @@ const ChatbotWidget: React.FC = () => {
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yoga-lotus to-yoga-sunset flex items-center justify-center text-white shadow-md">
                   <YogaBotIcon className="w-5 h-5" />
                 </div>
-                <div className="bg-white/80 dark:bg-card/90 backdrop-blur-sm border border-yoga-lotus/20 px-4 py-3 rounded-2xl rounded-bl-sm shadow-soft">
+                <div className="bg-white dark:bg-[hsl(240_10%_25%)] border border-yoga-indigo/15 px-4 py-3 rounded-2xl rounded-bl-sm shadow-soft">
                   <div className="flex gap-1.5">
                     <span className="w-2 h-2 bg-yoga-lotus/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                     <span className="w-2 h-2 bg-yoga-sunset/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -250,8 +250,8 @@ const ChatbotWidget: React.FC = () => {
             )}
           </div>
 
-          {/* Input Area - Clean with accent border */}
-          <div className="p-4 border-t border-yoga-lotus/20 bg-white/50 dark:bg-card/50 backdrop-blur-sm">
+          {/* Input Area - Solid background */}
+          <div className="p-4 border-t border-yoga-indigo/20 bg-[hsl(170_35%_92%)] dark:bg-[hsl(240_10%_18%)]">
             <div className="flex items-center gap-3">
               <input
                 ref={inputRef}
@@ -262,7 +262,7 @@ const ChatbotWidget: React.FC = () => {
                 placeholder="Ask about yoga, classes, asanas..."
                 className={cn(
                   "flex-1 px-4 py-3 rounded-full",
-                  "bg-yoga-mint/30 dark:bg-muted/50 border border-yoga-turquoise/30",
+                  "bg-white dark:bg-[hsl(240_10%_22%)] border border-yoga-indigo/30",
                   "text-foreground placeholder:text-muted-foreground",
                   "focus:outline-none focus:ring-2 focus:ring-yoga-lotus/50 focus:border-yoga-lotus/50",
                   "transition-all duration-200"
