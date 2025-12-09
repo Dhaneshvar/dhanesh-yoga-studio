@@ -15,7 +15,7 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import MeditationMode from "./components/interactive/MeditationMode";
 import MeditationToggle from "./components/interactive/MeditationToggle";
-
+import ChatbotWidget from "./components/chatbot/ChatbotWidget";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +69,9 @@ const AppContent = () => {
         isOpen={meditationOpen} 
         onClose={() => setMeditationOpen(false)} 
       />
+      
+      {/* Chatbot Widget */}
+      <ChatbotWidget />
     </div>
   );
 };
