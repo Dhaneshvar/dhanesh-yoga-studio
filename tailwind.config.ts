@@ -142,6 +142,10 @@ export default {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
+        "pulse-soft": {
+          "0%, 100%": { transform: "scale(1)", boxShadow: "0 8px 32px rgba(168,213,186,0.4)" },
+          "50%": { transform: "scale(1.05)", boxShadow: "0 12px 40px rgba(197,180,227,0.5)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -152,6 +156,7 @@ export default {
         "slide-in-right": "slide-in-right 0.5s ease-out",
         "slide-in-left": "slide-in-left 0.5s ease-out",
         "shimmer": "shimmer 2s linear infinite",
+        "pulse-soft": "pulse-soft 3s ease-in-out infinite",
       },
     },
   },
