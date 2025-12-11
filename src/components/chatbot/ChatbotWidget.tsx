@@ -124,23 +124,23 @@ const ChatbotWidget: React.FC = () => {
 
   return (
     <>
-      {/* Floating Button - Dark vibrant theme */}
+      {/* Floating Button - Cool calm theme */}
       <button
         onClick={() => setIsOpen(true)}
         className={cn(
           "fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full",
-          "bg-gradient-to-br from-[#6366f1] via-[#a855f7] to-[#ec4899]",
-          "text-white shadow-[0_8px_32px_rgba(99,102,241,0.5),0_0_20px_rgba(168,85,247,0.3)]",
+          "bg-gradient-to-br from-[#5eadb5] to-[#7ec8cf]",
+          "text-white shadow-[0_6px_24px_rgba(94,173,181,0.35)]",
           "flex items-center justify-center",
           "transition-all duration-300 hover:scale-110",
-          "hover:shadow-[0_12px_40px_rgba(99,102,241,0.6),0_0_30px_rgba(236,72,153,0.4)]",
-          "focus:outline-none focus:ring-2 focus:ring-[#a855f7]/60 focus:ring-offset-2 focus:ring-offset-[#0f172a]",
-          "animate-pulse-vibrant",
+          "hover:shadow-[0_8px_32px_rgba(94,173,181,0.45)]",
+          "focus:outline-none focus:ring-2 focus:ring-[#5eadb5]/50 focus:ring-offset-2",
+          "animate-pulse-soft",
           isOpen && "scale-0 opacity-0"
         )}
         aria-label="Open yoga assistant"
       >
-        <FloatingBotIcon className="w-9 h-9 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" />
+        <FloatingBotIcon className="w-9 h-9 drop-shadow-sm" />
       </button>
 
       {/* Chat Window */}
@@ -156,19 +156,19 @@ const ChatbotWidget: React.FC = () => {
       >
         <div className={cn(
           "w-full h-full flex flex-col overflow-hidden",
-          "bg-[#0f172a] border border-[#334155]/60",
-          "shadow-[0_25px_60px_-12px_rgba(99,102,241,0.3),0_0_40px_rgba(168,85,247,0.15)]",
+          "bg-[#f8fafb] border border-[#d1e3e6]",
+          "shadow-[0_20px_50px_-12px_rgba(94,173,181,0.25)]",
           isFullScreen || "rounded-3xl max-md:rounded-none"
         )}>
-          {/* Header - Vibrant gradient with glow */}
-          <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#6366f1] via-[#8b5cf6] to-[#a855f7] text-white rounded-t-3xl max-md:rounded-t-none shadow-[0_4px_20px_rgba(139,92,246,0.4)]">
+          {/* Header - Soft teal gradient */}
+          <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#5eadb5] to-[#7ec8cf] text-white rounded-t-3xl max-md:rounded-t-none">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.2),inset_0_1px_2px_rgba(255,255,255,0.3)]">
-                <YogaBotIcon className="w-6 h-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" />
+              <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <YogaBotIcon className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-display font-semibold text-base tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">Yoga Guide</h3>
-                <p className="text-xs text-white/85 flex items-center gap-1">
+                <h3 className="font-display font-semibold text-base tracking-wide">Yoga Guide</h3>
+                <p className="text-xs text-white/90 flex items-center gap-1">
                   <Sparkles className="w-3 h-3" /> Here to help your journey
                 </p>
               </div>
@@ -176,7 +176,7 @@ const ChatbotWidget: React.FC = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsFullScreen(!isFullScreen)}
-                className="hidden md:flex w-9 h-9 items-center justify-center rounded-full bg-white/15 hover:bg-white/25 transition-all duration-200 backdrop-blur-sm hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                className="hidden md:flex w-9 h-9 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200"
                 aria-label={isFullScreen ? "Minimize" : "Maximize"}
               >
                 {isFullScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -186,7 +186,7 @@ const ChatbotWidget: React.FC = () => {
                   setIsOpen(false);
                   setIsFullScreen(false);
                 }}
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/25 transition-all duration-200 backdrop-blur-sm hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200"
                 aria-label="Close chat"
               >
                 <X className="w-5 h-5" />
@@ -194,10 +194,10 @@ const ChatbotWidget: React.FC = () => {
             </div>
           </div>
 
-          {/* Messages Area - Deep dark background */}
+          {/* Messages Area - Light background */}
           <div
             ref={chatContainerRef}
-            className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-[#0f172a] via-[#1e1b4b] to-[#0f172a]"
+            className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-[#f8fafb] to-[#f0f7f8]"
           >
             {messages.map((message, index) => (
               <div
@@ -212,13 +212,13 @@ const ChatbotWidget: React.FC = () => {
                   "w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0",
                   "transition-transform duration-200 hover:scale-105",
                   message.sender === 'user'
-                    ? "bg-gradient-to-br from-[#06b6d4] to-[#22d3ee] text-white shadow-[0_4px_15px_rgba(6,182,212,0.5)]"
-                    : "bg-gradient-to-br from-[#8b5cf6] to-[#a855f7] text-white shadow-[0_4px_15px_rgba(139,92,246,0.5)]"
+                    ? "bg-gradient-to-br from-[#6bb3ba] to-[#5eadb5] text-white shadow-[0_3px_12px_rgba(94,173,181,0.3)]"
+                    : "bg-gradient-to-br from-[#8b9eb0] to-[#7a8fa3] text-white shadow-[0_3px_12px_rgba(139,158,176,0.3)]"
                 )}>
                   {message.sender === 'user' ? (
-                    <UserIcon className="w-5 h-5 drop-shadow-sm" />
+                    <UserIcon className="w-5 h-5" />
                   ) : (
-                    <YogaBotIcon className="w-5 h-5 drop-shadow-sm" />
+                    <YogaBotIcon className="w-5 h-5" />
                   )}
                 </div>
                 
@@ -226,8 +226,8 @@ const ChatbotWidget: React.FC = () => {
                 <div className={cn(
                   "max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed transition-all duration-200",
                   message.sender === 'user'
-                    ? "bg-gradient-to-br from-[#06b6d4] to-[#0891b2] text-white rounded-br-md shadow-[0_4px_20px_rgba(6,182,212,0.4),0_0_10px_rgba(34,211,238,0.2)] hover:shadow-[0_6px_25px_rgba(6,182,212,0.5)]"
-                    : "bg-gradient-to-br from-[#1e293b] to-[#334155] text-[#e2e8f0] rounded-bl-md shadow-[0_4px_20px_rgba(139,92,246,0.15),inset_0_1px_0_rgba(255,255,255,0.05)] border border-[#475569]/40 hover:shadow-[0_6px_25px_rgba(139,92,246,0.25)] hover:border-[#8b5cf6]/30"
+                    ? "bg-gradient-to-br from-[#5eadb5] to-[#4a9ea6] text-white rounded-br-md shadow-[0_3px_15px_rgba(94,173,181,0.25)]"
+                    : "bg-white text-[#3d4f5f] rounded-bl-md shadow-[0_3px_15px_rgba(0,0,0,0.08)] border border-[#e5eef0]"
                 )}>
                   {message.text}
                 </div>
@@ -237,22 +237,22 @@ const ChatbotWidget: React.FC = () => {
             {/* Typing Indicator */}
             {isTyping && (
               <div className="flex items-end gap-2.5 animate-fade-in">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#8b5cf6] to-[#a855f7] flex items-center justify-center text-white shadow-[0_4px_15px_rgba(139,92,246,0.5)]">
-                  <YogaBotIcon className="w-5 h-5 drop-shadow-sm" />
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#8b9eb0] to-[#7a8fa3] flex items-center justify-center text-white shadow-[0_3px_12px_rgba(139,158,176,0.3)]">
+                  <YogaBotIcon className="w-5 h-5" />
                 </div>
-                <div className="bg-gradient-to-br from-[#1e293b] to-[#334155] border border-[#475569]/40 px-4 py-3.5 rounded-2xl rounded-bl-md shadow-[0_4px_20px_rgba(139,92,246,0.15)]">
+                <div className="bg-white border border-[#e5eef0] px-4 py-3.5 rounded-2xl rounded-bl-md shadow-[0_3px_15px_rgba(0,0,0,0.08)]">
                   <div className="flex gap-1.5">
-                    <span className="w-2 h-2 bg-[#06b6d4] rounded-full animate-bounce shadow-[0_0_8px_rgba(6,182,212,0.6)]" style={{ animationDelay: '0ms' }} />
-                    <span className="w-2 h-2 bg-[#8b5cf6] rounded-full animate-bounce shadow-[0_0_8px_rgba(139,92,246,0.6)]" style={{ animationDelay: '150ms' }} />
-                    <span className="w-2 h-2 bg-[#ec4899] rounded-full animate-bounce shadow-[0_0_8px_rgba(236,72,153,0.6)]" style={{ animationDelay: '300ms' }} />
+                    <span className="w-2 h-2 bg-[#5eadb5] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 bg-[#7ec8cf] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-2 h-2 bg-[#8b9eb0] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Input Area - Dark with glow accents */}
-          <div className="p-4 border-t border-[#334155]/60 bg-[#0f172a]">
+          {/* Input Area */}
+          <div className="p-4 border-t border-[#e5eef0] bg-[#f8fafb]">
             <div className="flex items-center gap-3">
               <input
                 ref={inputRef}
@@ -263,11 +263,10 @@ const ChatbotWidget: React.FC = () => {
                 placeholder="Ask about yoga, classes, asanas..."
                 className={cn(
                   "flex-1 px-5 py-3 rounded-full",
-                  "bg-[#1e293b] border border-[#475569]/50",
-                  "text-[#f1f5f9] placeholder:text-[#64748b]",
-                  "focus:outline-none focus:ring-2 focus:ring-[#8b5cf6]/50 focus:border-[#8b5cf6]/60",
-                  "focus:shadow-[0_0_20px_rgba(139,92,246,0.2)]",
-                  "shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] transition-all duration-200"
+                  "bg-white border border-[#d1e3e6]",
+                  "text-[#3d4f5f] placeholder:text-[#9ab0b8]",
+                  "focus:outline-none focus:ring-2 focus:ring-[#5eadb5]/40 focus:border-[#5eadb5]",
+                  "shadow-[inset_0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-200"
                 )}
               />
               <button
@@ -275,15 +274,15 @@ const ChatbotWidget: React.FC = () => {
                 disabled={!inputValue.trim()}
                 className={cn(
                   "w-12 h-12 rounded-full flex items-center justify-center",
-                  "bg-gradient-to-br from-[#6366f1] via-[#8b5cf6] to-[#a855f7] text-white",
-                  "transition-all duration-200 shadow-[0_4px_20px_rgba(99,102,241,0.4)]",
-                  "hover:shadow-[0_8px_30px_rgba(139,92,246,0.5),0_0_20px_rgba(168,85,247,0.3)] hover:scale-105",
+                  "bg-gradient-to-br from-[#5eadb5] to-[#4a9ea6] text-white",
+                  "transition-all duration-200 shadow-[0_4px_15px_rgba(94,173,181,0.3)]",
+                  "hover:shadow-[0_6px_20px_rgba(94,173,181,0.4)] hover:scale-105",
                   "disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none",
-                  "focus:outline-none focus:ring-2 focus:ring-[#a855f7]/50 focus:ring-offset-2 focus:ring-offset-[#0f172a]"
+                  "focus:outline-none focus:ring-2 focus:ring-[#5eadb5]/40 focus:ring-offset-2"
                 )}
                 aria-label="Send message"
               >
-                <Send className="w-4 h-4 drop-shadow-sm" />
+                <Send className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -293,7 +292,7 @@ const ChatbotWidget: React.FC = () => {
       {/* Backdrop for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-[#0f172a]/60 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-[#3d4f5f]/40 backdrop-blur-sm z-40 md:hidden"
           onClick={() => {
             setIsOpen(false);
             setIsFullScreen(false);
