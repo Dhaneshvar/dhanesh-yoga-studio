@@ -127,6 +127,7 @@ const ChatbotWidget: React.FC = () => {
       {/* Floating Button - Cool calm theme */}
       <button
         onClick={() => setIsOpen(true)}
+        title="Open Yoga Assistant Chat"
         className={cn(
           "fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full",
           "bg-gradient-to-br from-[#5eadb5] to-[#7ec8cf]",
@@ -176,6 +177,7 @@ const ChatbotWidget: React.FC = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsFullScreen(!isFullScreen)}
+                title={isFullScreen ? "Minimize chat window" : "Expand to full screen"}
                 className="hidden md:flex w-9 h-9 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200"
                 aria-label={isFullScreen ? "Minimize" : "Maximize"}
               >
@@ -186,6 +188,7 @@ const ChatbotWidget: React.FC = () => {
                   setIsOpen(false);
                   setIsFullScreen(false);
                 }}
+                title="Close chat"
                 className="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200"
                 aria-label="Close chat"
               >
@@ -261,6 +264,7 @@ const ChatbotWidget: React.FC = () => {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask about yoga, classes, asanas..."
+                title="Type your message here"
                 className={cn(
                   "flex-1 px-5 py-3 rounded-full",
                   "bg-white border border-[#d1e3e6]",
@@ -272,6 +276,7 @@ const ChatbotWidget: React.FC = () => {
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim()}
+                title="Send message"
                 className={cn(
                   "w-12 h-12 rounded-full flex items-center justify-center",
                   "bg-gradient-to-br from-[#5eadb5] to-[#4a9ea6] text-white",
