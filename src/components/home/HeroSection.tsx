@@ -152,15 +152,15 @@ const HeroSection = () => {
               transition={{ delay: 0.7, duration: 0.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <Button variant="hero" size="xl" asChild>
+              <Button variant="hero" size="xl" asChild title="Sign up and begin your yoga journey">
                 <Link to="/register" className="group">
                   Start Your Journey
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </Link>
               </Button>
-              <Button variant="glass" size="xl" asChild>
+              <Button variant="glass" size="xl" asChild title="Explore our yoga programs for all ages">
                 <Link to="/programs" className="group">
-                  <Play className="w-5 h-5" />
+                  <Play className="w-5 h-5" aria-hidden="true" />
                   View Programs
                 </Link>
               </Button>

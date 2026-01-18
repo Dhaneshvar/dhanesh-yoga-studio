@@ -102,6 +102,7 @@ const Register = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Enter your full name"
+                    title="Enter your full name as it will appear on your profile"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
                     disabled={isSubmitting}
@@ -119,6 +120,7 @@ const Register = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter your email"
+                    title="Enter a valid email address for account verification"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
                     disabled={isSubmitting}
@@ -136,6 +138,7 @@ const Register = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Enter your phone number"
+                    title="Enter your phone number for class reminders"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
                     disabled={isSubmitting}
@@ -153,6 +156,7 @@ const Register = () => {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Create a password (min 6 characters)"
+                    title="Create a strong password with at least 6 characters"
                     className="w-full pl-12 pr-12 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
                     disabled={isSubmitting}
@@ -162,8 +166,10 @@ const Register = () => {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    title={showPassword ? "Hide password" : "Show password"}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? <EyeOff className="w-5 h-5" aria-hidden="true" /> : <Eye className="w-5 h-5" aria-hidden="true" />}
                   </button>
                 </div>
               </div>
@@ -178,6 +184,7 @@ const Register = () => {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="Confirm your password"
+                    title="Re-enter your password to confirm"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
                     disabled={isSubmitting}
@@ -200,10 +207,10 @@ const Register = () => {
                 </span>
               </div>
 
-              <Button type="submit" variant="hero" className="w-full" size="lg" disabled={isSubmitting}>
+              <Button type="submit" variant="hero" className="w-full" size="lg" disabled={isSubmitting} title="Create your Harmony Yoga account">
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" aria-hidden="true" />
                     Creating Account...
                   </>
                 ) : (
@@ -229,8 +236,9 @@ const Register = () => {
               size="lg"
               onClick={handleGoogleLogin}
               disabled={isSubmitting}
+              title="Sign up with your Google account"
             >
-              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fill="currentColor"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

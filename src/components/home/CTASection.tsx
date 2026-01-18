@@ -44,10 +44,11 @@ const CTASection = () => {
               size="xl" 
               className="bg-background text-foreground hover:bg-background/90 shadow-elevated"
               asChild
+              title="Register for a free trial class"
             >
               <Link to="/register">
                 Start Free Trial
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-5 h-5" aria-hidden="true" />
               </Link>
             </Button>
             <Button 
@@ -55,9 +56,10 @@ const CTASection = () => {
               size="xl"
               className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10"
               asChild
+              title="View our weekly class schedule"
             >
               <Link to="/schedule">
-                <Calendar className="w-5 h-5" />
+                <Calendar className="w-5 h-5" aria-hidden="true" />
                 View Schedule
               </Link>
             </Button>
@@ -66,9 +68,10 @@ const CTASection = () => {
               size="xl"
               className="text-primary-foreground hover:bg-primary-foreground/10"
               asChild
+              title="Download our yoga studio brochure"
             >
               <Link to="/brochure">
-                <Download className="w-5 h-5" />
+                <Download className="w-5 h-5" aria-hidden="true" />
                 Download Brochure
               </Link>
             </Button>

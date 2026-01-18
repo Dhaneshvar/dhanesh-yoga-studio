@@ -32,9 +32,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-6">
+            <Link to="/" className="flex items-center gap-2 mb-6" title="Go to Harmony Yoga Homepage">
               <div className="w-10 h-10 rounded-full bg-gradient-sage flex items-center justify-center">
-                <Leaf className="w-5 h-5 text-primary-foreground" />
+                <Leaf className="w-5 h-5 text-primary-foreground" aria-hidden="true" />
               </div>
               <span className="font-display text-2xl font-semibold text-foreground">
                 Harmony Yoga
@@ -45,14 +45,20 @@ const Footer = () => {
               of self-discovery through the ancient practice of yoga.
             </p>
             <div className="flex items-center gap-4">
-              {[Instagram, Facebook, Youtube].map((Icon, index) => (
+              {[
+                { Icon: Instagram, label: "Follow us on Instagram" },
+                { Icon: Facebook, label: "Follow us on Facebook" },
+                { Icon: Youtube, label: "Subscribe to our YouTube channel" },
+              ].map(({ Icon, label }, index) => (
                 <motion.a
                   key={index}
                   href="#"
                   whileHover={{ scale: 1.1, y: -2 }}
                   className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+                  title={label}
+                  aria-label={label}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-5 h-5" aria-hidden="true" />
                 </motion.a>
               ))}
             </div>
@@ -68,6 +74,7 @@ const Footer = () => {
                 <li key={link.path}>
                   <Link
                     to={link.path}
+                    title={`Learn more about ${link.name}`}
                     className="text-muted-foreground hover:text-foreground transition-colors font-body text-sm"
                   >
                     {link.name}
@@ -87,6 +94,7 @@ const Footer = () => {
                 <li key={link.path}>
                   <Link
                     to={link.path}
+                    title={`View ${link.name}`}
                     className="text-muted-foreground hover:text-foreground transition-colors font-body text-sm"
                   >
                     {link.name}
