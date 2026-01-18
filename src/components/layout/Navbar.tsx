@@ -43,13 +43,13 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group" title="Go to Harmony Yoga Homepage">
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
               className="w-10 h-10 rounded-full bg-gradient-sage flex items-center justify-center"
             >
-              <Leaf className="w-5 h-5 text-primary-foreground" />
+              <Leaf className="w-5 h-5 text-primary-foreground" aria-hidden="true" />
             </motion.div>
             <span className="font-display text-2xl font-semibold text-foreground">
               Harmony
@@ -62,6 +62,7 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
+                title={`Navigate to ${link.name} page`}
                 className="relative font-body text-sm font-medium text-foreground/80 hover:text-foreground transition-colors group"
               >
                 {link.name}
@@ -80,10 +81,10 @@ const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" asChild title="Sign in to your account">
               <Link to="/login">Login</Link>
             </Button>
-            <Button variant="hero" size="default" asChild>
+            <Button variant="hero" size="default" asChild title="Create a new account and start your yoga journey">
               <Link to="/register">Join Now</Link>
             </Button>
           </div>
@@ -92,11 +93,13 @@ const Navbar = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+            title={isOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           >
             {isOpen ? (
-              <X className="w-6 h-6 text-foreground" />
+              <X className="w-6 h-6 text-foreground" aria-hidden="true" />
             ) : (
-              <Menu className="w-6 h-6 text-foreground" />
+              <Menu className="w-6 h-6 text-foreground" aria-hidden="true" />
             )}
           </button>
         </div>
@@ -122,6 +125,7 @@ const Navbar = () => {
                 >
                   <Link
                     to={link.path}
+                    title={`Navigate to ${link.name} page`}
                     className={`block py-3 px-4 rounded-lg font-body text-base transition-colors ${
                       location.pathname === link.path
                         ? "bg-sage-light text-sage-dark font-medium"
@@ -138,10 +142,10 @@ const Navbar = () => {
                 transition={{ delay: 0.4 }}
                 className="pt-4 space-y-3"
               >
-                <Button variant="outline" className="w-full" asChild>
+                <Button variant="outline" className="w-full" asChild title="Sign in to your account">
                   <Link to="/login">Login</Link>
                 </Button>
-                <Button variant="hero" className="w-full" asChild>
+                <Button variant="hero" className="w-full" asChild title="Create a new account">
                   <Link to="/register">Join Now</Link>
                 </Button>
               </motion.div>
