@@ -3,10 +3,13 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
-import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,14 +18,39 @@ const Register = () => {
     confirmPassword: "",
   });
 
+  const { register, loginWithGoogle } = useAuth();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(""); // Clear error when user types
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Registration logic would go here
-    console.log("Registration attempt:", formData);
+    setError("");
+    setIsSubmitting(true);
+
+    const result = await register(
+      formData.name,
+      formData.email,
+      formData.phone,
+      formData.password,
+      formData.confirmPassword
+    );
+
+    if (!result.success && result.error) {
+      setError(result.error);
+    }
+
+    setIsSubmitting(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    setError("");
+    const result = await loginWithGoogle();
+    if (!result.success && result.error) {
+      setError(result.error);
+    }
   };
 
   return (
@@ -51,6 +79,17 @@ const Register = () => {
               <p className="font-body text-muted-foreground mt-2">Start your yoga journey today</p>
             </div>
 
+            {/* Error Message */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-body"
+              >
+                {error}
+              </motion.div>
+            )}
+
             {/* Registration Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
@@ -65,6 +104,7 @@ const Register = () => {
                     placeholder="Enter your full name"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -81,6 +121,7 @@ const Register = () => {
                     placeholder="Enter your email"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -97,6 +138,7 @@ const Register = () => {
                     placeholder="Enter your phone number"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -110,9 +152,11 @@ const Register = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="Create a password"
+                    placeholder="Create a password (min 6 characters)"
                     className="w-full pl-12 pr-12 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
+                    disabled={isSubmitting}
+                    minLength={6}
                   />
                   <button
                     type="button"
@@ -136,12 +180,18 @@ const Register = () => {
                     placeholder="Confirm your password"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
 
               <div className="flex items-start gap-2">
-                <input type="checkbox" className="w-4 h-4 mt-1 rounded border-border text-primary focus:ring-primary" required />
+                <input 
+                  type="checkbox" 
+                  className="w-4 h-4 mt-1 rounded border-border text-primary focus:ring-primary" 
+                  required 
+                  disabled={isSubmitting}
+                />
                 <span className="font-body text-sm text-muted-foreground">
                   I agree to the{" "}
                   <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link>
@@ -150,8 +200,15 @@ const Register = () => {
                 </span>
               </div>
 
-              <Button type="submit" variant="hero" className="w-full" size="lg">
-                Create Account
+              <Button type="submit" variant="hero" className="w-full" size="lg" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Creating Account...
+                  </>
+                ) : (
+                  'Create Account'
+                )}
               </Button>
             </form>
 
@@ -166,7 +223,13 @@ const Register = () => {
             </div>
 
             {/* Social Login */}
-            <Button variant="outline" className="w-full" size="lg">
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              size="lg"
+              onClick={handleGoogleLogin}
+              disabled={isSubmitting}
+            >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"

@@ -3,17 +3,38 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
-import { Mail, Lock, Eye, EyeOff, Leaf } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Leaf, Loader2 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const { login, loginWithGoogle } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Login logic would go here
-    console.log("Login attempt:", { email, password });
+    setError("");
+    setIsSubmitting(true);
+
+    const result = await login(email, password);
+    
+    if (!result.success && result.error) {
+      setError(result.error);
+    }
+    
+    setIsSubmitting(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    setError("");
+    const result = await loginWithGoogle();
+    if (!result.success && result.error) {
+      setError(result.error);
+    }
   };
 
   return (
@@ -42,6 +63,17 @@ const Login = () => {
               <p className="font-body text-muted-foreground mt-2">Sign in to continue your journey</p>
             </div>
 
+            {/* Error Message */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-body"
+              >
+                {error}
+              </motion.div>
+            )}
+
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -55,6 +87,7 @@ const Login = () => {
                     placeholder="Enter your email"
                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -70,6 +103,7 @@ const Login = () => {
                     placeholder="Enter your password"
                     className="w-full pl-12 pr-12 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
+                    disabled={isSubmitting}
                   />
                   <button
                     type="button"
@@ -91,8 +125,15 @@ const Login = () => {
                 </Link>
               </div>
 
-              <Button type="submit" variant="hero" className="w-full" size="lg">
-                Sign In
+              <Button type="submit" variant="hero" className="w-full" size="lg" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  'Sign In'
+                )}
               </Button>
             </form>
 
@@ -107,7 +148,13 @@ const Login = () => {
             </div>
 
             {/* Social Login */}
-            <Button variant="outline" className="w-full" size="lg">
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              size="lg"
+              onClick={handleGoogleLogin}
+              disabled={isSubmitting}
+            >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"
