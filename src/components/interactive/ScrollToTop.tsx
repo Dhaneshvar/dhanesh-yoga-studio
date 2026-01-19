@@ -35,7 +35,7 @@ const ScrollToTop = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95, y: -4 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 left-6 z-40 p-3 bg-primary/90 hover:bg-primary text-primary-foreground rounded-full shadow-lg backdrop-blur-sm transition-colors duration-300 md:bottom-8 md:left-8"
+          className="fixed bottom-24 right-6 z-40 p-3 bg-primary/90 hover:bg-primary text-primary-foreground rounded-full shadow-lg backdrop-blur-sm transition-colors duration-300 md:bottom-28 md:right-8"
           title="Scroll to top - Return to the beginning of the page"
           aria-label="Scroll to top of page"
         >
