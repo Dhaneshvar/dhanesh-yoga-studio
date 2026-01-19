@@ -18,9 +18,15 @@ import MeditationToggle from "./components/interactive/MeditationToggle";
 import ChatbotWidget from "./components/chatbot/ChatbotWidget";
 import ScrollToTop from "./components/interactive/ScrollToTop";
 
+// Dashboard imports
+import DashboardLayout from "./pages/dashboard/DashboardLayout";
+import RegisterTrainer from "./pages/dashboard/RegisterTrainer";
+import TrainerDirectory from "./pages/dashboard/TrainerDirectory";
+import TrainerSchedule from "./pages/dashboard/TrainerSchedule";
+import AvailabilityOverview from "./pages/dashboard/AvailabilityOverview";
+
 const queryClient = new QueryClient();
 
-// Simple page transition wrapper
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.div
@@ -35,8 +41,8 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 
 const AppContent = () => {
   const [meditationOpen, setMeditationOpen] = useState(false);
+  const userRole = (localStorage.getItem("userRole") as "trainer" | "admin" | "student") || "trainer";
 
-  // Handle ESC key for meditation mode
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && meditationOpen) {
@@ -58,23 +64,22 @@ const AppContent = () => {
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          {/* Dashboard Routes */}
+          <Route path="/dashboard" element={<DashboardLayout userRole={userRole} />}>
+            <Route path="register-trainer" element={<RegisterTrainer />} />
+            <Route path="trainer-directory" element={<TrainerDirectory />} />
+            <Route path="trainer-schedule" element={<TrainerSchedule />} />
+            <Route path="availability" element={<AvailabilityOverview />} />
+          </Route>
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </PageTransition>
       
-      {/* Meditation mode toggle */}
       <MeditationToggle onClick={() => setMeditationOpen(true)} />
-      
-      {/* Meditation mode overlay */}
-      <MeditationMode 
-        isOpen={meditationOpen} 
-        onClose={() => setMeditationOpen(false)} 
-      />
-      
-      {/* Chatbot Widget */}
+      <MeditationMode isOpen={meditationOpen} onClose={() => setMeditationOpen(false)} />
       <ChatbotWidget />
-      
-      {/* Scroll to Top Button */}
       <ScrollToTop />
     </div>
   );
