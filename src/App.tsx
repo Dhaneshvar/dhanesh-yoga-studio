@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import MeditationMode from "./components/interactive/MeditationMode";
 import MeditationToggle from "./components/interactive/MeditationToggle";
 import ChatbotWidget from "./components/chatbot/ChatbotWidget";
+import ScrollToTop from "./components/interactive/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +73,9 @@ const AppContent = () => {
       
       {/* Chatbot Widget */}
       <ChatbotWidget />
+      
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </div>
   );
 };
