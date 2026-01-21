@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   UserPlus,
   Users,
@@ -11,6 +11,9 @@ import {
   X,
   Leaf,
   ChevronLeft,
+  Home,
+  User,
+  Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +26,7 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const trainerMenuItems = [
     { icon: UserPlus, label: "Register Trainer", path: "/dashboard/register-trainer" },
@@ -45,6 +49,11 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
     { icon: Clock, label: "Schedule", path: "/dashboard/trainer-schedule" },
   ];
 
+  const bottomMenuItems = [
+    { icon: User, label: "Profile", path: "/dashboard/profile" },
+    { icon: Settings, label: "Settings", path: "/dashboard/settings" },
+  ];
+
   const menuItems = userRole === "admin" ? adminMenuItems : userRole === "trainer" ? trainerMenuItems : studentMenuItems;
 
   const sidebarContent = (
@@ -56,9 +65,16 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
           animate={{ opacity: 1 }}
           className="flex items-center gap-3"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-indigo-turquoise flex items-center justify-center">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/")}
+            className="w-10 h-10 rounded-xl bg-gradient-indigo-turquoise flex items-center justify-center cursor-pointer"
+            title="Go to home page"
+            aria-label="Go to home page"
+          >
             <Leaf className="w-5 h-5 text-primary-foreground" />
-          </div>
+          </motion.button>
           {!isCollapsed && (
             <motion.div
               initial={{ opacity: 0, x: -10 }}
@@ -70,6 +86,26 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
               <p className="text-xs text-muted-foreground capitalize">{userRole} Portal</p>
             </motion.div>
           )}
+        </motion.div>
+      </div>
+
+      {/* Home Link */}
+      <div className="p-4 pb-2">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+        >
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all duration-300 hover:bg-secondary text-foreground hover:text-foreground group"
+            title="Go to Home"
+            aria-label="Navigate to Home page"
+          >
+            <Home className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-transform duration-300 group-hover:scale-110" />
+            {!isCollapsed && (
+              <span className="font-body text-sm font-medium">Home</span>
+            )}
+          </button>
         </motion.div>
       </div>
 
@@ -110,6 +146,38 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
           );
         })}
       </nav>
+
+      {/* Profile & Settings */}
+      <div className="p-4 pt-2 space-y-2 border-t border-border">
+        {bottomMenuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={() => setIsMobileOpen(false)}
+              className={cn(
+                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group",
+                isActive
+                  ? "bg-primary text-primary-foreground shadow-soft"
+                  : "hover:bg-secondary text-foreground hover:text-foreground"
+              )}
+              title={item.label}
+              aria-label={`Navigate to ${item.label}`}
+            >
+              <item.icon
+                className={cn(
+                  "w-5 h-5 transition-transform duration-300 group-hover:scale-110",
+                  isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary"
+                )}
+              />
+              {!isCollapsed && (
+                <span className="font-body text-sm font-medium">{item.label}</span>
+              )}
+            </NavLink>
+          );
+        })}
+      </div>
 
       {/* Logout Button */}
       <div className="p-4 border-t border-border">

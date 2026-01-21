@@ -1,5 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { useAuth } from "@/hooks/useAuth";
 
 interface DashboardLayoutProps {
@@ -8,7 +9,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -16,11 +17,19 @@ const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex w-full">
       <DashboardSidebar userRole={userRole} onLogout={handleLogout} />
-      <main className="flex-1 overflow-auto">
-        <Outlet />
-      </main>
+      <div className="flex-1 flex flex-col overflow-auto">
+        <DashboardHeader
+          userRole={userRole}
+          userName={user?.name || "User"}
+          userEmail={user?.email || "user@example.com"}
+          onLogout={handleLogout}
+        />
+        <main className="flex-1 overflow-auto">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
