@@ -1,7 +1,29 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, User, Clock } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
+  User,
+  Clock,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, startOfWeek, endOfWeek, isSameDay, addWeeks, subWeeks } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 interface ScheduleSlot {
@@ -11,10 +33,21 @@ interface ScheduleSlot {
   startTime: string;
   endTime: string;
   color: string;
+  date?: Date;
 }
 
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const timeSlots = ["6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM"];
+const timeSlots = [
+  "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
+  "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM",
+  "6 PM", "7 PM", "8 PM",
+];
+
+const years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - 5 + i);
+const months = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
 
 // Mock schedule data
 const mockSchedule: Record<string, ScheduleSlot[]> = {
@@ -48,19 +81,19 @@ const TrainerSchedule = () => {
   const [view, setView] = useState<"weekly" | "monthly">("weekly");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [hoveredSlot, setHoveredSlot] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
   const getWeekDates = () => {
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-    
+    const startOfWeekDate = startOfWeek(currentDate);
     return weekDays.map((day, index) => {
-      const date = new Date(startOfWeek);
-      date.setDate(startOfWeek.getDate() + index);
+      const date = new Date(startOfWeekDate);
+      date.setDate(startOfWeekDate.getDate() + index);
       return {
         day,
         date: date.getDate(),
-        month: date.toLocaleDateString("en-US", { month: "short" }),
-        isToday: new Date().toDateString() === date.toDateString(),
+        fullDate: date,
+        month: format(date, "MMM"),
+        isToday: isToday(date),
       };
     });
   };
@@ -68,22 +101,64 @@ const TrainerSchedule = () => {
   const weekDates = getWeekDates();
 
   const navigateWeek = (direction: "prev" | "next") => {
-    const newDate = new Date(currentDate);
-    newDate.setDate(currentDate.getDate() + (direction === "next" ? 7 : -7));
-    setCurrentDate(newDate);
+    if (direction === "next") {
+      setCurrentDate(addWeeks(currentDate, 1));
+    } else {
+      setCurrentDate(subWeeks(currentDate, 1));
+    }
+  };
+
+  const navigateMonth = (direction: "prev" | "next") => {
+    if (direction === "next") {
+      setCurrentDate(addMonths(currentDate, 1));
+    } else {
+      setCurrentDate(subMonths(currentDate, 1));
+    }
   };
 
   const getSlotPosition = (startTime: string) => {
-    const hour = parseInt(startTime);
-    const isPM = startTime.includes("PM");
-    let hourIndex = hour === 12 ? 12 : isPM ? hour + 12 : hour;
     return timeSlots.indexOf(startTime);
   };
 
   const getSlotHeight = (startTime: string, endTime: string) => {
     const startIndex = getSlotPosition(startTime);
     const endIndex = getSlotPosition(endTime);
-    return (endIndex - startIndex) * 60; // 60px per hour
+    return (endIndex - startIndex) * 60;
+  };
+
+  // Get calendar days for monthly view
+  const getMonthDays = () => {
+    const start = startOfWeek(startOfMonth(currentDate));
+    const end = endOfWeek(endOfMonth(currentDate));
+    return eachDayOfInterval({ start, end });
+  };
+
+  const monthDays = getMonthDays();
+
+  // Get sessions for a specific day
+  const getSessionsForDay = (date: Date) => {
+    const dayName = format(date, "EEE");
+    return mockSchedule[dayName] || [];
+  };
+
+  const handleDateSelect = (date: Date | undefined) => {
+    if (date) {
+      setSelectedDate(date);
+      setCurrentDate(date);
+    }
+  };
+
+  const handleYearChange = (year: string) => {
+    const newDate = new Date(currentDate);
+    newDate.setFullYear(parseInt(year));
+    setCurrentDate(newDate);
+  };
+
+  const handleMonthChange = (month: string) => {
+    const monthIndex = months.indexOf(month);
+    const newDate = new Date(currentDate);
+    newDate.setMonth(monthIndex);
+    setCurrentDate(newDate);
   };
 
   return (
@@ -100,14 +175,16 @@ const TrainerSchedule = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {/* View Toggle */}
             <div className="flex bg-card border border-border rounded-xl overflow-hidden">
               <button
                 onClick={() => setView("weekly")}
                 className={cn(
                   "px-4 py-2 font-body text-sm transition-colors",
-                  view === "weekly" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                  view === "weekly"
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
                 title="Weekly view"
               >
@@ -117,7 +194,9 @@ const TrainerSchedule = () => {
                 onClick={() => setView("monthly")}
                 className={cn(
                   "px-4 py-2 font-body text-sm transition-colors",
-                  view === "monthly" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                  view === "monthly"
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
                 title="Monthly view"
               >
@@ -125,14 +204,71 @@ const TrainerSchedule = () => {
               </button>
             </div>
 
-            {/* Navigation */}
+            {/* Month/Year Selectors */}
             <div className="flex items-center gap-2">
+              <Select value={months[currentDate.getMonth()]} onValueChange={handleMonthChange}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {months.map((month) => (
+                    <SelectItem key={month} value={month}>
+                      {month}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={currentDate.getFullYear().toString()}
+                onValueChange={handleYearChange}
+              >
+                <SelectTrigger className="w-24">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {years.map((year) => (
+                    <SelectItem key={year} value={year.toString()}>
+                      {year}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Date Picker */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="icon" title="Pick a date">
+                  <CalendarIcon className="w-4 h-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="end">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={handleDateSelect}
+                  initialFocus
+                  className="p-3 pointer-events-auto"
+                />
+              </PopoverContent>
+            </Popover>
+
+            {/* Navigation */}
+            <div className="flex items-center gap-1">
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => navigateWeek("prev")}
-                title="Previous week"
-                aria-label="Go to previous week"
+                onClick={() => (view === "weekly" ? navigateWeek("prev") : navigateMonth("prev"))}
+                title={view === "weekly" ? "Previous week" : "Previous month"}
+              >
+                <ChevronsLeft className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => (view === "weekly" ? navigateWeek("prev") : navigateMonth("prev"))}
+                title="Previous"
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
@@ -146,14 +282,30 @@ const TrainerSchedule = () => {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => navigateWeek("next")}
-                title="Next week"
-                aria-label="Go to next week"
+                onClick={() => (view === "weekly" ? navigateWeek("next") : navigateMonth("next"))}
+                title="Next"
               >
                 <ChevronRight className="w-4 h-4" />
               </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => (view === "weekly" ? navigateWeek("next") : navigateMonth("next"))}
+                title={view === "weekly" ? "Next week" : "Next month"}
+              >
+                <ChevronsRight className="w-4 h-4" />
+              </Button>
             </div>
           </div>
+        </div>
+
+        {/* Current Date Display */}
+        <div className="mb-6">
+          <h2 className="font-display text-xl font-semibold text-foreground">
+            {view === "weekly"
+              ? `Week of ${format(weekDates[0].fullDate, "MMMM d")} - ${format(weekDates[6].fullDate, "MMMM d, yyyy")}`
+              : format(currentDate, "MMMM yyyy")}
+          </h2>
         </div>
 
         {/* Calendar Legend */}
@@ -176,101 +328,194 @@ const TrainerSchedule = () => {
           </div>
         </div>
 
-        {/* Weekly Calendar */}
-        <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden">
-          {/* Days Header */}
-          <div className="grid grid-cols-8 border-b border-border">
-            <div className="p-4 bg-secondary/30 border-r border-border">
-              <CalendarIcon className="w-5 h-5 text-muted-foreground" />
-            </div>
-            {weekDates.map((date) => (
-              <div
-                key={date.day}
-                className={cn(
-                  "p-4 text-center border-r border-border last:border-r-0",
-                  date.isToday && "bg-primary/10"
-                )}
-              >
-                <p className="font-body text-xs text-muted-foreground uppercase">{date.day}</p>
-                <p className={cn(
-                  "font-display text-lg font-semibold",
-                  date.isToday ? "text-primary" : "text-foreground"
-                )}>
-                  {date.date}
-                </p>
-                <p className="font-body text-xs text-muted-foreground">{date.month}</p>
+        {/* Weekly Calendar View */}
+        {view === "weekly" && (
+          <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden">
+            {/* Days Header */}
+            <div className="grid grid-cols-8 border-b border-border">
+              <div className="p-4 bg-secondary/30 border-r border-border">
+                <CalendarIcon className="w-5 h-5 text-muted-foreground" />
               </div>
-            ))}
-          </div>
-
-          {/* Time Grid */}
-          <div className="max-h-[600px] overflow-y-auto">
-            <div className="grid grid-cols-8">
-              {/* Time Column */}
-              <div className="border-r border-border">
-                {timeSlots.map((time) => (
-                  <div key={time} className="h-[60px] px-3 py-2 border-b border-border flex items-start">
-                    <span className="font-body text-xs text-muted-foreground">{time}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Day Columns */}
-              {weekDays.map((day) => (
-                <div key={day} className="relative border-r border-border last:border-r-0">
-                  {timeSlots.map((time) => (
-                    <div key={time} className="h-[60px] border-b border-border hover:bg-secondary/20 transition-colors" />
-                  ))}
-                  
-                  {/* Schedule Slots */}
-                  {mockSchedule[day]?.map((slot) => {
-                    const topPosition = getSlotPosition(slot.startTime) * 60;
-                    const height = getSlotHeight(slot.startTime, slot.endTime);
-                    
-                    return (
-                      <motion.div
-                        key={slot.id}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        whileHover={{ scale: 1.02, zIndex: 10 }}
-                        onMouseEnter={() => setHoveredSlot(slot.id)}
-                        onMouseLeave={() => setHoveredSlot(null)}
-                        style={{ top: topPosition, height }}
-                        className={cn(
-                          "absolute left-1 right-1 rounded-lg border-l-4 p-2 cursor-pointer transition-all duration-200",
-                          slot.color
-                        )}
-                        title={`${slot.trainer}: ${slot.session} (${slot.startTime} - ${slot.endTime})`}
-                      >
-                        <p className="font-body text-xs font-medium truncate">{slot.session}</p>
-                        <p className="font-body text-[10px] opacity-80 truncate">{slot.trainer}</p>
-                        
-                        {/* Hover Tooltip */}
-                        {hoveredSlot === slot.id && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 5 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="absolute left-full ml-2 top-0 z-20 bg-card border border-border rounded-xl p-3 shadow-elevated min-w-[200px]"
-                          >
-                            <div className="flex items-center gap-2 mb-2">
-                              <User className="w-4 h-4 text-primary" />
-                              <span className="font-body text-sm font-medium">{slot.trainer}</span>
-                            </div>
-                            <p className="font-body text-sm text-foreground mb-1">{slot.session}</p>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Clock className="w-3 h-3" />
-                              <span className="font-body text-xs">{slot.startTime} - {slot.endTime}</span>
-                            </div>
-                          </motion.div>
-                        )}
-                      </motion.div>
-                    );
-                  })}
+              {weekDates.map((date) => (
+                <div
+                  key={date.day}
+                  className={cn(
+                    "p-4 text-center border-r border-border last:border-r-0",
+                    date.isToday && "bg-primary/10"
+                  )}
+                >
+                  <p className="font-body text-xs text-muted-foreground uppercase">{date.day}</p>
+                  <p
+                    className={cn(
+                      "font-display text-lg font-semibold",
+                      date.isToday ? "text-primary" : "text-foreground"
+                    )}
+                  >
+                    {date.date}
+                  </p>
+                  <p className="font-body text-xs text-muted-foreground">{date.month}</p>
                 </div>
               ))}
             </div>
+
+            {/* Time Grid */}
+            <div className="max-h-[600px] overflow-y-auto">
+              <div className="grid grid-cols-8">
+                {/* Time Column */}
+                <div className="border-r border-border">
+                  {timeSlots.map((time) => (
+                    <div
+                      key={time}
+                      className="h-[60px] px-3 py-2 border-b border-border flex items-start"
+                    >
+                      <span className="font-body text-xs text-muted-foreground">{time}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Day Columns */}
+                {weekDays.map((day) => (
+                  <div key={day} className="relative border-r border-border last:border-r-0">
+                    {timeSlots.map((time) => (
+                      <div
+                        key={time}
+                        className="h-[60px] border-b border-border hover:bg-secondary/20 transition-colors"
+                      />
+                    ))}
+
+                    {/* Schedule Slots */}
+                    {mockSchedule[day]?.map((slot) => {
+                      const topPosition = getSlotPosition(slot.startTime) * 60;
+                      const height = getSlotHeight(slot.startTime, slot.endTime);
+
+                      return (
+                        <motion.div
+                          key={slot.id}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          whileHover={{ scale: 1.02, zIndex: 10 }}
+                          onMouseEnter={() => setHoveredSlot(slot.id)}
+                          onMouseLeave={() => setHoveredSlot(null)}
+                          style={{ top: topPosition, height }}
+                          className={cn(
+                            "absolute left-1 right-1 rounded-lg border-l-4 p-2 cursor-pointer transition-all duration-200",
+                            slot.color
+                          )}
+                          title={`${slot.trainer}: ${slot.session} (${slot.startTime} - ${slot.endTime})`}
+                        >
+                          <p className="font-body text-xs font-medium truncate">{slot.session}</p>
+                          <p className="font-body text-[10px] opacity-80 truncate">
+                            {slot.trainer}
+                          </p>
+
+                          {/* Hover Tooltip */}
+                          {hoveredSlot === slot.id && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className="absolute left-full ml-2 top-0 z-20 bg-card border border-border rounded-xl p-3 shadow-elevated min-w-[200px]"
+                            >
+                              <div className="flex items-center gap-2 mb-2">
+                                <User className="w-4 h-4 text-primary" />
+                                <span className="font-body text-sm font-medium">
+                                  {slot.trainer}
+                                </span>
+                              </div>
+                              <p className="font-body text-sm text-foreground mb-1">
+                                {slot.session}
+                              </p>
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <Clock className="w-3 h-3" />
+                                <span className="font-body text-xs">
+                                  {slot.startTime} - {slot.endTime}
+                                </span>
+                              </div>
+                            </motion.div>
+                          )}
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Monthly Calendar View */}
+        {view === "monthly" && (
+          <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden">
+            {/* Days Header */}
+            <div className="grid grid-cols-7 border-b border-border">
+              {weekDays.map((day) => (
+                <div
+                  key={day}
+                  className="p-3 text-center font-body text-sm font-medium text-muted-foreground border-r border-border last:border-r-0"
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            {/* Calendar Grid */}
+            <div className="grid grid-cols-7">
+              {monthDays.map((day, index) => {
+                const sessions = getSessionsForDay(day);
+                const isCurrentMonth = isSameMonth(day, currentDate);
+                const isTodayDate = isToday(day);
+
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: index * 0.01 }}
+                    className={cn(
+                      "min-h-[120px] p-2 border-r border-b border-border last:border-r-0 transition-colors",
+                      !isCurrentMonth && "bg-muted/30",
+                      isTodayDate && "bg-primary/5"
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "w-7 h-7 rounded-full flex items-center justify-center mb-2 font-body text-sm",
+                        isTodayDate
+                          ? "bg-primary text-primary-foreground"
+                          : isCurrentMonth
+                          ? "text-foreground"
+                          : "text-muted-foreground"
+                      )}
+                    >
+                      {format(day, "d")}
+                    </div>
+
+                    {/* Sessions */}
+                    <div className="space-y-1">
+                      {sessions.slice(0, 3).map((session) => (
+                        <motion.div
+                          key={session.id}
+                          whileHover={{ scale: 1.02 }}
+                          className={cn(
+                            "px-2 py-1 rounded text-[10px] font-body truncate cursor-pointer border-l-2",
+                            session.color
+                          )}
+                          title={`${session.trainer}: ${session.session} (${session.startTime} - ${session.endTime})`}
+                        >
+                          {session.session}
+                        </motion.div>
+                      ))}
+                      {sessions.length > 3 && (
+                        <p className="font-body text-[10px] text-muted-foreground px-2">
+                          +{sessions.length - 3} more
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </motion.div>
     </div>
   );

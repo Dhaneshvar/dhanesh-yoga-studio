@@ -24,6 +24,7 @@ import RegisterTrainer from "./pages/dashboard/RegisterTrainer";
 import TrainerDirectory from "./pages/dashboard/TrainerDirectory";
 import TrainerSchedule from "./pages/dashboard/TrainerSchedule";
 import AvailabilityOverview from "./pages/dashboard/AvailabilityOverview";
+import ProfileSettings from "./pages/dashboard/ProfileSettings";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,8 @@ const AppContent = () => {
             <Route path="trainer-directory" element={<TrainerDirectory />} />
             <Route path="trainer-schedule" element={<TrainerSchedule />} />
             <Route path="availability" element={<AvailabilityOverview />} />
+            <Route path="profile" element={<ProfileSettings />} />
+            <Route path="settings" element={<ProfileSettings />} />
           </Route>
           
           <Route path="*" element={<NotFound />} />
