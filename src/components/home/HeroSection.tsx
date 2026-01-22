@@ -152,9 +152,9 @@ const HeroSection = () => {
               transition={{ delay: 0.7, duration: 0.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <Button variant="hero" size="xl" asChild title="Sign up and begin your yoga journey">
-                <Link to="/register" className="group">
-                  Start Your Journey
+              <Button variant="hero" size="xl" asChild title="Enter the Yoga Studio portal">
+                <Link to="/login" className="group">
+                  Enter Yoga Studio
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </Link>
               </Button>
@@ -164,6 +164,21 @@ const HeroSection = () => {
                   View Programs
                 </Link>
               </Button>
+            </motion.div>
+
+            {/* Secondary action */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.8 }}
+              className="mt-4"
+            >
+              <Link 
+                to="/register" 
+                className="text-sm text-muted-foreground hover:text-primary transition-colors underline-offset-4 hover:underline"
+              >
+                New here? Create an account →
+              </Link>
             </motion.div>
 
             {/* Stats */}
