@@ -14,6 +14,7 @@ import {
   Home,
   User,
   Settings,
+  Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,7 +37,7 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
   ];
 
   const adminMenuItems = [
-    { icon: Users, label: "All Users", path: "/dashboard/admin/users" },
+    { icon: Shield, label: "User Management", path: "/dashboard/admin/users" },
     { icon: UserPlus, label: "Register Trainer", path: "/dashboard/register-trainer" },
     { icon: Users, label: "Trainer Directory", path: "/dashboard/trainer-directory" },
     { icon: Calendar, label: "Trainer Schedule", path: "/dashboard/trainer-schedule" },
