@@ -26,6 +26,19 @@ const Login = () => {
     { id: "admin" as UserRole, label: "Admin", icon: Shield, description: "Full system administration", color: "bg-indigo/20 border-indigo/40 text-indigo-dark" },
   ];
 
+  const getDashboardRoute = (role: UserRole) => {
+    switch (role) {
+      case "admin":
+        return "/dashboard/admin/users";
+      case "trainer":
+        return "/dashboard/trainer-directory";
+      case "student":
+        return "/dashboard/trainer-directory"; // TODO: Create student dashboard
+      default:
+        return "/dashboard/trainer-directory";
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedRole) {
@@ -35,17 +48,19 @@ const Login = () => {
     setError("");
     setIsSubmitting(true);
 
+    const dashboardRoute = getDashboardRoute(selectedRole);
+
     // For demo: use dummy credentials
     if (email === "demo@yoga.com" && password === "demo123") {
       localStorage.setItem("userRole", selectedRole);
-      navigate("/dashboard/trainer-directory");
+      navigate(dashboardRoute);
     } else {
       const result = await login(email, password);
       if (!result.success && result.error) {
         setError(result.error);
       } else {
         localStorage.setItem("userRole", selectedRole);
-        navigate("/dashboard/trainer-directory");
+        navigate(dashboardRoute);
       }
     }
     setIsSubmitting(false);
