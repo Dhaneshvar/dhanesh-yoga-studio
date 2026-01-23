@@ -18,14 +18,24 @@ import MeditationToggle from "./components/interactive/MeditationToggle";
 import ChatbotWidget from "./components/chatbot/ChatbotWidget";
 import ScrollToTop from "./components/interactive/ScrollToTop";
 
-// Dashboard imports
+// Dashboard imports (Yoga Studio)
 import DashboardLayout from "./pages/dashboard/DashboardLayout";
 import RegisterTrainer from "./pages/dashboard/RegisterTrainer";
 import TrainerDirectory from "./pages/dashboard/TrainerDirectory";
 import TrainerSchedule from "./pages/dashboard/TrainerSchedule";
 import AvailabilityOverview from "./pages/dashboard/AvailabilityOverview";
 import ProfileSettings from "./pages/dashboard/ProfileSettings";
-import AdminUsers from "./pages/dashboard/AdminUsers";
+
+// Admin Dashboard imports (Separate)
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUserManagement from "./pages/admin/AdminUserManagement";
+import AdminTrainerApprovals from "./pages/admin/AdminTrainerApprovals";
+import AdminSessions from "./pages/admin/AdminSessions";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
+import AdminReports from "./pages/admin/AdminReports";
+import AdminCommunications from "./pages/admin/AdminCommunications";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
 
@@ -67,7 +77,7 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
-          {/* Dashboard Routes */}
+          {/* Yoga Studio Dashboard Routes */}
           <Route path="/dashboard" element={<DashboardLayout userRole={userRole} />}>
             <Route path="register-trainer" element={<RegisterTrainer />} />
             <Route path="trainer-directory" element={<TrainerDirectory />} />
@@ -75,7 +85,18 @@ const AppContent = () => {
             <Route path="availability" element={<AvailabilityOverview />} />
             <Route path="profile" element={<ProfileSettings />} />
             <Route path="settings" element={<ProfileSettings />} />
-            <Route path="admin/users" element={<AdminUsers />} />
+          </Route>
+
+          {/* Separate Admin Dashboard Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUserManagement />} />
+            <Route path="approvals" element={<AdminTrainerApprovals />} />
+            <Route path="sessions" element={<AdminSessions />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="reports" element={<AdminReports />} />
+            <Route path="communications" element={<AdminCommunications />} />
+            <Route path="settings" element={<AdminSettings />} />
           </Route>
           
           <Route path="*" element={<NotFound />} />
