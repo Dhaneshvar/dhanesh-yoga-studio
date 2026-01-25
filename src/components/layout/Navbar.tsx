@@ -3,19 +3,22 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const navLinks = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Programs", path: "/programs" },
-  { name: "Asanas", path: "/asanas" },
-  { name: "Schedule", path: "/schedule" },
+  { name: "nav.home", path: "/" },
+  { name: "nav.about", path: "/about" },
+  { name: "nav.programs", path: "/programs" },
+  { name: "nav.asanas", path: "/asanas" },
+  { name: "nav.schedule", path: "/schedule" },
 ];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,10 +65,10 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                title={`Navigate to ${link.name} page`}
+                title={`Navigate to ${t(link.name)} page`}
                 className="relative font-body text-sm font-medium text-foreground/80 hover:text-foreground transition-colors group"
               >
-                {link.name}
+                {t(link.name)}
                 <motion.span
                   className="absolute -bottom-1 left-0 h-0.5 bg-primary rounded-full"
                   initial={{ width: 0 }}
@@ -81,11 +84,12 @@ const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button variant="ghost" size="sm" asChild title="Sign in to your account">
-              <Link to="/login">Login</Link>
+            <LanguageSwitcher variant="navbar" />
+            <Button variant="ghost" size="sm" asChild title={t("nav.login")}>
+              <Link to="/login">{t("nav.login")}</Link>
             </Button>
-            <Button variant="hero" size="default" asChild title="Create a new account and start your yoga journey">
-              <Link to="/register">Join Now</Link>
+            <Button variant="hero" size="default" asChild title={t("nav.joinNow")}>
+              <Link to="/register">{t("nav.joinNow")}</Link>
             </Button>
           </div>
 
@@ -125,14 +129,14 @@ const Navbar = () => {
                 >
                   <Link
                     to={link.path}
-                    title={`Navigate to ${link.name} page`}
+                    title={`Navigate to ${t(link.name)} page`}
                     className={`block py-3 px-4 rounded-lg font-body text-base transition-colors ${
                       location.pathname === link.path
                         ? "bg-sage-light text-sage-dark font-medium"
                         : "text-foreground/80 hover:bg-muted"
                     }`}
                   >
-                    {link.name}
+                    {t(link.name)}
                   </Link>
                 </motion.div>
               ))}
@@ -142,11 +146,12 @@ const Navbar = () => {
                 transition={{ delay: 0.4 }}
                 className="pt-4 space-y-3"
               >
-                <Button variant="outline" className="w-full" asChild title="Sign in to your account">
-                  <Link to="/login">Login</Link>
+                <LanguageSwitcher variant="navbar" />
+                <Button variant="outline" className="w-full" asChild title={t("nav.login")}>
+                  <Link to="/login">{t("nav.login")}</Link>
                 </Button>
-                <Button variant="hero" className="w-full" asChild title="Create a new account">
-                  <Link to="/register">Join Now</Link>
+                <Button variant="hero" className="w-full" asChild title={t("nav.joinNow")}>
+                  <Link to="/register">{t("nav.joinNow")}</Link>
                 </Button>
               </motion.div>
             </div>
