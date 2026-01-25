@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Leaf, Instagram, Facebook, Youtube, Mail, MapPin, Phone } from "lucide-react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
 
   const footerLinks = {
     programs: [
@@ -135,11 +138,14 @@ const Footer = () => {
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground font-body text-sm">
-            © {currentYear} Harmony Yoga Studio. All rights reserved.
+            © {currentYear} {t("footer.copyright")}
           </p>
-          <p className="text-muted-foreground font-body text-sm">
-            Made with 🧘 for mindful living
-          </p>
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher variant="footer" />
+            <p className="text-muted-foreground font-body text-sm">
+              {t("footer.tagline")}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
