@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
@@ -11,6 +11,7 @@ type UserRole = "student" | "trainer" | "admin";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading } = useAuth();
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -19,6 +20,17 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { login, loginWithGoogle } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      const storedRole = localStorage.getItem("userRole") as UserRole | null;
+      if (storedRole) {
+        const route = getDashboardRoute(storedRole);
+        navigate(route, { replace: true });
+      }
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
   const roles = [
     { id: "student" as UserRole, label: "Student", icon: GraduationCap, description: "Access your classes and track progress", color: "bg-turquoise/20 border-turquoise/40 text-turquoise-dark" },
