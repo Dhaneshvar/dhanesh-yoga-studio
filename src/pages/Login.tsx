@@ -29,11 +29,11 @@ const Login = () => {
   const getDashboardRoute = (role: UserRole) => {
     switch (role) {
       case "admin":
-        return "/dashboard/admin/users";
+        return "/admin";
       case "trainer":
         return "/dashboard/trainer-directory";
       case "student":
-        return "/dashboard/trainer-directory"; // TODO: Create student dashboard
+        return "/dashboard/my-classes";
       default:
         return "/dashboard/trainer-directory";
     }
