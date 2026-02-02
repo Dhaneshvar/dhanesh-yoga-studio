@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Leaf } from "lucide-react";
+import { Menu, X, Leaf, LayoutDashboard, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -14,11 +14,58 @@ const navLinks = [
   { name: "nav.schedule", path: "/schedule" },
 ];
 
+type UserRole = "student" | "trainer" | "admin";
+
+const getDashboardRoute = (role: UserRole) => {
+  switch (role) {
+    case "admin":
+      return "/admin";
+    case "trainer":
+      return "/dashboard/trainer-directory";
+    case "student":
+      return "/dashboard/my-classes";
+    default:
+      return "/dashboard/trainer-directory";
+  }
+};
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useLanguage();
+
+  // Check auth state
+  useEffect(() => {
+    const checkAuth = () => {
+      const session = localStorage.getItem("yoga_app_session");
+      const role = localStorage.getItem("userRole") as UserRole | null;
+      setIsLoggedIn(!!session);
+      setUserRole(role);
+    };
+    
+    checkAuth();
+    // Listen for storage changes (e.g., login/logout in another tab)
+    window.addEventListener("storage", checkAuth);
+    return () => window.removeEventListener("storage", checkAuth);
+  }, [location]); // Re-check on route change
+
+  const handleLogout = () => {
+    localStorage.removeItem("yoga_app_session");
+    localStorage.removeItem("userRole");
+    setIsLoggedIn(false);
+    setUserRole(null);
+    navigate("/");
+  };
+
+  const goToDashboard = () => {
+    if (userRole) {
+      navigate(getDashboardRoute(userRole));
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,12 +132,39 @@ const Navbar = () => {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <LanguageSwitcher variant="navbar" />
-            <Button variant="ghost" size="sm" asChild title={t("nav.login")}>
-              <Link to="/login">{t("nav.login")}</Link>
-            </Button>
-            <Button variant="hero" size="default" asChild title={t("nav.joinNow")}>
-              <Link to="/register">{t("nav.joinNow")}</Link>
-            </Button>
+            {isLoggedIn ? (
+              <>
+                <Button 
+                  variant="hero" 
+                  size="default" 
+                  onClick={goToDashboard}
+                  title="Go to Dashboard"
+                  className="flex items-center gap-2"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Dashboard
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleLogout}
+                  title="Logout"
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" asChild title={t("nav.login")}>
+                  <Link to="/login">{t("nav.login")}</Link>
+                </Button>
+                <Button variant="hero" size="default" asChild title={t("nav.joinNow")}>
+                  <Link to="/register">{t("nav.joinNow")}</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -147,12 +221,37 @@ const Navbar = () => {
                 className="pt-4 space-y-3"
               >
                 <LanguageSwitcher variant="navbar" />
-                <Button variant="outline" className="w-full" asChild title={t("nav.login")}>
-                  <Link to="/login">{t("nav.login")}</Link>
-                </Button>
-                <Button variant="hero" className="w-full" asChild title={t("nav.joinNow")}>
-                  <Link to="/register">{t("nav.joinNow")}</Link>
-                </Button>
+                {isLoggedIn ? (
+                  <>
+                    <Button 
+                      variant="hero" 
+                      className="w-full flex items-center justify-center gap-2" 
+                      onClick={goToDashboard}
+                      title="Go to Dashboard"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      Dashboard
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full flex items-center justify-center gap-2" 
+                      onClick={handleLogout}
+                      title="Logout"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outline" className="w-full" asChild title={t("nav.login")}>
+                      <Link to="/login">{t("nav.login")}</Link>
+                    </Button>
+                    <Button variant="hero" className="w-full" asChild title={t("nav.joinNow")}>
+                      <Link to="/register">{t("nav.joinNow")}</Link>
+                    </Button>
+                  </>
+                )}
               </motion.div>
             </div>
           </motion.div>
