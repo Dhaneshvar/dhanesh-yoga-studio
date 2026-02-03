@@ -38,7 +38,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  // Check auth state
+  // Check auth state on mount, route change, and via custom event
   useEffect(() => {
     const checkAuth = () => {
       const session = localStorage.getItem("yoga_app_session");
@@ -48,9 +48,17 @@ const Navbar = () => {
     };
     
     checkAuth();
+    
     // Listen for storage changes (e.g., login/logout in another tab)
     window.addEventListener("storage", checkAuth);
-    return () => window.removeEventListener("storage", checkAuth);
+    
+    // Listen for custom auth change event (same tab)
+    window.addEventListener("authChange", checkAuth);
+    
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+      window.removeEventListener("authChange", checkAuth);
+    };
   }, [location]); // Re-check on route change
 
   const handleLogout = () => {
