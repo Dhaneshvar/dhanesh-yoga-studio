@@ -19,8 +19,8 @@ const Index = () => {
       {/* Interactive breathing background */}
       <BreathingBackground variant="landing" enableClickBreath={true} />
       
-      {/* Add top padding to account for flash news ticker */}
-      <div className="pt-10 md:pt-11">
+      {/* Navbar now has top offset built-in */}
+      <div>
         <Navbar />
         <main>
           <HeroSection />
