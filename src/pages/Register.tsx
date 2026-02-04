@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
-import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2 } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2, X, ScrollText } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -192,22 +195,44 @@ const Register = () => {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2">
-                <input 
-                  type="checkbox" 
-                  className="w-4 h-4 mt-1 rounded border-border text-primary focus:ring-primary" 
-                  required 
+              <div className="flex items-start gap-3">
+                <Checkbox
+                  id="terms"
+                  checked={termsAccepted}
                   disabled={isSubmitting}
+                  onCheckedChange={() => {}}
+                  className="mt-0.5"
                 />
-                <span className="font-body text-sm text-muted-foreground">
+                <label htmlFor="terms" className="font-body text-sm text-muted-foreground cursor-pointer">
                   I agree to the{" "}
-                  <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link>
+                  <button
+                    type="button"
+                    onClick={() => setShowTermsModal(true)}
+                    className="text-primary hover:underline font-medium"
+                    title="Read Terms & Conditions"
+                  >
+                    Terms & Conditions
+                  </button>
                   {" "}and{" "}
-                  <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
-                </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowTermsModal(true)}
+                    className="text-primary hover:underline font-medium"
+                    title="Read Privacy Policy"
+                  >
+                    Privacy Policy
+                  </button>
+                </label>
               </div>
 
-              <Button type="submit" variant="hero" className="w-full" size="lg" disabled={isSubmitting} title="Create your Harmony Yoga account">
+              <Button 
+                type="submit" 
+                variant="hero" 
+                className="w-full" 
+                size="lg" 
+                disabled={isSubmitting || !termsAccepted} 
+                title={termsAccepted ? "Create your Harmony Yoga account" : "Please accept Terms & Conditions to continue"}
+              >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="w-5 h-5 mr-2 animate-spin" aria-hidden="true" />
@@ -217,6 +242,11 @@ const Register = () => {
                   'Create Account'
                 )}
               </Button>
+              {!termsAccepted && (
+                <p className="text-xs text-muted-foreground text-center">
+                  Please read and accept the Terms & Conditions to register
+                </p>
+              )}
             </form>
 
             {/* Divider */}
@@ -269,6 +299,117 @@ const Register = () => {
           </motion.div>
         </div>
       </main>
+
+      {/* Terms & Conditions Modal */}
+      <AnimatePresence>
+        {showTermsModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowTermsModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-card rounded-2xl border border-border shadow-elevated max-w-2xl w-full max-h-[80vh] overflow-hidden"
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-6 border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <ScrollText className="w-5 h-5 text-primary" />
+                  </div>
+                  <h2 className="font-display text-xl font-semibold text-foreground">
+                    Terms & Conditions
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setShowTermsModal(false)}
+                  className="p-2 rounded-full hover:bg-muted transition-colors"
+                  title="Close Terms & Conditions"
+                  aria-label="Close modal"
+                >
+                  <X className="w-5 h-5 text-muted-foreground" />
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-6 overflow-y-auto max-h-[50vh] space-y-4 font-body text-sm text-muted-foreground">
+                <h3 className="font-semibold text-foreground">1. Acceptance of Terms</h3>
+                <p>
+                  By creating an account with Harmony Yoga Studio, you agree to be bound by these Terms and 
+                  Conditions. If you do not agree to these terms, please do not register or use our services.
+                </p>
+
+                <h3 className="font-semibold text-foreground">2. Membership & Classes</h3>
+                <p>
+                  • All memberships are non-transferable and for personal use only.<br />
+                  • Class schedules may change with prior notice.<br />
+                  • Cancellations must be made at least 4 hours before class start time.<br />
+                  • Repeated no-shows may result in membership restrictions.
+                </p>
+
+                <h3 className="font-semibold text-foreground">3. Health & Safety</h3>
+                <p>
+                  • You confirm you are in good physical health to participate in yoga classes.<br />
+                  • Please inform instructors of any injuries or medical conditions.<br />
+                  • Harmony Yoga is not responsible for injuries during classes.<br />
+                  • Practice at your own pace and listen to your body.
+                </p>
+
+                <h3 className="font-semibold text-foreground">4. Privacy Policy</h3>
+                <p>
+                  • We collect personal information only for service purposes.<br />
+                  • Your data is securely stored and never sold to third parties.<br />
+                  • We may send promotional emails which you can opt out of anytime.<br />
+                  • Photos taken during classes may be used for promotional purposes.
+                </p>
+
+                <h3 className="font-semibold text-foreground">5. Refund Policy</h3>
+                <p>
+                  • Monthly memberships can be cancelled with 7 days notice.<br />
+                  • No refunds for partially used memberships.<br />
+                  • Special promotional packages are non-refundable.<br />
+                  • Contact us for exceptional circumstances.
+                </p>
+
+                <h3 className="font-semibold text-foreground">6. Code of Conduct</h3>
+                <p>
+                  • Respect fellow practitioners and instructors.<br />
+                  • Maintain silence in practice areas.<br />
+                  • Arrive at least 5 minutes before class starts.<br />
+                  • Keep personal belongings secure.
+                </p>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-6 border-t border-border bg-muted/30">
+                <Button
+                  variant="hero"
+                  className="w-full"
+                  size="lg"
+                  onClick={() => {
+                    setTermsAccepted(true);
+                    setShowTermsModal(false);
+                  }}
+                  title="Accept Terms & Conditions and continue with registration"
+                >
+                  <Leaf className="w-5 h-5 mr-2" />
+                  Yes, I Agree to the Terms
+                </Button>
+                <p className="text-xs text-muted-foreground text-center mt-3">
+                  By clicking above, you confirm that you have read and understood these terms.
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
