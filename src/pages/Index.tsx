@@ -19,24 +19,24 @@ const Index = () => {
       {/* Interactive breathing background */}
       <BreathingBackground variant="landing" enableClickBreath={true} />
       
-      {/* Navbar now has top offset built-in */}
-      <div>
-        <Navbar />
-        <main>
-          <HeroSection />
-          
-          {/* Floating quote between sections */}
-          <section className="py-16 relative">
-            <FloatingQuote interval={10000} className="max-w-3xl mx-auto px-4" />
-          </section>
-          
-          <ProgramsPreview />
-          <FeaturesSection />
-          <TestimonialsSection />
-          <CTASection />
-        </main>
-        <Footer />
-      </div>
+      {/* Navbar */}
+      <Navbar />
+      
+      <main>
+        <HeroSection />
+        
+        {/* Floating quote between sections */}
+        <section className="py-16 relative">
+          <FloatingQuote interval={10000} className="max-w-3xl mx-auto px-4" />
+        </section>
+        
+        <ProgramsPreview />
+        <FeaturesSection />
+        <TestimonialsSection />
+        <CTASection />
+      </main>
+      
+      <Footer />
       
       {/* WhatsApp floating bubble */}
       <WhatsAppBubble />

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
 import { Button } from "@/components/ui/button";
 import { 
   Award, 
@@ -91,9 +92,10 @@ const testimonials = [
 const About = () => {
   return (
     <div className="min-h-screen bg-background">
+      <FlashNewsTicker />
       <Navbar />
       
-      <main className="pt-20">
+      <main className="pt-32 md:pt-36">
         {/* Hero Section */}
         <section className="relative py-24 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-hero" />
