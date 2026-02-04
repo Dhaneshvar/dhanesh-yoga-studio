@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
 import { Button } from "@/components/ui/button";
 import { Search, Filter, X, Wind, Zap, Heart, Brain } from "lucide-react";
 
@@ -149,9 +150,10 @@ const Asanas = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FlashNewsTicker />
       <Navbar />
       
-      <main className="pt-20">
+      <main className="pt-32 md:pt-36">
         {/* Hero Section */}
         <section className="relative py-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-hero" />

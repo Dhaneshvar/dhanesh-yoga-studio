@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
+import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Users, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
@@ -71,9 +72,10 @@ const Schedule = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FlashNewsTicker />
       <Navbar />
       
-      <main className="pt-20">
+      <main className="pt-32 md:pt-36">
         {/* Hero Section */}
         <section className="relative py-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-hero" />

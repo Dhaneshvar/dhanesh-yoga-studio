@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
+import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
 import { Button } from "@/components/ui/button";
 import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2, X, ScrollText } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -58,9 +59,10 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FlashNewsTicker />
       <Navbar />
       
-      <main className="pt-20 min-h-screen flex items-center justify-center px-4 py-12">
+      <main className="pt-32 md:pt-36 min-h-screen flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
