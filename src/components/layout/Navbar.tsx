@@ -34,9 +34,19 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
+  const [tickerVisible, setTickerVisible] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useLanguage();
+
+  // Listen for ticker visibility changes
+  useEffect(() => {
+    const handleTickerChange = (e: CustomEvent<{ isVisible: boolean }>) => {
+      setTickerVisible(e.detail.isVisible);
+    };
+    window.addEventListener("tickerVisibilityChange", handleTickerChange as EventListener);
+    return () => window.removeEventListener("tickerVisibilityChange", handleTickerChange as EventListener);
+  }, []);
 
   // Check auth state on mount, route change, and via custom event
   useEffect(() => {
@@ -92,7 +102,9 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-10 md:top-11 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
+        tickerVisible ? "top-10 md:top-11" : "top-0"
+      } ${
         scrolled
           ? "bg-background/90 backdrop-blur-lg shadow-soft"
           : "bg-transparent"

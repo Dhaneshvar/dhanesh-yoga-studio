@@ -49,6 +49,11 @@ const FlashNewsTicker = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Dispatch custom event when visibility changes
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("tickerVisibilityChange", { detail: { isVisible } }));
+  }, [isVisible]);
+
   if (!isVisible) return null;
 
   const currentNews = newsItems[currentIndex];
