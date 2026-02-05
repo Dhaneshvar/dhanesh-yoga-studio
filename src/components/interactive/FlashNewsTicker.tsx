@@ -62,7 +62,7 @@ const FlashNewsTicker = () => {
     <motion.div
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-primary via-primary/90 to-lotus overflow-hidden"
+      className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-primary via-primary/90 to-lotus overflow-hidden"
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-10 md:h-11">
