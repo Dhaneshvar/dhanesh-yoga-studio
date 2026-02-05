@@ -12,6 +12,7 @@ const navLinks = [
   { name: "nav.programs", path: "/programs" },
   { name: "nav.asanas", path: "/asanas" },
   { name: "nav.schedule", path: "/schedule" },
+   { name: "nav.contact", path: "/contact" },
 ];
 
 type UserRole = "student" | "trainer" | "admin";
