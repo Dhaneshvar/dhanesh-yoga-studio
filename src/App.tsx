@@ -56,7 +56,23 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 
 const AppContent = () => {
   const [meditationOpen, setMeditationOpen] = useState(false);
-  const userRole = (localStorage.getItem("userRole") as "trainer" | "admin" | "student") || "trainer";
+  const [userRole, setUserRole] = useState<"trainer" | "admin" | "student">(
+    () => (localStorage.getItem("userRole") as "trainer" | "admin" | "student") || "trainer"
+  );
+
+  // Keep userRole reactive — update on authChange & storage events
+  useEffect(() => {
+    const syncRole = () => {
+      const role = (localStorage.getItem("userRole") as "trainer" | "admin" | "student") || "trainer";
+      setUserRole(role);
+    };
+    window.addEventListener("authChange", syncRole);
+    window.addEventListener("storage", syncRole);
+    return () => {
+      window.removeEventListener("authChange", syncRole);
+      window.removeEventListener("storage", syncRole);
+    };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
