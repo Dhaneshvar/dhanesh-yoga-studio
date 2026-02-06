@@ -15,6 +15,9 @@ import {
   User,
   Settings,
   Shield,
+  ClipboardList,
+  BookOpen,
+  GraduationCap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -45,7 +48,9 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
   ];
 
   const studentMenuItems = [
-    { icon: Calendar, label: "My Classes", path: "/dashboard/my-classes" },
+    { icon: GraduationCap, label: "Register for Class", path: "/dashboard/student-registration" },
+    { icon: ClipboardList, label: "My Registrations", path: "/dashboard/my-registrations" },
+    { icon: BookOpen, label: "My Classes", path: "/dashboard/my-classes" },
     { icon: Users, label: "Find Trainers", path: "/dashboard/trainer-directory" },
     { icon: Clock, label: "Schedule", path: "/dashboard/trainer-schedule" },
   ];
