@@ -46,7 +46,7 @@ const Login = () => {
       case "trainer":
         return "/dashboard/trainer-directory";
       case "student":
-        return "/dashboard/my-classes";
+        return "/dashboard/student-registration";
       default:
         return "/dashboard/trainer-directory";
     }

@@ -28,6 +28,8 @@ import TrainerSchedule from "./pages/dashboard/TrainerSchedule";
 import AvailabilityOverview from "./pages/dashboard/AvailabilityOverview";
 import ProfileSettings from "./pages/dashboard/ProfileSettings";
 import MyClasses from "./pages/dashboard/MyClasses";
+import StudentRegistration from "./pages/dashboard/StudentRegistration";
+import MyRegistrations from "./pages/dashboard/MyRegistrations";
 
 // Admin Dashboard imports (Separate)
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -104,6 +106,8 @@ const AppContent = () => {
             <Route path="trainer-schedule" element={<TrainerSchedule />} />
             <Route path="availability" element={<AvailabilityOverview />} />
             <Route path="my-classes" element={<MyClasses />} />
+            <Route path="student-registration" element={<StudentRegistration />} />
+            <Route path="my-registrations" element={<MyRegistrations />} />
             <Route path="profile" element={<ProfileSettings />} />
             <Route path="settings" element={<ProfileSettings />} />
           </Route>
