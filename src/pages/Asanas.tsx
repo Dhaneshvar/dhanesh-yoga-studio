@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Search, Filter, X, Wind, Zap, Heart, Brain } from "lucide-react";
 
@@ -150,6 +151,29 @@ const Asanas = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Asana Library – Yoga Poses Guide"
+        description="Explore our comprehensive asana library with detailed instructions, benefits, and breathing techniques for each yoga pose. From beginner to advanced levels."
+        keywords="yoga poses, asanas, yoga asana guide, Tadasana, Vrikshasana, Downward Dog, yoga instructions, beginner yoga poses"
+        canonicalPath="/asanas"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "Yoga Asana Library",
+          "description": "Comprehensive guide to yoga poses with instructions, benefits, and difficulty levels",
+          "mainEntity": {
+            "@type": "ItemList",
+            "name": "Yoga Poses",
+            "numberOfItems": 8,
+            "itemListElement": asanas.map((a, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "name": `${a.name} (${a.english})`,
+              "description": a.description
+            }))
+          }
+        }}
+      />
       <FlashNewsTicker />
       <Navbar />
       

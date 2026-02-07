@@ -8,6 +8,7 @@
  import Footer from "@/components/layout/Footer";
  import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
  import WhatsAppBubble from "@/components/interactive/WhatsAppBubble";
+ import SEOHead from "@/components/SEOHead";
  import { Button } from "@/components/ui/button";
  import { Input } from "@/components/ui/input";
  import { Textarea } from "@/components/ui/textarea";
@@ -110,9 +111,35 @@
    ];
  
    return (
-     <div className="min-h-screen bg-background">
-       <FlashNewsTicker />
-       <Navbar />
+    <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Contact Us – Get In Touch"
+        description="Contact Harmony Yoga Studio in Bangalore. Send inquiries, book consultations, or share feedback. Visit us at 123 Serenity Lane or call +91 98765 43210."
+        keywords="contact yoga studio, yoga studio Bangalore, yoga inquiry, book yoga class, yoga feedback, Harmony Yoga contact"
+        canonicalPath="/contact"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contact Harmony Yoga Studio",
+          "description": "Get in touch with Harmony Yoga Studio for inquiries, bookings, and feedback",
+          "mainEntity": {
+            "@type": "LocalBusiness",
+            "name": "Harmony Yoga Studio",
+            "telephone": "+919876543210",
+            "email": "info@innerpeaceyoga.com",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "123 Serenity Lane, Wellness District",
+              "addressLocality": "Bangalore",
+              "addressRegion": "Karnataka",
+              "postalCode": "560001",
+              "addressCountry": "IN"
+            }
+          }
+        }}
+      />
+      <FlashNewsTicker />
+      <Navbar />
        
        <main className="pt-32 md:pt-36 pb-16">
          {/* Hero Section */}

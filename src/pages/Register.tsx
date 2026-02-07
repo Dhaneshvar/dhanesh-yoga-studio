@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2, X, ScrollText } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -59,6 +60,12 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Register – Join Harmony Yoga"
+        description="Create your account at Harmony Yoga Studio. Start your wellness journey with personalized yoga programs, expert guidance, and a supportive community."
+        keywords="yoga registration, join yoga studio, create yoga account, sign up yoga classes"
+        canonicalPath="/register"
+      />
       <FlashNewsTicker />
       <Navbar />
       

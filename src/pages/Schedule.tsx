@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
 import Footer from "@/components/layout/Footer";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Users, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 
@@ -72,6 +73,19 @@ const Schedule = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Class Schedule – Weekly Timetable"
+        description="View our weekly yoga class schedule. Morning, evening, and weekend classes for kids, teens, adults, and seniors. Book your spot today."
+        keywords="yoga schedule, yoga class timetable, yoga timings, morning yoga, evening yoga, weekend yoga, Bangalore yoga schedule"
+        canonicalPath="/schedule"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Schedule",
+          "name": "Harmony Yoga Weekly Schedule",
+          "description": "Weekly yoga class timetable with morning, evening, and weekend options",
+          "scheduleTimezone": "Asia/Kolkata"
+        }}
+      />
       <FlashNewsTicker />
       <Navbar />
       

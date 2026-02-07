@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { 
   Award, 
@@ -92,6 +93,21 @@ const testimonials = [
 const About = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="About Our Instructor"
+        description="Meet your yoga instructor with 10+ years experience, RYT-500 certified. Specialized in Hatha, Ashtanga, Vinyasa, kids yoga, and senior wellness programs."
+        keywords="yoga instructor, RYT-500, certified yoga teacher, Hatha yoga, Ashtanga, Vinyasa, Bangalore yoga"
+        canonicalPath="/about"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Harmony Yoga Instructor",
+          "jobTitle": "Certified Yoga Instructor (RYT-500)",
+          "description": "10+ years experience teaching yoga for all age groups",
+          "knowsAbout": ["Hatha Yoga", "Ashtanga Yoga", "Vinyasa Flow", "Pranayama", "Kids Yoga", "Senior Yoga"],
+          "worksFor": { "@type": "Organization", "name": "Harmony Yoga Studio" }
+        }}
+      />
       <FlashNewsTicker />
       <Navbar />
       
