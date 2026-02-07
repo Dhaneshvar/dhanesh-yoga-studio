@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const adminMenuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
@@ -269,6 +270,9 @@ const AdminLayout = () => {
             </div>
 
             <div className="flex items-center gap-3 ml-auto">
+              {/* Theme Toggle */}
+              <ThemeToggle />
+
               {/* Activity Indicator */}
               <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-green-50 dark:bg-green-900/20 rounded-full">
                 <Activity className="w-4 h-4 text-green-500" />
