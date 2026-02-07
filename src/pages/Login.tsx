@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Mail, Lock, Eye, EyeOff, Leaf, Loader2, Users, GraduationCap, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -99,6 +100,12 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Login – Access Your Dashboard"
+        description="Log in to your Harmony Yoga Studio account. Access your classes, schedule, and personalized yoga journey as a student, trainer, or admin."
+        keywords="yoga login, yoga studio account, student login, trainer login"
+        canonicalPath="/login"
+      />
       <FlashNewsTicker />
       <Navbar />
       

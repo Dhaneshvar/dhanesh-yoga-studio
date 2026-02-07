@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Baby, Sparkles, Heart, Flower2, Clock, Users, Star } from "lucide-react";
 
@@ -92,6 +93,27 @@ const programs = [
 const Programs = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Yoga Programs for Every Age"
+        description="Age-specific yoga programs: Kids Yoga (5-12), Teen Yoga (13-19), Adult Yoga (20-50), Senior Yoga (50+). Expert instruction tailored to each life stage."
+        keywords="kids yoga, teen yoga, adult yoga, senior yoga, yoga programs, age-wise yoga, yoga classes Bangalore"
+        canonicalPath="/programs"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Yoga Programs",
+            "description": "Age-wise yoga programs for all stages of life",
+            "numberOfItems": 4,
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Kids Yoga (5-12 years)" },
+              { "@type": "ListItem", "position": 2, "name": "Teen Yoga (13-19 years)" },
+              { "@type": "ListItem", "position": 3, "name": "Adult Yoga (20-50 years)" },
+              { "@type": "ListItem", "position": 4, "name": "Senior Yoga (50+ years)" }
+            ]
+          }
+        ]}
+      />
       <FlashNewsTicker />
       <Navbar />
       

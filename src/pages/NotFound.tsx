@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Leaf, Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/layout/Navbar";
+import SEOHead from "@/components/SEOHead";
 
 const NotFound = () => {
   const location = useLocation();
@@ -13,6 +14,12 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
+    <>
+      <SEOHead
+        title="Page Not Found (404)"
+        description="The page you're looking for doesn't exist. Navigate back to Harmony Yoga Studio to explore our yoga programs, schedule, and more."
+        canonicalPath="/"
+      />
     <div className="min-h-screen bg-background">
       <Navbar />
       
@@ -161,6 +168,7 @@ const NotFound = () => {
         </div>
       </main>
     </div>
+    </>
   );
 };
 
