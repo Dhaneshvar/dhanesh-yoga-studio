@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Leaf, LayoutDashboard, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ThemeToggle from "@/components/ThemeToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const navLinks = [
@@ -152,6 +153,7 @@ const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
+            <ThemeToggle />
             <LanguageSwitcher variant="navbar" />
             {isLoggedIn ? (
               <>
@@ -241,7 +243,10 @@ const Navbar = () => {
                 transition={{ delay: 0.4 }}
                 className="pt-4 space-y-3"
               >
-                <LanguageSwitcher variant="navbar" />
+                <div className="flex items-center gap-2">
+                  <ThemeToggle />
+                  <LanguageSwitcher variant="navbar" />
+                </div>
                 {isLoggedIn ? (
                   <>
                     <Button 
