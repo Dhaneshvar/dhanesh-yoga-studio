@@ -11,7 +11,7 @@ const BreathingBackground = ({ variant = "default" }: BreathingBackgroundProps) 
     },
     asanas: {
       primary: "hsl(172, 70%, 55%)",
-      secondary: "hsl(258, 30%, 35%)",
+      secondary: "hsl(205, 55%, 30%)",
       tertiary: "hsl(150, 50%, 92%)",
     },
     kids: {
@@ -22,10 +22,10 @@ const BreathingBackground = ({ variant = "default" }: BreathingBackgroundProps) 
     senior: {
       primary: "hsl(150, 50%, 92%)",
       secondary: "hsl(172, 60%, 80%)",
-      tertiary: "hsl(258, 25%, 55%)",
+      tertiary: "hsl(205, 40%, 50%)",
     },
     default: {
-      primary: "hsl(258, 30%, 35%)",
+      primary: "hsl(205, 55%, 30%)",
       secondary: "hsl(172, 70%, 55%)",
       tertiary: "hsl(345, 85%, 60%)",
     },

@@ -178,7 +178,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
           transition={{ duration: 0.5 }}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
           style={{
-            background: "linear-gradient(180deg, hsl(258 25% 8%) 0%, hsl(258 30% 12%) 100%)",
+            background: "linear-gradient(180deg, hsl(205 25% 8%) 0%, hsl(205 30% 12%) 100%)",
           }}
         >
           {/* Close button - positioned top right */}
@@ -254,7 +254,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
             <motion.div
               className="w-48 h-48 rounded-full flex items-center justify-center"
               style={{
-                background: "radial-gradient(circle, hsl(172 70% 55% / 0.3) 0%, hsl(258 30% 35% / 0.2) 100%)",
+                background: "radial-gradient(circle, hsl(172 70% 55% / 0.3) 0%, hsl(205 55% 30% / 0.2) 100%)",
                 boxShadow: "0 0 60px hsl(172 70% 55% / 0.4), inset 0 0 40px hsl(172 70% 55% / 0.2)",
               }}
               animate={{
