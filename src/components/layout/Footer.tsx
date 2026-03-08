@@ -10,22 +10,22 @@ const Footer = () => {
 
   const footerLinks = {
     programs: [
-      { name: "Kids Yoga", path: "/programs/kids" },
-      { name: "Teen Yoga", path: "/programs/teens" },
-      { name: "Adult Yoga", path: "/programs/adults" },
-      { name: "Senior Yoga", path: "/programs/seniors" },
+      { name: t('footerSection.kidsYoga'), path: "/programs/kids" },
+      { name: t('footerSection.teenYoga'), path: "/programs/teens" },
+      { name: t('footerSection.adultYoga'), path: "/programs/adults" },
+      { name: t('footerSection.seniorYoga'), path: "/programs/seniors" },
     ],
     resources: [
-      { name: "Asana Library", path: "/asanas" },
-      { name: "Class Schedule", path: "/schedule" },
-      { name: "Brochure", path: "/brochure" },
-      { name: "FAQs", path: "/faq" },
+      { name: t('footerSection.asanaLibrary'), path: "/asanas" },
+      { name: t('footerSection.classSchedule'), path: "/schedule" },
+      { name: t('footerSection.brochure'), path: "/brochure" },
+      { name: t('footerSection.faqs'), path: "/faq" },
     ],
     company: [
-      { name: "About", path: "/about" },
-      { name: "Contact", path: "/contact" },
-      { name: "Privacy Policy", path: "/privacy" },
-      { name: "Terms of Service", path: "/terms" },
+      { name: t('footerSection.about'), path: "/about" },
+      { name: t('footerSection.contact'), path: "/contact" },
+      { name: t('footerSection.privacyPolicy'), path: "/privacy" },
+      { name: t('footerSection.termsOfService'), path: "/terms" },
     ],
   };
 
@@ -44,8 +44,7 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-muted-foreground font-body mb-6 max-w-sm">
-              Balance your body, calm your mind, transform your life. Join us on a journey 
-              of self-discovery through the ancient practice of yoga.
+              {t('footerSection.brandDesc')}
             </p>
             <div className="flex items-center gap-4">
               {[
@@ -70,16 +69,12 @@ const Footer = () => {
           {/* Programs */}
           <div>
             <h4 className="font-display text-lg font-semibold text-foreground mb-4">
-              Programs
+              {t('footerSection.programsTitle')}
             </h4>
             <ul className="space-y-3">
               {footerLinks.programs.map((link) => (
                 <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    title={`Learn more about ${link.name}`}
-                    className="text-muted-foreground hover:text-foreground transition-colors font-body text-sm"
-                  >
+                  <Link to={link.path} className="text-muted-foreground hover:text-foreground transition-colors font-body text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -90,16 +85,12 @@ const Footer = () => {
           {/* Resources */}
           <div>
             <h4 className="font-display text-lg font-semibold text-foreground mb-4">
-              Resources
+              {t('footerSection.resourcesTitle')}
             </h4>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    title={`View ${link.name}`}
-                    className="text-muted-foreground hover:text-foreground transition-colors font-body text-sm"
-                  >
+                  <Link to={link.path} className="text-muted-foreground hover:text-foreground transition-colors font-body text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -110,26 +101,20 @@ const Footer = () => {
           {/* Contact */}
           <div>
             <h4 className="font-display text-lg font-semibold text-foreground mb-4">
-              Contact
+              {t('footerSection.contactTitle')}
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary mt-0.5" />
-                <span className="text-muted-foreground font-body text-sm">
-                  123 Serenity Lane, Peaceful Valley
-                </span>
+                <span className="text-muted-foreground font-body text-sm">123 Serenity Lane, Peaceful Valley</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary" />
-                <span className="text-muted-foreground font-body text-sm">
-                  +1 (555) 123-4567
-                </span>
+                <span className="text-muted-foreground font-body text-sm">+1 (555) 123-4567</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary" />
-                <span className="text-muted-foreground font-body text-sm">
-                  hello@harmonyyoga.com
-                </span>
+                <span className="text-muted-foreground font-body text-sm">hello@harmonyyoga.com</span>
               </li>
             </ul>
           </div>

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { pageTranslations } from '@/translations/pageTranslations';
 
 export type Language = 
   | 'en' | 'hi' | 'ta' | 'te' | 'kn' | 'ml' | 'bn' | 'gu' | 'mr' | 'pa' | 'or';
@@ -63,15 +64,32 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
 
   const t = (key: string): string => {
     const keys = key.split('.');
-    let value: any = translations[language];
     
+    // Try current language in main translations
+    let value: any = translations[language];
     for (const k of keys) {
       value = value?.[k];
     }
     
+    // Try current language in page translations
+    if (!value && pageTranslations[language]) {
+      value = pageTranslations[language];
+      for (const k of keys) {
+        value = value?.[k];
+      }
+    }
+    
+    // Fallback to English main translations
     if (!value) {
-      // Fallback to English
       value = translations.en;
+      for (const k of keys) {
+        value = value?.[k];
+      }
+    }
+    
+    // Fallback to English page translations
+    if (!value && pageTranslations.en) {
+      value = pageTranslations.en;
       for (const k of keys) {
         value = value?.[k];
       }
