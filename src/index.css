@@ -7,45 +7,45 @@
 
 @layer base {
   :root {
-    /* New Bold + Calm Yoga Palette */
-    --background: 250 20% 98%;
-    --foreground: 258 25% 20%;
+    /* Professional Yoga Palette — Deep Blue-Teal */
+    --background: 210 20% 98%;
+    --foreground: 205 25% 18%;
 
-    --card: 250 25% 96%;
-    --card-foreground: 258 25% 20%;
+    --card: 210 20% 96%;
+    --card-foreground: 205 25% 18%;
 
-    --popover: 250 20% 98%;
-    --popover-foreground: 258 25% 20%;
+    --popover: 210 20% 98%;
+    --popover-foreground: 205 25% 18%;
 
-    /* Deep Indigo primary - spiritual, grounding */
-    --primary: 258 30% 35%;
-    --primary-foreground: 250 20% 98%;
+    /* Deep Blue primary — professional, trustworthy */
+    --primary: 205 55% 30%;
+    --primary-foreground: 210 20% 98%;
 
-    /* Soft Mint secondary - peace, breath */
+    /* Soft Mint secondary — peace, breath */
     --secondary: 150 50% 92%;
-    --secondary-foreground: 258 25% 25%;
+    --secondary-foreground: 205 25% 22%;
 
-    /* Muted indigo */
-    --muted: 258 15% 92%;
-    --muted-foreground: 258 15% 45%;
+    /* Muted blue-gray */
+    --muted: 210 15% 92%;
+    --muted-foreground: 210 12% 45%;
 
-    /* Turquoise accent - refreshing, calming */
+    /* Turquoise accent — refreshing, calming */
     --accent: 172 70% 55%;
-    --accent-foreground: 258 25% 15%;
+    --accent-foreground: 205 25% 15%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 250 20% 98%;
+    --destructive-foreground: 210 20% 98%;
 
-    --border: 258 15% 90%;
-    --input: 258 15% 90%;
-    --ring: 258 30% 35%;
+    --border: 210 15% 90%;
+    --input: 210 15% 90%;
+    --ring: 205 55% 30%;
 
     --radius: 0.75rem;
 
     /* Vibrant Yoga Colors */
-    --indigo: 258 30% 35%;
-    --indigo-light: 258 25% 55%;
-    --indigo-dark: 258 35% 25%;
+    --indigo: 205 55% 30%;
+    --indigo-light: 205 40% 50%;
+    --indigo-dark: 205 60% 22%;
     --turquoise: 172 70% 55%;
     --turquoise-light: 172 60% 80%;
     --turquoise-dark: 172 75% 40%;
@@ -62,80 +62,80 @@
     --sage-dark: 150 45% 30%;
     --terracotta: 18 50% 55%;
     --terracotta-light: 18 45% 75%;
-    --cream: 250 20% 98%;
-    --cream-dark: 250 18% 94%;
+    --cream: 210 20% 98%;
+    --cream-dark: 210 18% 94%;
     --forest: 150 35% 25%;
     --gold: 42 65% 55%;
     --gold-light: 42 60% 80%;
 
     /* Multi-color Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(258 30% 35% / 0.08), hsl(172 70% 55% / 0.05), hsl(345 85% 60% / 0.03));
-    --gradient-card: linear-gradient(180deg, hsl(250 20% 98%), hsl(258 15% 96%));
-    --gradient-indigo-turquoise: linear-gradient(135deg, hsl(258 30% 35%), hsl(172 70% 55%));
+    --gradient-hero: linear-gradient(135deg, hsl(205 55% 30% / 0.08), hsl(172 70% 55% / 0.05), hsl(345 85% 60% / 0.03));
+    --gradient-card: linear-gradient(180deg, hsl(210 20% 98%), hsl(210 15% 96%));
+    --gradient-indigo-turquoise: linear-gradient(135deg, hsl(205 55% 30%), hsl(172 70% 55%));
     --gradient-pink-orange: linear-gradient(135deg, hsl(345 85% 60%), hsl(32 95% 55%));
     --gradient-mint-turquoise: linear-gradient(135deg, hsl(150 50% 92%), hsl(172 70% 55%));
-    --gradient-spiritual: linear-gradient(135deg, hsl(258 30% 35%), hsl(345 85% 60%), hsl(32 95% 55%));
+    --gradient-spiritual: linear-gradient(135deg, hsl(205 55% 30%), hsl(345 85% 60%), hsl(32 95% 55%));
     --gradient-calm: linear-gradient(180deg, hsl(150 50% 92%), hsl(172 60% 80%));
     --gradient-warm: linear-gradient(135deg, hsl(32 95% 55%), hsl(345 85% 60%));
 
     /* Aura/Glow Effects */
-    --glow-indigo: 0 0 60px hsl(258 30% 35% / 0.3);
+    --glow-indigo: 0 0 60px hsl(205 55% 30% / 0.3);
     --glow-turquoise: 0 0 60px hsl(172 70% 55% / 0.4);
     --glow-lotus: 0 0 60px hsl(345 85% 60% / 0.3);
     --glow-sunset: 0 0 60px hsl(32 95% 55% / 0.3);
 
     /* Shadows */
-    --shadow-soft: 0 4px 20px -4px hsl(258 30% 35% / 0.15);
-    --shadow-card: 0 8px 30px -8px hsl(258 25% 20% / 0.1);
-    --shadow-elevated: 0 20px 50px -15px hsl(258 25% 20% / 0.15);
+    --shadow-soft: 0 4px 20px -4px hsl(205 55% 30% / 0.15);
+    --shadow-card: 0 8px 30px -8px hsl(205 25% 18% / 0.1);
+    --shadow-elevated: 0 20px 50px -15px hsl(205 25% 18% / 0.15);
     --shadow-glow: 0 0 40px hsl(172 70% 55% / 0.2);
 
     /* Typography */
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'Lato', sans-serif;
 
-    --sidebar-background: 250 20% 98%;
-    --sidebar-foreground: 258 25% 25%;
-    --sidebar-primary: 258 30% 35%;
-    --sidebar-primary-foreground: 250 20% 98%;
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 205 25% 22%;
+    --sidebar-primary: 205 55% 30%;
+    --sidebar-primary-foreground: 210 20% 98%;
     --sidebar-accent: 150 50% 92%;
-    --sidebar-accent-foreground: 258 25% 25%;
-    --sidebar-border: 258 15% 90%;
-    --sidebar-ring: 258 30% 35%;
+    --sidebar-accent-foreground: 205 25% 22%;
+    --sidebar-border: 210 15% 90%;
+    --sidebar-ring: 205 55% 30%;
   }
 
   .dark {
-    --background: 258 25% 8%;
-    --foreground: 250 20% 92%;
+    --background: 210 20% 8%;
+    --foreground: 210 15% 92%;
 
-    --card: 258 25% 12%;
-    --card-foreground: 250 20% 92%;
+    --card: 210 20% 12%;
+    --card-foreground: 210 15% 92%;
 
-    --popover: 258 25% 8%;
-    --popover-foreground: 250 20% 92%;
+    --popover: 210 20% 8%;
+    --popover-foreground: 210 15% 92%;
 
     --primary: 172 65% 55%;
-    --primary-foreground: 258 25% 8%;
+    --primary-foreground: 210 20% 8%;
 
-    --secondary: 258 20% 18%;
-    --secondary-foreground: 250 20% 92%;
+    --secondary: 210 18% 18%;
+    --secondary-foreground: 210 15% 92%;
 
-    --muted: 258 20% 20%;
-    --muted-foreground: 250 15% 60%;
+    --muted: 210 18% 20%;
+    --muted-foreground: 210 12% 60%;
 
     --accent: 345 80% 65%;
-    --accent-foreground: 258 25% 8%;
+    --accent-foreground: 210 20% 8%;
 
     --destructive: 0 62.8% 50%;
-    --destructive-foreground: 250 20% 92%;
+    --destructive-foreground: 210 15% 92%;
 
-    --border: 258 20% 20%;
-    --input: 258 20% 20%;
+    --border: 210 18% 20%;
+    --input: 210 18% 20%;
     --ring: 172 65% 55%;
 
-    --indigo: 258 35% 55%;
-    --indigo-light: 258 30% 70%;
-    --indigo-dark: 258 40% 40%;
+    --indigo: 205 45% 50%;
+    --indigo-light: 205 35% 65%;
+    --indigo-dark: 205 50% 35%;
     --turquoise: 172 65% 55%;
     --turquoise-light: 172 55% 35%;
     --turquoise-dark: 172 70% 70%;
@@ -150,8 +150,8 @@
     --sage-dark: 150 40% 70%;
     --terracotta: 18 45% 60%;
     --terracotta-light: 18 40% 30%;
-    --cream: 258 25% 8%;
-    --cream-dark: 258 25% 12%;
+    --cream: 210 20% 8%;
+    --cream-dark: 210 20% 12%;
     --forest: 150 30% 45%;
     --gold: 42 60% 60%;
     --gold-light: 42 55% 25%;
