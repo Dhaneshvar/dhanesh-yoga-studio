@@ -63,17 +63,14 @@ const Navbar = () => {
     
     checkAuth();
     
-    // Listen for storage changes (e.g., login/logout in another tab)
     window.addEventListener("storage", checkAuth);
-    
-    // Listen for custom auth change event (same tab)
     window.addEventListener("authChange", checkAuth);
     
     return () => {
       window.removeEventListener("storage", checkAuth);
       window.removeEventListener("authChange", checkAuth);
     };
-  }, [location]); // Re-check on route change
+  }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem("yoga_app_session");
@@ -114,30 +111,31 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group" title="Go to Dhanesh Yoga Center Homepage">
+          <Link to="/" className="flex items-center gap-2 group shrink-0" title="Go to Dhanesh Yoga Center Homepage">
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
-              className="w-10 h-10 rounded-full overflow-hidden"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden"
             >
               <img src={logoImg} alt="Dhanesh Yoga Center logo" className="w-full h-full object-cover" />
             </motion.div>
-            <span className="font-display text-xl font-semibold text-foreground leading-tight">
-              Dhanesh Yoga Center
+            <span className="font-display text-base sm:text-xl font-semibold text-foreground leading-tight">
+              <span className="hidden xs:inline sm:inline">Dhanesh Yoga Center</span>
+              <span className="xs:hidden sm:hidden inline">DYC</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-4 xl:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 title={`Navigate to ${t(link.name)} page`}
-                className="relative font-body text-sm font-medium text-foreground/80 hover:text-foreground transition-colors group"
+                className="relative font-body text-sm font-medium text-foreground/80 hover:text-foreground transition-colors group whitespace-nowrap"
               >
                 {t(link.name)}
                 <motion.span
@@ -154,7 +152,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-4">
             <ThemeToggle />
             <LanguageSwitcher variant="navbar" />
             {isLoggedIn ? (
@@ -200,9 +198,9 @@ const Navbar = () => {
             aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           >
             {isOpen ? (
-              <X className="w-6 h-6 text-foreground" aria-hidden="true" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6 text-foreground" aria-hidden="true" />
             ) : (
-              <Menu className="w-6 h-6 text-foreground" aria-hidden="true" />
+              <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-foreground" aria-hidden="true" />
             )}
           </button>
         </div>
@@ -216,20 +214,20 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-background/95 backdrop-blur-lg border-t border-border"
+            className="lg:hidden bg-background/95 backdrop-blur-lg border-t border-border max-h-[80vh] overflow-y-auto"
           >
-            <div className="container mx-auto px-4 py-6 space-y-4">
+            <div className="container mx-auto px-4 py-4 sm:py-6 space-y-2 sm:space-y-4">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.path}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.05 }}
                 >
                   <Link
                     to={link.path}
                     title={`Navigate to ${t(link.name)} page`}
-                    className={`block py-3 px-4 rounded-lg font-body text-base transition-colors ${
+                    className={`block py-2.5 sm:py-3 px-4 rounded-lg font-body text-sm sm:text-base transition-colors ${
                       location.pathname === link.path
                         ? "bg-sage-light text-sage-dark font-medium"
                         : "text-foreground/80 hover:bg-muted"
@@ -242,8 +240,8 @@ const Navbar = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="pt-4 space-y-3"
+                transition={{ delay: 0.3 }}
+                className="pt-3 sm:pt-4 space-y-3"
               >
                 <div className="flex items-center gap-2">
                   <ThemeToggle />

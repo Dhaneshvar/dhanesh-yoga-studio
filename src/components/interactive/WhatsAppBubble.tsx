@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, Phone, X } from "lucide-react";
 
-const WHATSAPP_NUMBER = "919876543210"; // Replace with actual number
+const WHATSAPP_NUMBER = "919876543210";
 const WHATSAPP_MESSAGE = "Hello! I'm interested in your yoga classes.";
 
 const WhatsAppBubble = () => {
@@ -19,7 +19,7 @@ const WhatsAppBubble = () => {
   };
 
   return (
-    <div className="fixed bottom-24 left-6 z-50 flex flex-col items-start gap-3">
+    <div className="fixed bottom-20 sm:bottom-24 left-3 sm:left-6 z-50 flex flex-col items-start gap-2 sm:gap-3">
       {/* Expanded Options */}
       <AnimatePresence>
         {isOpen && (
@@ -30,12 +30,12 @@ const WhatsAppBubble = () => {
               exit={{ opacity: 0, y: 20, scale: 0.8 }}
               transition={{ delay: 0.1 }}
               onClick={handleChat}
-              className="flex items-center gap-3 bg-card border border-border rounded-full px-4 py-3 shadow-elevated hover:shadow-lg transition-all group"
+              className="flex items-center gap-2 sm:gap-3 bg-card border border-border rounded-full px-3 sm:px-4 py-2 sm:py-3 shadow-elevated hover:shadow-lg transition-all group"
               title="Send WhatsApp Message"
             >
-              <span className="text-sm font-medium text-foreground">Chat with us</span>
-              <div className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center group-hover:scale-110 transition-transform">
-                <MessageCircle className="w-5 h-5 text-white" />
+              <span className="text-xs sm:text-sm font-medium text-foreground">Chat with us</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#25D366] flex items-center justify-center group-hover:scale-110 transition-transform">
+                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
             </motion.button>
 
@@ -44,12 +44,12 @@ const WhatsAppBubble = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.8 }}
               onClick={handleCall}
-              className="flex items-center gap-3 bg-card border border-border rounded-full px-4 py-3 shadow-elevated hover:shadow-lg transition-all group"
+              className="flex items-center gap-2 sm:gap-3 bg-card border border-border rounded-full px-3 sm:px-4 py-2 sm:py-3 shadow-elevated hover:shadow-lg transition-all group"
               title="WhatsApp Call"
             >
-              <span className="text-sm font-medium text-foreground">Call us</span>
-              <div className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Phone className="w-5 h-5 text-white" />
+              <span className="text-xs sm:text-sm font-medium text-foreground">Call us</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#25D366] flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
             </motion.button>
           </>
@@ -59,7 +59,7 @@ const WhatsAppBubble = () => {
       {/* Main WhatsApp Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-16 h-16 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:shadow-xl transition-all group"
+        className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:shadow-xl transition-all group"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         title={isOpen ? "Close WhatsApp options" : "Contact us on WhatsApp"}
@@ -88,7 +88,7 @@ const WhatsAppBubble = () => {
               exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <X className="w-7 h-7 text-white" />
+              <X className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </motion.div>
           ) : (
             <motion.div
@@ -98,9 +98,8 @@ const WhatsAppBubble = () => {
               exit={{ rotate: -90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              {/* WhatsApp Icon */}
               <svg
-                className="w-8 h-8 text-white"
+                className="w-6 h-6 sm:w-8 sm:h-8 text-white"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"

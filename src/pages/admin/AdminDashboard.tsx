@@ -114,9 +114,9 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {statsCards.map((stat, index) => (
           <motion.div
             key={stat.title}
@@ -126,22 +126,22 @@ const AdminDashboard = () => {
           >
             <Card className="relative overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow">
               <div className={cn("absolute inset-0 bg-gradient-to-br opacity-60", stat.gradient)} />
-              <CardContent className="p-5 relative">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                    <h3 className="text-2xl font-bold text-foreground">{stat.value}</h3>
+              <CardContent className="p-3 sm:p-5 relative">
+                <div className="flex items-start justify-between gap-1 sm:gap-2">
+                  <div className="space-y-0.5 sm:space-y-1 min-w-0">
+                    <p className="text-[11px] sm:text-sm font-medium text-muted-foreground truncate">{stat.title}</p>
+                    <h3 className="text-lg sm:text-2xl font-bold text-foreground">{stat.value}</h3>
                     <div className={cn(
-                      "flex items-center gap-1 text-sm font-semibold",
+                      "flex items-center gap-0.5 sm:gap-1 text-xs sm:text-sm font-semibold",
                       stat.trend === "up" ? "text-emerald-600" : "text-destructive"
                     )}>
-                      {stat.trend === "up" ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                      {stat.trend === "up" ? <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4" /> : <ArrowDownRight className="w-3 h-3 sm:w-4 sm:h-4" />}
                       {stat.change}
-                      <span className="text-xs font-normal text-muted-foreground ml-1">vs last month</span>
+                      <span className="text-[10px] sm:text-xs font-normal text-muted-foreground ml-0.5 sm:ml-1 hidden sm:inline">vs last month</span>
                     </div>
                   </div>
-                  <div className={cn("p-3 rounded-2xl", stat.iconBg)}>
-                    <stat.icon className={cn("w-5 h-5", stat.iconColor)} />
+                  <div className={cn("p-2 sm:p-3 rounded-xl sm:rounded-2xl shrink-0", stat.iconBg)}>
+                    <stat.icon className={cn("w-4 h-4 sm:w-5 sm:h-5", stat.iconColor)} />
                   </div>
                 </div>
               </CardContent>
@@ -151,7 +151,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Recent Activity */}
         <motion.div
           className="lg:col-span-2"
@@ -160,33 +160,33 @@ const AdminDashboard = () => {
           transition={{ delay: 0.3 }}
         >
           <Card className="h-full">
-            <CardHeader className="flex flex-row items-center justify-between pb-4">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 sm:pb-4 px-4 sm:px-6">
               <div>
-                <CardTitle className="text-lg">Recent Activity</CardTitle>
-                <CardDescription>Latest actions across the platform</CardDescription>
+                <CardTitle className="text-base sm:text-lg">Recent Activity</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">Latest actions across the platform</CardDescription>
               </div>
-              <Button variant="ghost" size="sm" className="text-primary">View All</Button>
+              <Button variant="ghost" size="sm" className="text-primary text-xs sm:text-sm">View All</Button>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-1">
+            <CardContent className="px-4 sm:px-6">
+              <div className="space-y-0.5 sm:space-y-1">
                 {recentActivities.map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-muted/50 transition-colors group cursor-pointer"
+                    className="flex items-center gap-2 sm:gap-4 p-2 sm:p-3 rounded-xl hover:bg-muted/50 transition-colors group cursor-pointer"
                   >
                     <div className={cn(
-                      "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105",
+                      "w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105",
                       getActivityColor(activity.type)
                     )}>
                       {getActivityIcon(activity.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm text-foreground">{activity.action}</p>
-                      <p className="text-sm text-muted-foreground">{activity.user}</p>
+                      <p className="font-medium text-xs sm:text-sm text-foreground truncate">{activity.action}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground truncate">{activity.user}</p>
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground shrink-0">
-                      <Clock className="w-3.5 h-3.5" />
-                      {activity.time}
+                    <div className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-muted-foreground shrink-0">
+                      <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 hidden sm:block" />
+                      <span className="whitespace-nowrap">{activity.time}</span>
                     </div>
                   </div>
                 ))}
@@ -202,30 +202,30 @@ const AdminDashboard = () => {
           transition={{ delay: 0.4 }}
         >
           <Card className="h-full">
-            <CardHeader className="flex flex-row items-center justify-between pb-4">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 sm:pb-4 px-4 sm:px-6">
               <div>
-                <CardTitle className="text-lg">Pending Approvals</CardTitle>
-                <CardDescription>Trainers awaiting review</CardDescription>
+                <CardTitle className="text-base sm:text-lg">Pending Approvals</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">Trainers awaiting review</CardDescription>
               </div>
-              <Badge variant="secondary" className="font-semibold">{pendingApprovals.length}</Badge>
+              <Badge variant="secondary" className="font-semibold text-xs">{pendingApprovals.length}</Badge>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
+            <CardContent className="px-4 sm:px-6">
+              <div className="space-y-2 sm:space-y-3">
                 {pendingApprovals.map((trainer) => (
-                  <div key={trainer.id} className="p-4 rounded-xl border border-border hover:border-primary/30 hover:shadow-sm transition-all">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-primary font-semibold text-sm">
+                  <div key={trainer.id} className="p-3 sm:p-4 rounded-xl border border-border hover:border-primary/30 hover:shadow-sm transition-all">
+                    <div className="flex items-start justify-between mb-2 sm:mb-3">
+                      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-primary font-semibold text-xs sm:text-sm shrink-0">
                           {trainer.avatar}
                         </div>
-                        <div>
-                          <p className="font-semibold text-sm text-foreground">{trainer.name}</p>
-                          <p className="text-xs text-muted-foreground">{trainer.specialization}</p>
+                        <div className="min-w-0">
+                          <p className="font-semibold text-xs sm:text-sm text-foreground truncate">{trainer.name}</p>
+                          <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{trainer.specialization}</p>
                         </div>
                       </div>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button variant="ghost" size="icon" className="h-7 w-7 sm:h-8 sm:w-8 shrink-0">
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -238,10 +238,10 @@ const AdminDashboard = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
-                    <Badge variant="outline" className="text-xs mb-3">{trainer.experience}</Badge>
+                    <Badge variant="outline" className="text-[10px] sm:text-xs mb-2 sm:mb-3">{trainer.experience}</Badge>
                     <div className="flex gap-2">
-                      <Button size="sm" className="flex-1 h-8 text-xs">Approve</Button>
-                      <Button size="sm" variant="outline" className="flex-1 h-8 text-xs" onClick={() => navigate("/admin/approvals")}>Review</Button>
+                      <Button size="sm" className="flex-1 h-7 sm:h-8 text-[11px] sm:text-xs">Approve</Button>
+                      <Button size="sm" variant="outline" className="flex-1 h-7 sm:h-8 text-[11px] sm:text-xs" onClick={() => navigate("/admin/approvals")}>Review</Button>
                     </div>
                   </div>
                 ))}
@@ -252,7 +252,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Bottom Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* Top Classes */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -260,29 +260,29 @@ const AdminDashboard = () => {
           transition={{ delay: 0.5 }}
         >
           <Card>
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg">Top Classes Today</CardTitle>
-              <CardDescription>Classes with highest enrollment</CardDescription>
+            <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6">
+              <CardTitle className="text-base sm:text-lg">Top Classes Today</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Classes with highest enrollment</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="px-4 sm:px-6">
+              <div className="space-y-3 sm:space-y-4">
                 {topClasses.map((cls) => {
                   const percentage = Math.round((cls.enrolled / cls.capacity) * 100);
                   const isFull = cls.enrolled >= cls.capacity;
                   return (
-                    <div key={cls.name} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium text-sm">{cls.name}</p>
-                          <p className="text-xs text-muted-foreground">by {cls.trainer}</p>
+                    <div key={cls.name} className="space-y-1.5 sm:space-y-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="font-medium text-xs sm:text-sm truncate">{cls.name}</p>
+                          <p className="text-[10px] sm:text-xs text-muted-foreground">by {cls.trainer}</p>
                         </div>
-                        <div className="text-right">
-                          <Badge variant={isFull ? "destructive" : "secondary"} className="text-xs">
+                        <div className="text-right shrink-0">
+                          <Badge variant={isFull ? "destructive" : "secondary"} className="text-[10px] sm:text-xs">
                             {cls.enrolled}/{cls.capacity}
                           </Badge>
                         </div>
                       </div>
-                      <Progress value={percentage} className="h-2" />
+                      <Progress value={percentage} className="h-1.5 sm:h-2" />
                     </div>
                   );
                 })}
@@ -298,12 +298,12 @@ const AdminDashboard = () => {
           transition={{ delay: 0.6 }}
         >
           <Card>
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg">Quick Actions</CardTitle>
-              <CardDescription>Common administrative tasks</CardDescription>
+            <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6">
+              <CardTitle className="text-base sm:text-lg">Quick Actions</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Common administrative tasks</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-3">
+            <CardContent className="px-4 sm:px-6">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 {[
                   { icon: Users, label: "Manage Users", path: "/admin/users", color: "text-primary", bg: "bg-primary/10 hover:bg-primary/20" },
                   { icon: UserCheck, label: "Review Trainers", path: "/admin/approvals", color: "text-emerald-600", bg: "bg-emerald-500/10 hover:bg-emerald-500/20" },
@@ -313,13 +313,13 @@ const AdminDashboard = () => {
                   <button
                     key={action.label}
                     className={cn(
-                      "flex flex-col items-center gap-3 py-6 px-4 rounded-xl transition-all border border-transparent hover:border-border",
+                      "flex flex-col items-center gap-2 sm:gap-3 py-4 sm:py-6 px-3 sm:px-4 rounded-xl transition-all border border-transparent hover:border-border",
                       action.bg
                     )}
                     onClick={() => navigate(action.path)}
                   >
-                    <action.icon className={cn("w-6 h-6", action.color)} />
-                    <span className="text-sm font-medium text-foreground">{action.label}</span>
+                    <action.icon className={cn("w-5 h-5 sm:w-6 sm:h-6", action.color)} />
+                    <span className="text-[11px] sm:text-sm font-medium text-foreground text-center">{action.label}</span>
                   </button>
                 ))}
               </div>

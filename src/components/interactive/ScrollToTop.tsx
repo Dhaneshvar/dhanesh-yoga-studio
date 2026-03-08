@@ -35,7 +35,7 @@ const ScrollToTop = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95, y: -4 }}
           onClick={scrollToTop}
-          className="fixed bottom-24 right-6 z-40 p-3 bg-primary/90 hover:bg-primary text-primary-foreground rounded-full shadow-lg backdrop-blur-sm transition-colors duration-300 md:bottom-28 md:right-8"
+          className="fixed bottom-20 right-3 sm:bottom-24 sm:right-6 z-40 p-2 sm:p-3 bg-primary/90 hover:bg-primary text-primary-foreground rounded-full shadow-lg backdrop-blur-sm transition-colors duration-300 md:bottom-28 md:right-8"
           title="Scroll to top - Return to the beginning of the page"
           aria-label="Scroll to top of page"
         >
@@ -47,7 +47,7 @@ const ScrollToTop = () => {
               ease: "easeInOut",
             }}
           >
-            <ArrowUp className="w-5 h-5 md:w-6 md:h-6" />
+            <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
           </motion.div>
         </motion.button>
       )}

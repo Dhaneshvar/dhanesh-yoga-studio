@@ -9,7 +9,7 @@ const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
   return (
     <motion.button
       onClick={onClick}
-      className="fixed bottom-8 left-8 z-40 p-4 rounded-full glass shadow-glow group"
+      className="fixed bottom-4 left-3 sm:bottom-8 sm:left-8 z-40 p-3 sm:p-4 rounded-full glass shadow-glow group"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
       title="Enter Meditation Mode - guided breathing experience"
@@ -33,12 +33,12 @@ const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
         animate={{ rotate: 360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
       >
-        <Sparkles className="w-6 h-6 text-turquoise group-hover:text-turquoise-dark transition-colors" aria-hidden="true" />
+        <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-turquoise group-hover:text-turquoise-dark transition-colors" aria-hidden="true" />
       </motion.div>
       
-      {/* Tooltip */}
+      {/* Tooltip - hidden on mobile */}
       <motion.span
-        className="absolute left-full ml-3 px-3 py-1.5 rounded-lg bg-foreground text-background text-sm font-body whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+        className="absolute left-full ml-3 px-3 py-1.5 rounded-lg bg-foreground text-background text-sm font-body whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden sm:block"
         initial={{ x: -10 }}
         whileHover={{ x: 0 }}
         aria-hidden="true"
