@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, Grid, List, Calendar, Clock, User, Phone, Mail, Star } from "lucide-react";
+import { Search, Grid, List, Calendar, Clock, User, Phone, Mail, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -128,8 +127,8 @@ const TrainerDirectory = () => {
   };
 
   return (
-    <div className="p-6 md:p-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+    <div className="p-4 md:p-6 lg:p-8">
+      <div>
         {/* Header */}
         <div className="mb-8">
           <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground mb-2">
@@ -215,23 +214,12 @@ const TrainerDirectory = () => {
         </p>
 
         {/* Grid View */}
-        <AnimatePresence mode="wait">
-          {viewMode === "grid" ? (
-            <motion.div
-              key="grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {filteredTrainers.map((trainer, index) => (
-                <motion.div
+        {viewMode === "grid" ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {filteredTrainers.map((trainer) => (
+                <div
                   key={trainer.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className="bg-card rounded-2xl border border-border shadow-card p-6 hover:shadow-elevated transition-all duration-300"
+                  className="bg-card rounded-2xl border border-border shadow-card p-5 hover:shadow-elevated transition-shadow"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-14 h-14 rounded-xl bg-gradient-indigo-turquoise flex items-center justify-center">
@@ -280,18 +268,12 @@ const TrainerDirectory = () => {
                       ))}
                     </div>
                   )}
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           ) : (
             /* Table View */
-            <motion.div
-              key="table"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="bg-card rounded-2xl border border-border shadow-card overflow-hidden"
-            >
+            <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-secondary/50">
@@ -305,12 +287,9 @@ const TrainerDirectory = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
-                    {filteredTrainers.map((trainer, index) => (
-                      <motion.tr
+                    {filteredTrainers.map((trainer) => (
+                      <tr
                         key={trainer.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: index * 0.03 }}
                         className="hover:bg-secondary/30 transition-colors"
                       >
                         <td className="px-6 py-4">
