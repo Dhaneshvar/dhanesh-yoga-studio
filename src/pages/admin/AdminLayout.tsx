@@ -47,18 +47,18 @@ const AdminLayout = () => {
   const sidebarContent = (collapsed: boolean) => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="p-4 border-b border-border">
+      <div className="p-3 sm:p-4 border-b border-border">
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate("/")}
-            className="w-10 h-10 rounded-xl overflow-hidden hover:scale-105 transition-transform"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden hover:scale-105 transition-transform shrink-0"
             title="Go to home page"
           >
             <img src={logoImg} alt="Dhanesh Yoga Center" className="w-full h-full object-contain" />
           </button>
           {!collapsed && (
-            <div>
-              <h2 className="font-display text-base font-semibold text-foreground leading-tight">Dhanesh Yoga Center</h2>
+            <div className="min-w-0">
+              <h2 className="font-display text-sm sm:text-base font-semibold text-foreground leading-tight truncate">Dhanesh Yoga Center</h2>
               <p className="text-xs text-muted-foreground">Admin Panel</p>
             </div>
           )}
@@ -66,10 +66,10 @@ const AdminLayout = () => {
       </div>
 
       {/* Home */}
-      <div className="p-4 pb-2">
+      <div className="p-3 sm:p-4 pb-2">
         <button
           onClick={() => navigate("/")}
-          className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl transition-colors hover:bg-secondary text-foreground group"
+          className="flex items-center gap-3 w-full px-3 sm:px-4 py-2.5 rounded-xl transition-colors hover:bg-secondary text-foreground group"
           title="Go to Home"
         >
           <Home className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -78,29 +78,29 @@ const AdminLayout = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 p-3 sm:p-4 space-y-1 overflow-y-auto">
         {adminMenuItems.map((item) => (
           <button
             key={item.path}
             onClick={() => { navigate(item.path); setIsSidebarOpen(false); }}
             className={cn(
-              "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors group",
+              "w-full flex items-center gap-3 px-3 sm:px-4 py-2.5 rounded-xl transition-colors group",
               isActive(item.path)
                 ? "bg-primary text-primary-foreground shadow-soft"
                 : "hover:bg-secondary text-foreground"
             )}
           >
             <item.icon className={cn("w-5 h-5 shrink-0", isActive(item.path) ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")} />
-            {!collapsed && <span className="font-medium text-sm">{item.label}</span>}
+            {!collapsed && <span className="font-medium text-sm truncate">{item.label}</span>}
           </button>
         ))}
       </nav>
 
       {/* Logout */}
-      <div className="p-4 border-t border-border">
+      <div className="p-3 sm:p-4 border-t border-border">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-destructive hover:bg-destructive/10 transition-colors"
+          className="flex items-center gap-3 w-full px-3 sm:px-4 py-2.5 rounded-xl text-destructive hover:bg-destructive/10 transition-colors"
           title="Sign out"
         >
           <LogOut className="w-5 h-5" />
@@ -115,7 +115,7 @@ const AdminLayout = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-xl bg-card border border-border shadow-soft lg:hidden"
+        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 p-2 rounded-xl bg-card border border-border shadow-soft lg:hidden"
         title={isSidebarOpen ? "Close menu" : "Open menu"}
       >
         {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -128,7 +128,7 @@ const AdminLayout = () => {
 
       {/* Mobile Sidebar */}
       <aside className={cn(
-        "fixed top-0 left-0 h-full w-[280px] bg-card border-r border-border z-50 lg:hidden transition-transform duration-300",
+        "fixed top-0 left-0 h-full w-[260px] sm:w-[280px] bg-card border-r border-border z-50 lg:hidden transition-transform duration-300",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         {sidebarContent(false)}
@@ -152,7 +152,7 @@ const AdminLayout = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-card/80 backdrop-blur-md border-b border-border px-4 lg:px-6 py-3">
+        <header className="sticky top-0 z-30 bg-card/80 backdrop-blur-md border-b border-border px-3 sm:px-4 lg:px-6 py-2 sm:py-3">
           <div className="flex items-center justify-between">
             <div className="hidden lg:block">
               <h2 className="font-semibold text-lg text-foreground">
@@ -163,7 +163,7 @@ const AdminLayout = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-1.5 sm:gap-2 ml-auto">
               <ThemeToggle />
 
               {/* Activity Indicator */}
@@ -172,23 +172,23 @@ const AdminLayout = () => {
                 <span className="text-sm font-medium text-primary">System Online</span>
               </div>
 
-              <Button variant="ghost" size="icon" className="relative">
-                <Bell className="w-5 h-5" />
+              <Button variant="ghost" size="icon" className="relative h-8 w-8 sm:h-9 sm:w-9">
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground text-[10px] rounded-full flex items-center justify-center">5</span>
               </Button>
 
               {/* User Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-semibold text-sm">
+                  <Button variant="ghost" className="flex items-center gap-1.5 sm:gap-2 px-1.5 sm:px-3">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-semibold text-xs sm:text-sm">
                       {(user?.name || "A")[0].toUpperCase()}
                     </div>
                     <div className="hidden md:block text-left">
                       <p className="text-sm font-medium">{user?.name || "Admin"}</p>
                       <p className="text-xs text-muted-foreground">Administrator</p>
                     </div>
-                    <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                    <ChevronDown className="w-4 h-4 text-muted-foreground hidden sm:block" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
@@ -208,7 +208,7 @@ const AdminLayout = () => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-auto p-4 lg:p-6 pt-16 lg:pt-6">
+        <main className="flex-1 overflow-auto p-3 sm:p-4 lg:p-6 pt-14 sm:pt-16 lg:pt-6">
           <Outlet />
         </main>
       </div>
