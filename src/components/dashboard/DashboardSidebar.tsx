@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
-  UserPlus, Users, Calendar, Clock, LogOut, Menu, X, Leaf,
+  UserPlus, Users, Calendar, Clock, LogOut, Menu, X,
   ChevronLeft, Home, User, Settings, Shield, ClipboardList, BookOpen, GraduationCap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logoImg from "@/assets/logo.png";
 
 interface DashboardSidebarProps {
   userRole: "trainer" | "admin" | "student";
@@ -54,14 +55,14 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate("/")}
-            className="w-10 h-10 rounded-xl bg-gradient-indigo-turquoise flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
+            className="w-10 h-10 rounded-xl overflow-hidden cursor-pointer hover:scale-105 transition-transform"
             title="Go to home page"
           >
-            <Leaf className="w-5 h-5 text-primary-foreground" />
+            <img src={logoImg} alt="Dhanesh Yoga Center" className="w-full h-full object-contain" />
           </button>
           {!isCollapsed && (
             <div>
-              <h2 className="font-display text-lg font-semibold text-foreground">Yoga Studio</h2>
+              <h2 className="font-display text-base font-semibold text-foreground leading-tight">Dhanesh Yoga Center</h2>
               <p className="text-xs text-muted-foreground capitalize">{userRole} Portal</p>
             </div>
           )}

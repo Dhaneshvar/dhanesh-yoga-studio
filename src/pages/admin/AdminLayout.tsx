@@ -2,7 +2,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Users, UserCheck, Calendar, BarChart3, Settings,
   Bell, LogOut, ChevronDown, Menu, X, Home, FileText, Mail, Activity,
-  ChevronLeft, Leaf,
+  ChevronLeft,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import ThemeToggle from "@/components/ThemeToggle";
+import logoImg from "@/assets/logo.png";
 
 const adminMenuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
@@ -50,15 +51,15 @@ const AdminLayout = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate("/")}
-            className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center hover:scale-105 transition-transform"
+            className="w-10 h-10 rounded-xl overflow-hidden hover:scale-105 transition-transform"
             title="Go to home page"
           >
-            <Leaf className="w-5 h-5 text-primary-foreground" />
+            <img src={logoImg} alt="Dhanesh Yoga Center" className="w-full h-full object-contain" />
           </button>
           {!collapsed && (
             <div>
-              <h2 className="font-display text-lg font-semibold text-foreground">Admin Panel</h2>
-              <p className="text-xs text-muted-foreground">Yoga Studio</p>
+              <h2 className="font-display text-base font-semibold text-foreground leading-tight">Dhanesh Yoga Center</h2>
+              <p className="text-xs text-muted-foreground">Admin Panel</p>
             </div>
           )}
         </div>
