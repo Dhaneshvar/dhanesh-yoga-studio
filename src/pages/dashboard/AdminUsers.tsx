@@ -220,7 +220,7 @@ const AdminUsers = () => {
   const getRoleBadge = (role: UserRole) => {
     const variants = {
       student: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-      trainer: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
+      trainer: "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300",
       admin: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
     };
     const icons = {
@@ -315,14 +315,14 @@ const AdminUsers = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border-purple-500/20">
+        <Card className="bg-gradient-to-br from-teal-500/10 to-teal-500/5 border-teal-500/20">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs text-muted-foreground">Trainers</p>
-                <p className="text-2xl font-bold text-purple-600">{stats.trainers}</p>
+                <p className="text-2xl font-bold text-teal-600">{stats.trainers}</p>
               </div>
-              <Users className="w-8 h-8 text-purple-500/60" />
+              <Users className="w-8 h-8 text-teal-500/60" />
             </div>
           </CardContent>
         </Card>

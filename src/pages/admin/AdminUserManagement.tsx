@@ -194,7 +194,7 @@ const AdminUserManagement = () => {
     const styles = {
       student: "bg-blue-100 text-blue-700 border-blue-200",
       trainer: "bg-emerald-100 text-emerald-700 border-emerald-200",
-      admin: "bg-purple-100 text-purple-700 border-purple-200",
+      admin: "bg-slate-100 text-slate-700 border-slate-200",
     };
     return (
       <Badge variant="outline" className={cn("font-medium capitalize", styles[role])}>
@@ -245,7 +245,7 @@ const AdminUserManagement = () => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {[
           { label: "Total Users", value: stats.total, icon: Users, color: "text-blue-600" },
-          { label: "Students", value: stats.students, icon: Users, color: "text-purple-600" },
+          { label: "Students", value: stats.students, icon: Users, color: "text-sky-600" },
           { label: "Trainers", value: stats.trainers, icon: UserCheck, color: "text-emerald-600" },
           { label: "Admins", value: stats.admins, icon: Shield, color: "text-amber-600" },
           { label: "Active", value: stats.active, icon: UserCheck, color: "text-green-600" },

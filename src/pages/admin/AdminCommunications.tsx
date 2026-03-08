@@ -231,7 +231,7 @@ const AdminCommunications = () => {
           { label: "Total Sent", value: "1,284", icon: Send, color: "text-emerald-600" },
           { label: "Scheduled", value: "12", icon: Clock, color: "text-blue-600" },
           { label: "Drafts", value: "5", icon: Mail, color: "text-slate-600" },
-          { label: "Avg. Open Rate", value: "72%", icon: Eye, color: "text-purple-600" },
+          { label: "Avg. Open Rate", value: "72%", icon: Eye, color: "text-teal-600" },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
