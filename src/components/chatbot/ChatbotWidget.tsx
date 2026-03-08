@@ -103,7 +103,7 @@ const ChatbotWidget: React.FC = () => {
                 <div>
                   <h3 className="font-semibold text-sm leading-tight">Yoga Guide</h3>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                     <span className="text-xs opacity-80">Online</span>
                   </div>
                 </div>
