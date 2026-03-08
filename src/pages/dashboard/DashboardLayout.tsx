@@ -26,7 +26,7 @@ const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
           userEmail={user?.email || "user@example.com"}
           onLogout={handleLogout}
         />
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto p-4 md:p-6 pt-16 md:pt-6">
           <Outlet />
         </main>
       </div>
