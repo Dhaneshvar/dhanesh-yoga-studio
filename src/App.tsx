@@ -14,7 +14,8 @@ import Asanas from "./pages/Asanas";
 import Schedule from "./pages/Schedule";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
- import Contact from "./pages/Contact";
+import Contact from "./pages/Contact";
+import Gallery from "./pages/Gallery";
 import NotFound from "./pages/NotFound";
 import MeditationMode from "./components/interactive/MeditationMode";
 import MeditationToggle from "./components/interactive/MeditationToggle";
@@ -99,6 +100,7 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
            <Route path="/contact" element={<Contact />} />
+           <Route path="/gallery" element={<Gallery />} />
           
           {/* Yoga Studio Dashboard Routes */}
           <Route path="/dashboard" element={<DashboardLayout userRole={userRole} />}>
