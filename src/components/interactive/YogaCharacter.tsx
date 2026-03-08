@@ -66,7 +66,7 @@ const YogaCharacter = ({
   const lastPos = useRef({ x: 0, y: 0, time: Date.now() });
 
   const glowColors = {
-    indigo: "hsl(258, 30%, 35%)",
+    indigo: "hsl(205, 55%, 30%)",
     turquoise: "hsl(172, 70%, 55%)",
     lotus: "hsl(345, 85%, 60%)",
     sunset: "hsl(32, 95%, 55%)",
