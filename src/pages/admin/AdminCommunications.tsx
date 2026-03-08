@@ -53,7 +53,7 @@ interface Message {
 const mockMessages: Message[] = [
   {
     id: "1",
-    subject: "Welcome to Yoga Studio!",
+    subject: "Welcome to Dhanesh Yoga Center!",
     content: "Thank you for joining our community...",
     recipients: "All Users",
     sentAt: "2024-03-14 10:00 AM",

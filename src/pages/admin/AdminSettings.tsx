@@ -31,9 +31,9 @@ const AdminSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // General settings
-  const [siteName, setSiteName] = useState("Yoga Studio");
-  const [siteDescription, setSiteDescription] = useState("Find your inner peace through yoga");
-  const [contactEmail, setContactEmail] = useState("admin@yogastudio.com");
+  const [siteName, setSiteName] = useState("Dhanesh Yoga Center");
+  const [siteDescription, setSiteDescription] = useState("Transform your life through the ancient art of yoga");
+  const [contactEmail, setContactEmail] = useState("admin@dhaneshyoga.com");
   const [timezone, setTimezone] = useState("UTC");
 
   // Notification settings
