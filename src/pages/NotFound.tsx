@@ -17,7 +17,7 @@ const NotFound = () => {
     <>
       <SEOHead
         title="Page Not Found (404)"
-        description="The page you're looking for doesn't exist. Navigate back to Harmony Yoga Studio to explore our yoga programs, schedule, and more."
+        description="The page you're looking for doesn't exist. Navigate back to Dhanesh Yoga Center to explore our yoga programs, schedule, and more."
         canonicalPath="/"
       />
     <div className="min-h-screen bg-background">

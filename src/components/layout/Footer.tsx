@@ -40,8 +40,8 @@ const Footer = () => {
               <div className="w-10 h-10 rounded-full overflow-hidden">
                 <img src={logoImg} alt="Dhanesh Yoga Center logo" className="w-full h-full object-cover" />
               </div>
-              <span className="font-display text-2xl font-semibold text-foreground">
-                Dhanesh Yoga
+              <span className="font-display text-xl font-semibold text-foreground leading-tight">
+                Dhanesh Yoga Center
               </span>
             </Link>
             <p className="text-muted-foreground font-body mb-6 max-w-sm">

@@ -125,8 +125,8 @@ const Navbar = () => {
             >
               <img src={logoImg} alt="Dhanesh Yoga Center logo" className="w-full h-full object-cover" />
             </motion.div>
-            <span className="font-display text-2xl font-semibold text-foreground">
-              Dhanesh
+            <span className="font-display text-xl font-semibold text-foreground leading-tight">
+              Dhanesh Yoga Center
             </span>
           </Link>
 
