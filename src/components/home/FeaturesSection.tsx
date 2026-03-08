@@ -58,7 +58,7 @@ const FeaturesSection = () => {
             Why Choose Us
           </span>
           <h2 className="font-display text-4xl md:text-5xl font-semibold text-foreground mb-4">
-            The <span className="text-gradient-warm">Harmony</span> Difference
+            The <span className="text-gradient-warm">Dhanesh</span> Difference
           </h2>
           <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
             Experience yoga the way it was meant to be – mindful, transformative, and deeply personal.
