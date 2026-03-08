@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Leaf, Instagram, Facebook, Youtube, Mail, MapPin, Phone } from "lucide-react";
+import { Instagram, Facebook, Youtube, Mail, MapPin, Phone } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -35,12 +36,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-6" title="Go to Harmony Yoga Homepage">
-              <div className="w-10 h-10 rounded-full bg-gradient-sage flex items-center justify-center">
-                <Leaf className="w-5 h-5 text-primary-foreground" aria-hidden="true" />
+            <Link to="/" className="flex items-center gap-2 mb-6" title="Go to Dhanesh Yoga Center Homepage">
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img src={logoImg} alt="Dhanesh Yoga Center logo" className="w-full h-full object-cover" />
               </div>
               <span className="font-display text-2xl font-semibold text-foreground">
-                Harmony Yoga
+                Dhanesh Yoga
               </span>
             </Link>
             <p className="text-muted-foreground font-body mb-6 max-w-sm">
@@ -114,7 +115,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary" />
-                <span className="text-muted-foreground font-body text-sm">hello@harmonyyoga.com</span>
+                <span className="text-muted-foreground font-body text-sm">hello@dhaneshyoga.com</span>
               </li>
             </ul>
           </div>

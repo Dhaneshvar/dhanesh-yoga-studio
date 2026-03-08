@@ -77,7 +77,7 @@
  
    return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Contact Us – Get In Touch" description="Contact Harmony Yoga Studio in Bangalore." keywords="contact yoga studio, yoga inquiry" canonicalPath="/contact" />
+      <SEOHead title="Contact Us – Get In Touch" description="Contact Dhanesh Yoga Center in Bangalore." keywords="contact yoga studio, yoga inquiry" canonicalPath="/contact" />
       <FlashNewsTicker />
       <Navbar />
        

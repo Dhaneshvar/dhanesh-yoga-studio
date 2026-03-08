@@ -102,7 +102,7 @@ const Login = () => {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Login – Access Your Dashboard"
-        description="Log in to your Harmony Yoga Studio account. Access your classes, schedule, and personalized yoga journey as a student, trainer, or admin."
+        description="Log in to your Dhanesh Yoga Center account. Access your classes, schedule, and personalized yoga journey as a student, trainer, or admin."
         keywords="yoga login, yoga studio account, student login, trainer login"
         canonicalPath="/login"
       />

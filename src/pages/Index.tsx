@@ -15,17 +15,17 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
       <SEOHead
-        title="Harmony Yoga Studio | Balance Body, Calm Mind"
-        description="Transform your life through yoga at Harmony Yoga Studio. Age-wise programs for kids, teens, adults, and seniors. Expert instruction and flexible schedules."
-        keywords="yoga studio, yoga classes, meditation, wellness, kids yoga, senior yoga, pranayama, asanas, Harmony Yoga"
+        title="Dhanesh Yoga Center | Balance Body, Calm Mind"
+        description="Transform your life through yoga at Dhanesh Yoga Center. Age-wise programs for kids, teens, adults, and seniors. Expert instruction and flexible schedules."
+        keywords="yoga studio, yoga classes, meditation, wellness, kids yoga, senior yoga, pranayama, asanas, Dhanesh Yoga"
         canonicalPath="/"
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "YogaStudio",
-            "name": "Harmony Yoga Studio",
+            "name": "Dhanesh Yoga Center",
             "description": "Transform your life through yoga. Age-wise programs for everyone.",
-            "url": "https://harmonyyoga.com",
+            "url": "https://dhaneshyoga.com",
             "telephone": "+919876543210",
             "address": {
               "@type": "PostalAddress",
@@ -41,11 +41,11 @@ const Index = () => {
           {
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "Harmony Yoga Studio",
-            "url": "https://harmonyyoga.com",
+            "name": "Dhanesh Yoga Center",
+            "url": "https://dhaneshyoga.com",
             "potentialAction": {
               "@type": "SearchAction",
-              "target": "https://harmonyyoga.com/asanas?q={search_term_string}",
+              "target": "https://dhaneshyoga.com/asanas?q={search_term_string}",
               "query-input": "required name=search_term_string"
             }
           }

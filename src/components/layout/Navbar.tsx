@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Leaf, LayoutDashboard, LogOut } from "lucide-react";
+import { Menu, X, LayoutDashboard, LogOut } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -116,16 +117,16 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group" title="Go to Harmony Yoga Homepage">
+          <Link to="/" className="flex items-center gap-2 group" title="Go to Dhanesh Yoga Center Homepage">
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
-              className="w-10 h-10 rounded-full bg-gradient-sage flex items-center justify-center"
+              className="w-10 h-10 rounded-full overflow-hidden"
             >
-              <Leaf className="w-5 h-5 text-primary-foreground" aria-hidden="true" />
+              <img src={logoImg} alt="Dhanesh Yoga Center logo" className="w-full h-full object-cover" />
             </motion.div>
             <span className="font-display text-2xl font-semibold text-foreground">
-              Harmony
+              Dhanesh
             </span>
           </Link>
 

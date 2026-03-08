@@ -149,7 +149,7 @@ const translations: Record<Language, Record<string, any>> = {
     },
     features: {
       title: 'Why Choose Us',
-      subtitle: 'The Harmony Difference',
+      subtitle: 'The Dhanesh Difference',
       description: 'Experience yoga the way it was meant to be – mindful, transformative, and deeply personal.',
       breathAwareness: 'Breath Awareness',
       breathDesc: 'Master pranayama techniques for stress relief and energy.',
