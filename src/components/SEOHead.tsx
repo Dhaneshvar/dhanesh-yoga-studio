@@ -11,9 +11,9 @@ interface SEOHeadProps {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const BASE_URL = "https://harmonyyoga.com";
+const BASE_URL = "https://dhaneshyoga.com";
 const DEFAULT_OG_IMAGE = "https://lovable.dev/opengraph-image-p98pqg.png";
-const SITE_NAME = "Harmony Yoga Studio";
+const SITE_NAME = "Dhanesh Yoga Center";
 
 const SEOHead = ({
   title,
