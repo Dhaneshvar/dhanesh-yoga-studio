@@ -57,7 +57,7 @@ const reports: Report[] = [
     category: "Sessions",
     lastGenerated: "3 hours ago",
     icon: Calendar,
-    color: "bg-purple-100 text-purple-600",
+    color: "bg-sky-100 text-sky-600",
   },
   {
     id: "4",

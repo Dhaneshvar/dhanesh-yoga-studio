@@ -53,9 +53,9 @@ const statsCards = [
     change: "-2.4%",
     trend: "down" as const,
     icon: Calendar,
-    gradient: "from-violet-500/20 to-violet-500/5",
-    iconBg: "bg-violet-500/15",
-    iconColor: "text-violet-600",
+    gradient: "from-sky-500/20 to-sky-500/5",
+    iconBg: "bg-sky-500/15",
+    iconColor: "text-sky-600",
   },
   {
     title: "Revenue (MTD)",
@@ -104,7 +104,7 @@ const getActivityColor = (type: string) => {
   switch (type) {
     case "trainer": return "bg-emerald-500/15 text-emerald-600";
     case "student": return "bg-primary/15 text-primary";
-    case "session": return "bg-violet-500/15 text-violet-600";
+    case "session": return "bg-sky-500/15 text-sky-600";
     case "approval": return "bg-amber-500/15 text-amber-600";
     default: return "bg-emerald-500/15 text-emerald-600";
   }
@@ -307,7 +307,7 @@ const AdminDashboard = () => {
                 {[
                   { icon: Users, label: "Manage Users", path: "/admin/users", color: "text-primary", bg: "bg-primary/10 hover:bg-primary/20" },
                   { icon: UserCheck, label: "Review Trainers", path: "/admin/approvals", color: "text-emerald-600", bg: "bg-emerald-500/10 hover:bg-emerald-500/20" },
-                  { icon: Calendar, label: "View Sessions", path: "/admin/sessions", color: "text-violet-600", bg: "bg-violet-500/10 hover:bg-violet-500/20" },
+                  { icon: Calendar, label: "View Sessions", path: "/admin/sessions", color: "text-sky-600", bg: "bg-sky-500/10 hover:bg-sky-500/20" },
                   { icon: Activity, label: "View Analytics", path: "/admin/analytics", color: "text-amber-600", bg: "bg-amber-500/10 hover:bg-amber-500/20" },
                 ].map((action) => (
                   <button

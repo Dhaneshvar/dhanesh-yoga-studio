@@ -67,7 +67,7 @@ const revenueData = [
 const yogaStylesData = [
   { name: "Hatha", value: 35, color: "#10B981" },
   { name: "Vinyasa", value: 28, color: "#3B82F6" },
-  { name: "Power", value: 18, color: "#8B5CF6" },
+  { name: "Power", value: 18, color: "#0284C7" },
   { name: "Yin", value: 12, color: "#F59E0B" },
   { name: "Ashtanga", value: 7, color: "#EF4444" },
 ];
@@ -97,8 +97,8 @@ const kpiCards = [
     change: "+8.3%",
     trend: "up",
     icon: Calendar,
-    color: "text-purple-600",
-    bgColor: "bg-purple-50",
+    color: "text-sky-600",
+    bgColor: "bg-sky-50",
   },
   {
     title: "Avg. Attendance",
@@ -258,7 +258,7 @@ const AdminAnalytics = () => {
                       }}
                     />
                     <Legend />
-                    <Bar yAxisId="left" dataKey="sessions" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
+                    <Bar yAxisId="left" dataKey="sessions" fill="#0284C7" radius={[4, 4, 0, 0]} />
                     <Line
                       yAxisId="right"
                       type="monotone"
