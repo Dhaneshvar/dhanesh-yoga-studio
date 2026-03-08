@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   UserPlus,
@@ -66,53 +65,39 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
     <div className="flex flex-col h-full">
       {/* Logo & Header */}
       <div className="p-4 border-b border-border">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex items-center gap-3"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        <div className="flex items-center gap-3">
+          <button
             onClick={() => navigate("/")}
-            className="w-10 h-10 rounded-xl bg-gradient-indigo-turquoise flex items-center justify-center cursor-pointer"
+            className="w-10 h-10 rounded-xl bg-gradient-indigo-turquoise flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
             title="Go to home page"
             aria-label="Go to home page"
           >
             <Leaf className="w-5 h-5 text-primary-foreground" />
-          </motion.button>
+          </button>
           {!isCollapsed && (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-            >
+            <div>
               <h2 className="font-display text-lg font-semibold text-foreground">
                 Yoga Studio
               </h2>
               <p className="text-xs text-muted-foreground capitalize">{userRole} Portal</p>
-            </motion.div>
+            </div>
           )}
-        </motion.div>
+        </div>
       </div>
 
       {/* Home Link */}
       <div className="p-4 pb-2">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-colors hover:bg-secondary text-foreground hover:text-foreground group"
+          title="Go to Home"
+          aria-label="Navigate to Home page"
         >
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all duration-300 hover:bg-secondary text-foreground hover:text-foreground group"
-            title="Go to Home"
-            aria-label="Navigate to Home page"
-          >
-            <Home className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-transform duration-300 group-hover:scale-110" />
-            {!isCollapsed && (
-              <span className="font-body text-sm font-medium">Home</span>
-            )}
-          </button>
-        </motion.div>
+          <Home className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+          {!isCollapsed && (
+            <span className="font-body text-sm font-medium">Home</span>
+          )}
+        </button>
       </div>
 
       {/* Navigation */}
