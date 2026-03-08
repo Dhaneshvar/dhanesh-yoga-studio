@@ -147,8 +147,8 @@ export default {
           "50%": { transform: "scale(1.05)", boxShadow: "0 12px 40px rgba(197,180,227,0.5)" },
         },
         "pulse-vibrant": {
-          "0%, 100%": { transform: "scale(1)", boxShadow: "0 8px 32px rgba(99,102,241,0.5), 0 0 20px rgba(168,85,247,0.3)" },
-          "50%": { transform: "scale(1.05)", boxShadow: "0 12px 40px rgba(99,102,241,0.6), 0 0 30px rgba(236,72,153,0.4)" },
+          "0%, 100%": { transform: "scale(1)", boxShadow: "0 8px 32px rgba(14,116,144,0.5), 0 0 20px rgba(20,184,166,0.3)" },
+          "50%": { transform: "scale(1.05)", boxShadow: "0 12px 40px rgba(14,116,144,0.6), 0 0 30px rgba(6,182,212,0.4)" },
         },
       },
       animation: {

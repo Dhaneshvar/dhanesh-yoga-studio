@@ -34,7 +34,7 @@ const HeroSection = () => {
           animate={{ scale: [1, 1.2, 1], x: [-20, 20, -20] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-1/4 left-1/3 w-[400px] h-[400px] rounded-full blur-3xl"
-          style={{ background: "radial-gradient(circle, hsl(258 30% 35% / 0.1) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, hsl(205 55% 30% / 0.1) 0%, transparent 70%)" }}
         />
       </div>
 
