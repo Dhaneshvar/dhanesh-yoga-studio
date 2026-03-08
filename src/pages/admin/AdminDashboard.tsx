@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   Users,
   UserCheck,
@@ -19,43 +18,44 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const statsCards = [
   {
     title: "Total Users",
     value: "2,847",
     change: "+12.5%",
-    trend: "up",
+    trend: "up" as const,
     icon: Users,
-    color: "bg-blue-500",
-    bgColor: "bg-blue-50 dark:bg-blue-900/20",
+    bgColor: "bg-primary/10",
+    iconColor: "text-primary",
   },
   {
     title: "Active Trainers",
     value: "48",
     change: "+3.2%",
-    trend: "up",
+    trend: "up" as const,
     icon: UserCheck,
-    color: "bg-emerald-500",
-    bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+    bgColor: "bg-accent/20",
+    iconColor: "text-accent-foreground",
   },
   {
     title: "Sessions Today",
     value: "156",
     change: "-2.4%",
-    trend: "down",
+    trend: "down" as const,
     icon: Calendar,
-    color: "bg-purple-500",
-    bgColor: "bg-purple-50 dark:bg-purple-900/20",
+    bgColor: "bg-secondary",
+    iconColor: "text-secondary-foreground",
   },
   {
     title: "Revenue (MTD)",
     value: "$24,580",
     change: "+18.7%",
-    trend: "up",
+    trend: "up" as const,
     icon: TrendingUp,
-    color: "bg-amber-500",
-    bgColor: "bg-amber-50 dark:bg-amber-900/20",
+    bgColor: "bg-muted",
+    iconColor: "text-muted-foreground",
   },
 ];
 
@@ -68,9 +68,9 @@ const recentActivities = [
 ];
 
 const pendingApprovals = [
-  { id: 1, name: "Alex Kumar", specialization: "Hatha Yoga", experience: "5 years", status: "pending" },
-  { id: 2, name: "Maria Garcia", specialization: "Vinyasa Flow", experience: "3 years", status: "pending" },
-  { id: 3, name: "David Wilson", specialization: "Power Yoga", experience: "7 years", status: "pending" },
+  { id: 1, name: "Alex Kumar", specialization: "Hatha Yoga", experience: "5 years" },
+  { id: 2, name: "Maria Garcia", specialization: "Vinyasa Flow", experience: "3 years" },
+  { id: 3, name: "David Wilson", specialization: "Power Yoga", experience: "7 years" },
 ];
 
 const AdminDashboard = () => {
@@ -79,214 +79,153 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {statsCards.map((stat, index) => (
-          <motion.div
-            key={stat.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            <Card className="relative overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                    <h3 className="text-2xl font-bold mt-2">{stat.value}</h3>
-                    <div className={cn(
-                      "flex items-center gap-1 mt-2 text-sm font-medium",
-                      stat.trend === "up" ? "text-emerald-600" : "text-red-600"
-                    )}>
-                      {stat.trend === "up" ? (
-                        <ArrowUpRight className="w-4 h-4" />
-                      ) : (
-                        <ArrowDownRight className="w-4 h-4" />
-                      )}
-                      {stat.change}
-                    </div>
-                  </div>
-                  <div className={cn("p-3 rounded-xl", stat.bgColor)}>
-                    <stat.icon className={cn("w-6 h-6 text-white", stat.color.replace("bg-", "text-").replace("-500", "-600"))} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {statsCards.map((stat) => (
+          <Card key={stat.title} className="relative overflow-hidden">
+            <CardContent className="p-5">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
+                  <h3 className="text-2xl font-bold mt-1.5 text-foreground">{stat.value}</h3>
+                  <div className={cn(
+                    "flex items-center gap-1 mt-1.5 text-sm font-medium",
+                    stat.trend === "up" ? "text-primary" : "text-destructive"
+                  )}>
+                    {stat.trend === "up" ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                    {stat.change}
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                <div className={cn("p-3 rounded-xl", stat.bgColor)}>
+                  <stat.icon className={cn("w-5 h-5", stat.iconColor)} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Activity */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="lg:col-span-2"
-        >
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Latest actions across the platform</CardDescription>
-              </div>
-              <Button variant="ghost" size="sm">View All</Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentActivities.map((activity) => (
-                  <div
-                    key={activity.id}
-                    className="flex items-center gap-4 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                  >
-                    <div className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center",
-                      activity.type === "trainer" ? "bg-emerald-100 text-emerald-600" :
-                      activity.type === "session" ? "bg-blue-100 text-blue-600" :
-                      activity.type === "student" ? "bg-purple-100 text-purple-600" :
-                      activity.type === "approval" ? "bg-amber-100 text-amber-600" :
-                      "bg-green-100 text-green-600"
-                    )}>
-                      {activity.type === "trainer" || activity.type === "student" ? (
-                        <Users className="w-5 h-5" />
-                      ) : activity.type === "session" ? (
-                        <Calendar className="w-5 h-5" />
-                      ) : activity.type === "approval" ? (
-                        <UserCheck className="w-5 h-5" />
-                      ) : (
-                        <TrendingUp className="w-5 h-5" />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-sm">{activity.action}</p>
-                      <p className="text-sm text-muted-foreground">{activity.user}</p>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="w-4 h-4" />
-                      {activity.time}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Pending Approvals */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle>Pending Approvals</CardTitle>
-                <CardDescription>Trainers awaiting review</CardDescription>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => navigate("/admin/approvals")}
-              >
-                View All
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {pendingApprovals.map((trainer) => (
-                  <div
-                    key={trainer.id}
-                    className="p-4 rounded-lg border bg-card hover:shadow-md transition-shadow"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="font-semibold">{trainer.name}</p>
-                        <p className="text-sm text-muted-foreground">{trainer.specialization}</p>
-                        <p className="text-xs text-muted-foreground mt-1">{trainer.experience}</p>
-                      </div>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <MoreHorizontal className="w-4 h-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem className="text-emerald-600">
-                            <UserCheck className="w-4 h-4 mr-2" />
-                            Approve
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>View Details</DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">Reject</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                    <div className="flex gap-2 mt-3">
-                      <Button size="sm" className="flex-1">Approve</Button>
-                      <Button size="sm" variant="outline" className="flex-1">Review</Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-
-      {/* Quick Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>Common administrative tasks</CardDescription>
+        <Card className="lg:col-span-2">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Recent Activity</CardTitle>
+              <CardDescription>Latest actions across the platform</CardDescription>
+            </div>
+            <Button variant="ghost" size="sm">View All</Button>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Button
-                variant="outline"
-                className="h-auto py-6 flex flex-col gap-2"
-                onClick={() => navigate("/admin/users")}
-              >
-                <Users className="w-6 h-6" />
-                <span>Manage Users</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-auto py-6 flex flex-col gap-2"
-                onClick={() => navigate("/admin/approvals")}
-              >
-                <UserCheck className="w-6 h-6" />
-                <span>Review Trainers</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-auto py-6 flex flex-col gap-2"
-                onClick={() => navigate("/admin/sessions")}
-              >
-                <Calendar className="w-6 h-6" />
-                <span>View Sessions</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-auto py-6 flex flex-col gap-2"
-                onClick={() => navigate("/admin/analytics")}
-              >
-                <Activity className="w-6 h-6" />
-                <span>View Analytics</span>
-              </Button>
+            <div className="space-y-1">
+              {recentActivities.map((activity) => (
+                <div
+                  key={activity.id}
+                  className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors"
+                >
+                  <div className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center shrink-0",
+                    "bg-secondary text-secondary-foreground"
+                  )}>
+                    {activity.type === "trainer" || activity.type === "student" ? (
+                      <Users className="w-5 h-5" />
+                    ) : activity.type === "session" ? (
+                      <Calendar className="w-5 h-5" />
+                    ) : activity.type === "approval" ? (
+                      <UserCheck className="w-5 h-5" />
+                    ) : (
+                      <TrendingUp className="w-5 h-5" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm text-foreground">{activity.action}</p>
+                    <p className="text-sm text-muted-foreground">{activity.user}</p>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground shrink-0">
+                    <Clock className="w-3.5 h-3.5" />
+                    {activity.time}
+                  </div>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+
+        {/* Pending Approvals */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Pending Approvals</CardTitle>
+              <CardDescription>Trainers awaiting review</CardDescription>
+            </div>
+            <Button variant="outline" size="sm" onClick={() => navigate("/admin/approvals")}>
+              View All
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {pendingApprovals.map((trainer) => (
+                <div key={trainer.id} className="p-4 rounded-xl border border-border hover:shadow-soft transition-shadow">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="font-semibold text-foreground">{trainer.name}</p>
+                      <p className="text-sm text-muted-foreground">{trainer.specialization}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{trainer.experience}</p>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreHorizontal className="w-4 h-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem className="text-primary">
+                          <UserCheck className="w-4 h-4 mr-2" /> Approve
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">Reject</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                  <div className="flex gap-2 mt-3">
+                    <Button size="sm" className="flex-1">Approve</Button>
+                    <Button size="sm" variant="outline" className="flex-1">Review</Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+          <CardDescription>Common administrative tasks</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { icon: Users, label: "Manage Users", path: "/admin/users" },
+              { icon: UserCheck, label: "Review Trainers", path: "/admin/approvals" },
+              { icon: Calendar, label: "View Sessions", path: "/admin/sessions" },
+              { icon: Activity, label: "View Analytics", path: "/admin/analytics" },
+            ].map((action) => (
+              <Button
+                key={action.label}
+                variant="outline"
+                className="h-auto py-5 flex flex-col gap-2"
+                onClick={() => navigate(action.path)}
+              >
+                <action.icon className="w-5 h-5" />
+                <span className="text-xs sm:text-sm">{action.label}</span>
+              </Button>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
-
-// Helper function
-const cn = (...classes: (string | undefined | false)[]) => classes.filter(Boolean).join(" ");
 
 export default AdminDashboard;

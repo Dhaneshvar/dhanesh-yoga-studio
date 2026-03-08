@@ -448,6 +448,17 @@
       hsl(150 50% 92% / 0.5) 0%,
       hsl(172 60% 80% / 0.3) 100%);
   }
+  /* Breathing background animation - CSS only, GPU accelerated */
+  @keyframes breathe {
+    0%, 100% {
+      transform: scale(1) translateY(0);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scale(1.08) translateY(-8px);
+      opacity: 0.8;
+    }
+  }
 }
 
 @layer utilities {

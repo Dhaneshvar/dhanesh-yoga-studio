@@ -1,34 +1,14 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
-  LayoutDashboard,
-  Users,
-  UserCheck,
-  Calendar,
-  BarChart3,
-  Settings,
-  Shield,
-  Bell,
-  LogOut,
-  ChevronDown,
-  Menu,
-  X,
-  Home,
-  FileText,
-  Mail,
-  Activity,
-  ChevronLeft,
-  Leaf,
+  LayoutDashboard, Users, UserCheck, Calendar, BarChart3, Settings,
+  Bell, LogOut, ChevronDown, Menu, X, Home, FileText, Mail, Activity,
+  ChevronLeft, Leaf,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
@@ -45,125 +25,6 @@ const adminMenuItems = [
   { icon: Settings, label: "System Settings", path: "/admin/settings" },
 ];
 
-// Extracted sidebar content component
-interface AdminSidebarContentProps {
-  isCollapsed: boolean;
-  adminMenuItems: typeof adminMenuItems;
-  isActive: (path: string) => boolean;
-  navigate: ReturnType<typeof useNavigate>;
-  setIsSidebarOpen: (open: boolean) => void;
-  handleLogout: () => void;
-}
-
-const AdminSidebarContent = ({
-  isCollapsed,
-  adminMenuItems,
-  isActive,
-  navigate,
-  setIsSidebarOpen,
-  handleLogout,
-}: AdminSidebarContentProps) => (
-  <div className="flex flex-col h-full">
-    {/* Logo Section */}
-    <div className="p-4 border-b border-border">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="flex items-center gap-3"
-      >
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate("/")}
-          className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center cursor-pointer"
-          title="Go to home page"
-          aria-label="Go to home page"
-        >
-          <Leaf className="w-5 h-5 text-primary-foreground" />
-        </motion.button>
-        {!isCollapsed && (
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <h2 className="font-display text-lg font-semibold text-foreground">
-              Admin Panel
-            </h2>
-            <p className="text-xs text-muted-foreground">Yoga Studio</p>
-          </motion.div>
-        )}
-      </motion.div>
-    </div>
-
-    {/* Home Link */}
-    <div className="p-4 pb-2">
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-      >
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all duration-300 hover:bg-secondary text-foreground hover:text-foreground group"
-          title="Go to Home"
-          aria-label="Navigate to Home page"
-        >
-          <Home className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-transform duration-300 group-hover:scale-110" />
-          {!isCollapsed && (
-            <span className="font-body text-sm font-medium">Home</span>
-          )}
-        </button>
-      </motion.div>
-    </div>
-
-    {/* Navigation */}
-    <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-      {adminMenuItems.map((item, index) => (
-        <motion.button
-          key={item.path}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: index * 0.05 }}
-          whileHover={{ x: 4 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => {
-            navigate(item.path);
-            setIsSidebarOpen(false);
-          }}
-          className={cn(
-            "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group",
-            isActive(item.path)
-              ? "bg-primary text-primary-foreground shadow-md"
-              : "hover:bg-secondary text-foreground hover:text-foreground"
-          )}
-        >
-          <item.icon
-            className={cn(
-              "w-5 h-5 flex-shrink-0 transition-transform duration-300 group-hover:scale-110",
-              isActive(item.path) ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary"
-            )}
-          />
-          {!isCollapsed && <span className="font-medium text-sm">{item.label}</span>}
-        </motion.button>
-      ))}
-    </nav>
-
-    {/* Logout Button */}
-    <div className="p-4 border-t border-border">
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={handleLogout}
-        className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-destructive hover:bg-destructive/10 transition-all duration-300"
-        title="Sign out of your account"
-        aria-label="Logout"
-      >
-        <LogOut className="w-5 h-5" />
-        {!isCollapsed && <span className="font-body text-sm font-medium">Logout</span>}
-      </motion.button>
-    </div>
-  </div>
-);
-
 const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -178,87 +39,119 @@ const AdminLayout = () => {
   };
 
   const isActive = (path: string) => {
-    if (path === "/admin") {
-      return location.pathname === "/admin";
-    }
+    if (path === "/admin") return location.pathname === "/admin";
     return location.pathname.startsWith(path);
   };
+
+  const sidebarContent = (collapsed: boolean) => (
+    <div className="flex flex-col h-full">
+      {/* Logo */}
+      <div className="p-4 border-b border-border">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate("/")}
+            className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center hover:scale-105 transition-transform"
+            title="Go to home page"
+          >
+            <Leaf className="w-5 h-5 text-primary-foreground" />
+          </button>
+          {!collapsed && (
+            <div>
+              <h2 className="font-display text-lg font-semibold text-foreground">Admin Panel</h2>
+              <p className="text-xs text-muted-foreground">Yoga Studio</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Home */}
+      <div className="p-4 pb-2">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl transition-colors hover:bg-secondary text-foreground group"
+          title="Go to Home"
+        >
+          <Home className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+          {!collapsed && <span className="font-body text-sm font-medium">Home</span>}
+        </button>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        {adminMenuItems.map((item) => (
+          <button
+            key={item.path}
+            onClick={() => { navigate(item.path); setIsSidebarOpen(false); }}
+            className={cn(
+              "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors group",
+              isActive(item.path)
+                ? "bg-primary text-primary-foreground shadow-soft"
+                : "hover:bg-secondary text-foreground"
+            )}
+          >
+            <item.icon className={cn("w-5 h-5 shrink-0", isActive(item.path) ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")} />
+            {!collapsed && <span className="font-medium text-sm">{item.label}</span>}
+          </button>
+        ))}
+      </nav>
+
+      {/* Logout */}
+      <div className="p-4 border-t border-border">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-destructive hover:bg-destructive/10 transition-colors"
+          title="Sign out"
+        >
+          <LogOut className="w-5 h-5" />
+          {!collapsed && <span className="font-body text-sm font-medium">Logout</span>}
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-background flex w-full">
       {/* Mobile Menu Button */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+      <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className="fixed top-4 left-4 z-50 p-2 rounded-xl bg-card border border-border shadow-soft lg:hidden"
         title={isSidebarOpen ? "Close menu" : "Open menu"}
-        aria-label={isSidebarOpen ? "Close navigation menu" : "Open navigation menu"}
       >
         {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-      </motion.button>
+      </button>
 
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Overlay */}
       {isSidebarOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
+        <div className="fixed inset-0 bg-black/50 z-40 lg:hidden animate-fade-in" onClick={() => setIsSidebarOpen(false)} />
       )}
 
       {/* Mobile Sidebar */}
-      <motion.aside
-        initial={{ x: -280 }}
-        animate={{ x: isSidebarOpen ? 0 : -280 }}
-        transition={{ type: "spring", damping: 25 }}
-        className="fixed top-0 left-0 h-full w-[280px] bg-card border-r border-border z-50 lg:hidden"
-      >
-        <AdminSidebarContent 
-          isCollapsed={false}
-          adminMenuItems={adminMenuItems}
-          isActive={isActive}
-          navigate={navigate}
-          setIsSidebarOpen={setIsSidebarOpen}
-          handleLogout={handleLogout}
-        />
-      </motion.aside>
+      <aside className={cn(
+        "fixed top-0 left-0 h-full w-[280px] bg-card border-r border-border z-50 lg:hidden transition-transform duration-300",
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        {sidebarContent(false)}
+      </aside>
 
       {/* Desktop Sidebar */}
-      <motion.aside
-        initial={false}
-        animate={{ width: isCollapsed ? 80 : 280 }}
-        transition={{ type: "spring", damping: 25 }}
-        className="hidden lg:flex flex-col h-screen bg-card border-r border-border sticky top-0"
-      >
-        <AdminSidebarContent 
-          isCollapsed={isCollapsed}
-          adminMenuItems={adminMenuItems}
-          isActive={isActive}
-          navigate={navigate}
-          setIsSidebarOpen={setIsSidebarOpen}
-          handleLogout={handleLogout}
-        />
-        
-        {/* Collapse Toggle */}
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+      <aside className={cn(
+        "hidden lg:flex flex-col h-screen bg-card border-r border-border sticky top-0 transition-[width] duration-300 relative",
+        isCollapsed ? "w-20" : "w-[280px]"
+      )}>
+        {sidebarContent(isCollapsed)}
+        <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-3 top-8 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md"
+          className="absolute -right-3 top-8 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-soft hover:scale-110 transition-transform"
           title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           <ChevronLeft className={cn("w-4 h-4 transition-transform", isCollapsed && "rotate-180")} />
-        </motion.button>
-      </motion.aside>
+        </button>
+      </aside>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-card border-b border-border px-4 lg:px-6 py-4">
+        <header className="sticky top-0 z-30 bg-card/80 backdrop-blur-md border-b border-border px-4 lg:px-6 py-3">
           <div className="flex items-center justify-between">
             <div className="hidden lg:block">
               <h2 className="font-semibold text-lg text-foreground">
@@ -269,31 +162,25 @@ const AdminLayout = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-3 ml-auto">
-              {/* Theme Toggle */}
+            <div className="flex items-center gap-2 ml-auto">
               <ThemeToggle />
 
               {/* Activity Indicator */}
-              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-green-50 dark:bg-green-900/20 rounded-full">
-                <Activity className="w-4 h-4 text-green-500" />
-                <span className="text-sm font-medium text-green-600 dark:text-green-400">
-                  System Online
-                </span>
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-primary/10 rounded-full">
+                <Activity className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium text-primary">System Online</span>
               </div>
 
-              {/* Notifications */}
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground text-xs rounded-full flex items-center justify-center">
-                  5
-                </span>
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground text-[10px] rounded-full flex items-center justify-center">5</span>
               </Button>
 
               {/* User Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-semibold">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-semibold text-sm">
                       {(user?.name || "A")[0].toUpperCase()}
                     </div>
                     <div className="hidden md:block text-left">
@@ -307,13 +194,11 @@ const AdminLayout = () => {
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/admin/settings")}>
-                    <Settings className="w-4 h-4 mr-2" />
-                    Settings
+                    <Settings className="w-4 h-4 mr-2" /> Settings
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="text-destructive">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Logout
+                    <LogOut className="w-4 h-4 mr-2" /> Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -322,7 +207,7 @@ const AdminLayout = () => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-auto p-4 lg:p-6">
+        <main className="flex-1 overflow-auto p-4 lg:p-6 pt-16 lg:pt-6">
           <Outlet />
         </main>
       </div>
