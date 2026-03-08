@@ -55,7 +55,7 @@ const Index = () => {
       <FlashNewsTicker />
       
       {/* Interactive breathing background */}
-      <BreathingBackground variant="landing" enableClickBreath={true} />
+      <BreathingBackground variant="landing" />
       
       {/* Navbar */}
       <Navbar />
