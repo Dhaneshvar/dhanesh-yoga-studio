@@ -328,15 +328,14 @@ const TrainerDirectory = () => {
                             <span className="font-body text-sm font-medium">{trainer.rating}</span>
                           </div>
                         </td>
-                      </motion.tr>
+                      </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
-      </motion.div>
+      </div>
     </div>
   );
 };
