@@ -94,7 +94,7 @@ const MeditationMode = ({ isOpen, onClose }: MeditationModeProps) => {
     ];
 
     let currentPhaseIndex = 0;
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
     
     const runPhase = () => {
       const currentPhase = phases[currentPhaseIndex];
