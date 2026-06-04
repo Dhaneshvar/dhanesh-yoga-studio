@@ -139,6 +139,9 @@ const AppContent = () => {
       <MeditationMode isOpen={meditationOpen} onClose={() => setMeditationOpen(false)} />
       <ChatbotWidget />
       <ScrollToTop />
+      <VoiceSectionObserver />
+      <VoiceGuideWidget />
+      <VoiceWelcomeModal />
     </div>
   );
 };
@@ -147,13 +150,15 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppContent />
-          </BrowserRouter>
-        </TooltipProvider>
+        <VoiceGuideProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AppContent />
+            </BrowserRouter>
+          </TooltipProvider>
+        </VoiceGuideProvider>
       </LanguageProvider>
     </ThemeProvider>
   </QueryClientProvider>
