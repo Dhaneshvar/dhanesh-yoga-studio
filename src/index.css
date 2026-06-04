@@ -479,3 +479,12 @@
     @apply bg-background/90 backdrop-blur-2xl border border-border/30;
   }
 }
+
+/* Voice Guide — high contrast mode */
+.voice-hc {
+  --border: 0 0% 10%;
+  --muted-foreground: 0 0% 15%;
+}
+.voice-hc * {
+  text-shadow: none !important;
+}
