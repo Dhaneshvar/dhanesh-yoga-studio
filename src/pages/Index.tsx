@@ -61,19 +61,19 @@ const Index = () => {
       <Navbar />
       
       <main>
-        <HeroSection />
-        
+        <div data-voice-section="home-hero" data-voice-title="Welcome"><HeroSection /></div>
+
         {/* Floating quote between sections */}
         <section className="py-16 relative">
           <FloatingQuote interval={10000} className="max-w-3xl mx-auto px-4" />
         </section>
-        
-        <ProgramsPreview />
-        <FeaturesSection />
-        <TestimonialsSection />
-        <CTASection />
+
+        <div data-voice-section="home-programs" data-voice-title="Our Programs"><ProgramsPreview /></div>
+        <div data-voice-section="home-features" data-voice-title="Why Choose Us"><FeaturesSection /></div>
+        <div data-voice-section="home-testimonials" data-voice-title="Testimonials"><TestimonialsSection /></div>
+        <div data-voice-section="home-cta" data-voice-title="Get Started"><CTASection /></div>
       </main>
-      
+
       <Footer />
       
       {/* WhatsApp floating bubble */}

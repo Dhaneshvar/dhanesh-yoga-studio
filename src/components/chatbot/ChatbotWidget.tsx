@@ -68,7 +68,7 @@ const ChatbotWidget: React.FC = () => {
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-5 right-5 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow"
+            className="fixed bottom-5 right-[5.5rem] sm:right-24 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow"
             aria-label="Open yoga assistant"
           >
             <MessageCircle className="w-6 h-6" />

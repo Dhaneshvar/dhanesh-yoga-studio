@@ -21,6 +21,10 @@ import MeditationMode from "./components/interactive/MeditationMode";
 import MeditationToggle from "./components/interactive/MeditationToggle";
 import ChatbotWidget from "./components/chatbot/ChatbotWidget";
 import ScrollToTop from "./components/interactive/ScrollToTop";
+import { VoiceGuideProvider } from "./contexts/VoiceGuideContext";
+import VoiceGuideWidget from "./components/voice/VoiceGuideWidget";
+import VoiceWelcomeModal from "./components/voice/VoiceWelcomeModal";
+import VoiceSectionObserver from "./components/voice/VoiceSectionObserver";
 
 // Dashboard imports (Yoga Studio)
 import DashboardLayout from "./pages/dashboard/DashboardLayout";
@@ -135,6 +139,9 @@ const AppContent = () => {
       <MeditationMode isOpen={meditationOpen} onClose={() => setMeditationOpen(false)} />
       <ChatbotWidget />
       <ScrollToTop />
+      <VoiceSectionObserver />
+      <VoiceGuideWidget />
+      <VoiceWelcomeModal />
     </div>
   );
 };
@@ -143,13 +150,15 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppContent />
-          </BrowserRouter>
-        </TooltipProvider>
+        <VoiceGuideProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AppContent />
+            </BrowserRouter>
+          </TooltipProvider>
+        </VoiceGuideProvider>
       </LanguageProvider>
     </ThemeProvider>
   </QueryClientProvider>
