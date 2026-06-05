@@ -88,6 +88,22 @@ const VoiceGuideWidget = () => {
 
   if (!ttsSupported) return null;
 
+  // Opt-in only: when disabled, show a small unobtrusive launcher to enable it.
+  if (!enabled) {
+    return (
+      <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
+        <button
+          onClick={() => { setEnabled(true); setExpanded(true); }}
+          className="p-2.5 rounded-full bg-card/60 backdrop-blur-xl border border-border shadow-md hover:bg-card/90 hover:scale-105 transition-all opacity-70 hover:opacity-100"
+          aria-label="Enable voice guide"
+          title="Enable voice guide"
+        >
+          <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
       {!expanded ? (
