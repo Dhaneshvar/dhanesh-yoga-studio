@@ -56,7 +56,7 @@ const readNum = (k: string, def: number) => {
 };
 
 export const VoiceGuideProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [enabled, setEnabledState] = useState(true);
+  const [enabled, setEnabledState] = useState(false);
   const [muted, setMutedState] = useState(false);
   const [rate, setRateState] = useState(1);
   const [volume, setVolumeState] = useState(1);
@@ -71,7 +71,7 @@ export const VoiceGuideProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [, force] = useState(0);
 
   useEffect(() => {
-    setEnabledState(readBool(LS.enabled, true));
+    setEnabledState(readBool(LS.enabled, false));
     setMutedState(readBool(LS.muted, false));
     setRateState(readNum(LS.rate, 1));
     setVolumeState(readNum(LS.volume, 1));
