@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useVoiceGuide } from "@/contexts/VoiceGuideContext";
 import { useSpeech } from "@/hooks/useSpeech";
-import { SECTION_NARRATION, buildNarration } from "@/lib/sectionNarration";
+import { SECTION_NARRATION, buildNarration, getRouteNarration } from "@/lib/sectionNarration";
 import { extractFromElement } from "@/lib/contextExtractor";
 
 const VoiceSectionObserver = () => {
@@ -12,12 +12,25 @@ const VoiceSectionObserver = () => {
   const lastIdRef = useRef<string | null>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Reset per-route memory so the same anchor id on different pages re-narrates
+  // On route change: reset memory and narrate the whole page once.
   useEffect(() => {
     clearSpoken();
     lastIdRef.current = null;
     cancel();
-  }, [location.pathname, clearSpoken, cancel]);
+    if (!enabled || muted) return;
+    const routeKey = `route:${location.pathname}`;
+    if (hasSpoken(routeKey)) return;
+    const narration = getRouteNarration(location.pathname);
+    if (!narration) return;
+    markSpoken(routeKey);
+    const t = setTimeout(() => {
+      const active = document.activeElement as HTMLElement | null;
+      if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT" || active.isContentEditable)) return;
+      setCurrentSection(routeKey);
+      speak(buildNarration(narration));
+    }, 700);
+    return () => clearTimeout(t);
+  }, [location.pathname, enabled, muted, clearSpoken, cancel, hasSpoken, markSpoken, setCurrentSection, speak]);
 
   useEffect(() => {
     if (!enabled || muted) {
