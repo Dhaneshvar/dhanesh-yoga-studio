@@ -141,7 +141,6 @@ const AppContent = () => {
       <VoiceSectionObserver />
       <VoiceGuideWidget />
     </div>
-    </div>
   );
 };
 
