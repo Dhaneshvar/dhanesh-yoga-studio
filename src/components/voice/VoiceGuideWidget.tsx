@@ -15,7 +15,6 @@ const STATUS_COLOR: Record<string, string> = {
   speaking: "bg-primary animate-pulse",
   paused: "bg-amber-500",
   listening: "bg-emerald-500 animate-pulse",
-  disabled: "bg-destructive",
 };
 
 const VoiceGuideWidget = () => {
@@ -28,9 +27,12 @@ const VoiceGuideWidget = () => {
   const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
-    if (!enabled) { cancel(); setStatus("disabled"); setShowChat(false); }
-    else if (status === "disabled") setStatus("idle");
-  }, [enabled]); // eslint-disable-line
+    if (!enabled) {
+      cancel();
+      setStatus("idle");
+      setShowChat(false);
+    }
+  }, [enabled, cancel, setStatus]);
 
   const explainCurrent = useCallback(() => {
     const id = currentSection;
@@ -72,49 +74,31 @@ const VoiceGuideWidget = () => {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.altKey && (e.key === "v" || e.key === "V")) { e.preventDefault(); setEnabled(!enabled); }
       if (e.key === "Escape" && expanded) setExpanded(false);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [enabled, expanded, setEnabled, setExpanded]);
+  }, [expanded, setExpanded]);
 
   if (!ttsSupported) return null;
 
-  // Disabled: small sparkle launcher
-  if (!enabled) {
-    return (
-      <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
-        <button
-          onClick={() => { setEnabled(true); setExpanded(true); }}
-          className="p-2 rounded-full bg-card/70 backdrop-blur-xl border border-border shadow-md hover:bg-card hover:scale-105 transition-all"
-          aria-label="Enable voice guide"
-          title="Enable voice guide"
-        >
-          <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
-        </button>
-      </div>
-    );
-  }
-
-  // Collapsed: small sparkle pill
+  // Collapsed: tiny sparkle launcher only
   if (!expanded) {
     return (
       <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
         <button
           onClick={() => setExpanded(true)}
-          className="relative flex items-center gap-1.5 p-2 rounded-full bg-card/70 backdrop-blur-xl border border-border shadow-md hover:scale-105 transition-transform"
+          className="p-2 rounded-full bg-card/70 backdrop-blur-xl border border-border shadow-md hover:bg-card hover:scale-105 transition-all"
           aria-label="Open voice guide"
           title="Open voice guide"
         >
-          <span className={cn("absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full ring-2 ring-card", STATUS_COLOR[status])} aria-hidden="true" />
           <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
         </button>
       </div>
     );
   }
 
-  // Expanded: simple compact panel; chat appears only after Explain
+  // Expanded panel
   return (
     <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
       <div className="w-[min(92vw,320px)] rounded-2xl bg-card/85 backdrop-blur-xl border border-border shadow-2xl overflow-hidden">
@@ -123,7 +107,7 @@ const VoiceGuideWidget = () => {
           <div className="flex items-center gap-2 min-w-0">
             <Sparkles className="w-4 h-4 text-primary flex-shrink-0" aria-hidden="true" />
             <span className="text-sm font-semibold text-foreground">Voice Guide</span>
-            <span className={cn("w-2 h-2 rounded-full flex-shrink-0", STATUS_COLOR[status])} aria-hidden="true" />
+            <span className={cn("w-2 h-2 rounded-full flex-shrink-0", enabled ? STATUS_COLOR[status] : "bg-muted-foreground")} aria-hidden="true" />
           </div>
           <div className="flex items-center gap-0.5">
             <button onClick={() => setShowSettings(s => !s)} className="p-1.5 rounded-md hover:bg-muted text-foreground" aria-label="Settings" title="Settings"><SettingsIcon className="w-3.5 h-3.5" /></button>
@@ -131,51 +115,69 @@ const VoiceGuideWidget = () => {
           </div>
         </div>
 
-        {/* Minimal controls: On/Off, Mute, Pause, Stop, Explain */}
-        <div className="flex items-center gap-1 px-2 py-2">
+        {/* Primary control: On / Off toggle */}
+        <div className="flex items-center gap-2 px-3 py-2.5 border-b border-border bg-background/40">
           <button
             onClick={() => setEnabled(!enabled)}
-            className={cn("flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium border transition-colors", enabled ? "bg-primary text-primary-foreground border-primary" : "bg-muted text-foreground border-border")}
-            aria-label={enabled ? "Turn off" : "Turn on"}
+            className={cn(
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium border transition-colors",
+              enabled
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-muted text-foreground border-border"
+            )}
+            aria-label={enabled ? "Turn voice guide off" : "Turn voice guide on"}
             title={enabled ? "Turn off" : "Turn on"}
           >
             <Power className="w-3.5 h-3.5" />
+            <span>{enabled ? "On" : "Off"}</span>
           </button>
-          <button
-            onClick={() => { setMuted(!muted); if (!muted) cancel(); }}
-            className="p-1.5 rounded-md border border-border bg-background text-foreground hover:bg-muted"
-            aria-label={muted ? "Unmute" : "Mute"}
-            title={muted ? "Unmute" : "Mute"}
-          >
-            {muted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-          </button>
-          {status === "paused" ? (
-            <button onClick={resume} className="p-1.5 rounded-md border border-border bg-background text-foreground hover:bg-muted" aria-label="Resume" title="Resume">
-              <Play className="w-3.5 h-3.5" />
-            </button>
-          ) : (
-            <button onClick={pause} disabled={status !== "speaking"} className="p-1.5 rounded-md border border-border bg-background text-foreground hover:bg-muted disabled:opacity-40" aria-label="Pause" title="Pause">
-              <Pause className="w-3.5 h-3.5" />
-            </button>
+
+          {enabled && (
+            <>
+              <button
+                onClick={() => { setMuted(!muted); if (!muted) cancel(); }}
+                className="p-1.5 rounded-md border border-border bg-background text-foreground hover:bg-muted"
+                aria-label={muted ? "Unmute" : "Mute"}
+                title={muted ? "Unmute" : "Mute"}
+              >
+                {muted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+              </button>
+
+              {status === "paused" ? (
+                <button onClick={resume} className="p-1.5 rounded-md border border-border bg-background text-foreground hover:bg-muted" aria-label="Resume" title="Resume">
+                  <Play className="w-3.5 h-3.5" />
+                </button>
+              ) : (
+                <button onClick={pause} disabled={status !== "speaking"} className="p-1.5 rounded-md border border-border bg-background text-foreground hover:bg-muted disabled:opacity-40" aria-label="Pause" title="Pause">
+                  <Pause className="w-3.5 h-3.5" />
+                </button>
+              )}
+
+              <button onClick={cancel} className="p-1.5 rounded-md border border-border bg-background text-foreground hover:bg-muted" aria-label="Stop" title="Stop">
+                <Square className="w-3.5 h-3.5" />
+              </button>
+
+              <button
+                onClick={() => { setShowChat(true); explainCurrent(); }}
+                disabled={muted}
+                className="ml-auto px-2.5 py-1.5 rounded-md text-xs font-semibold bg-accent text-accent-foreground hover:opacity-90 disabled:opacity-40"
+                aria-label="Explain this section"
+                title="Explain this section"
+              >
+                Explain
+              </button>
+            </>
           )}
-          <button onClick={cancel} className="p-1.5 rounded-md border border-border bg-background text-foreground hover:bg-muted" aria-label="Stop" title="Stop">
-            <Square className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={() => { setShowChat(true); explainCurrent(); }}
-            disabled={muted}
-            className="ml-auto px-2.5 py-1.5 rounded-md text-xs font-semibold bg-accent text-accent-foreground hover:opacity-90 disabled:opacity-40"
-            aria-label="Explain this section"
-            title="Explain this section"
-          >
-            Explain
-          </button>
         </div>
 
-        {showSettings && <div className="p-2 border-t border-border"><VoiceSettingsPanel /></div>}
+        {showSettings && (
+          <div className="p-2 border-t border-border">
+            <VoiceSettingsPanel />
+          </div>
+        )}
 
-        {/* Chat + input only after Explain */}
-        {showChat && (
+        {/* Chat + input only after Explain, and only when enabled */}
+        {showChat && enabled && (
           <>
             <div className="max-h-[40vh] overflow-y-auto p-3 space-y-2 bg-muted/20 border-t border-border min-h-[100px]">
               {messages.length === 0 ? (
