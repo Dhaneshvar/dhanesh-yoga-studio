@@ -140,7 +140,7 @@ const AppContent = () => {
       <ScrollToTop />
       <VoiceSectionObserver />
       <VoiceGuideWidget />
-      <VoiceWelcomeModal />
+    </div>
     </div>
   );
 };
