@@ -9,6 +9,7 @@ import BreathingBackground from "@/components/interactive/BreathingBackground";
 import FloatingQuote from "@/components/interactive/FloatingQuote";
 import WhatsAppBubble from "@/components/interactive/WhatsAppBubble";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
+import Reveal from "@/components/animation/Reveal";
 import SEOHead from "@/components/SEOHead";
 
 const Index = () => {
@@ -64,14 +65,22 @@ const Index = () => {
         <div data-voice-section="home-hero" data-voice-title="Welcome"><HeroSection /></div>
 
         {/* Floating quote between sections */}
-        <section className="py-16 relative">
+        <Reveal as="section" className="py-16 relative" y={20}>
           <FloatingQuote interval={10000} className="max-w-3xl mx-auto px-4" />
-        </section>
+        </Reveal>
 
-        <div data-voice-section="home-programs" data-voice-title="Our Programs"><ProgramsPreview /></div>
-        <div data-voice-section="home-features" data-voice-title="Why Choose Us"><FeaturesSection /></div>
-        <div data-voice-section="home-testimonials" data-voice-title="Testimonials"><TestimonialsSection /></div>
-        <div data-voice-section="home-cta" data-voice-title="Get Started"><CTASection /></div>
+        <Reveal>
+          <div data-voice-section="home-programs" data-voice-title="Our Programs"><ProgramsPreview /></div>
+        </Reveal>
+        <Reveal>
+          <div data-voice-section="home-features" data-voice-title="Why Choose Us"><FeaturesSection /></div>
+        </Reveal>
+        <Reveal>
+          <div data-voice-section="home-testimonials" data-voice-title="Testimonials"><TestimonialsSection /></div>
+        </Reveal>
+        <Reveal>
+          <div data-voice-section="home-cta" data-voice-title="Get Started"><CTASection /></div>
+        </Reveal>
       </main>
 
       <Footer />

@@ -88,11 +88,14 @@ const VoiceGuideWidget = () => {
       <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
         <button
           onClick={() => setExpanded(true)}
-          className="p-2 rounded-full bg-card/70 backdrop-blur-xl border border-border shadow-md hover:bg-card hover:scale-105 transition-all"
+          className={cn(
+            "relative p-2.5 rounded-full bg-card/70 backdrop-blur-xl border border-border shadow-md btn-pop",
+            enabled ? "animate-voice-aura" : "hover:border-primary/50"
+          )}
           aria-label="Open voice guide"
           title="Open voice guide"
         >
-          <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
+          <Sparkles className={cn("w-4 h-4 transition-transform duration-500", enabled ? "text-primary animate-pulse" : "text-primary")} aria-hidden="true" />
         </button>
       </div>
     );
@@ -101,7 +104,7 @@ const VoiceGuideWidget = () => {
   // Expanded panel
   return (
     <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
-      <div className="w-[min(92vw,320px)] rounded-2xl bg-card/85 backdrop-blur-xl border border-border shadow-2xl overflow-hidden">
+      <div className="w-[min(92vw,320px)] rounded-2xl bg-card/85 backdrop-blur-xl border border-border shadow-2xl overflow-hidden animate-panel-pop">
         {/* Header */}
         <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-background/60">
           <div className="flex items-center gap-2 min-w-0">
