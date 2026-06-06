@@ -23,7 +23,6 @@ import ChatbotWidget from "./components/chatbot/ChatbotWidget";
 import ScrollToTop from "./components/interactive/ScrollToTop";
 import { VoiceGuideProvider } from "./contexts/VoiceGuideContext";
 import VoiceGuideWidget from "./components/voice/VoiceGuideWidget";
-import VoiceWelcomeModal from "./components/voice/VoiceWelcomeModal";
 import VoiceSectionObserver from "./components/voice/VoiceSectionObserver";
 
 // Dashboard imports (Yoga Studio)
@@ -141,7 +140,6 @@ const AppContent = () => {
       <ScrollToTop />
       <VoiceSectionObserver />
       <VoiceGuideWidget />
-      <VoiceWelcomeModal />
     </div>
   );
 };
