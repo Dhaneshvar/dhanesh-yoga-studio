@@ -69,7 +69,7 @@ const Index = () => {
           <FloatingQuote interval={10000} className="max-w-3xl mx-auto px-4" />
         </Reveal>
 
-        <Reveal data-voice-section="home-programs" data-voice-title="Our Programs" {...({} as any)}>
+        <Reveal>
           <div data-voice-section="home-programs" data-voice-title="Our Programs"><ProgramsPreview /></div>
         </Reveal>
         <Reveal>
