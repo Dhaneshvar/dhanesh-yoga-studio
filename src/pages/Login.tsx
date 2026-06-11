@@ -66,21 +66,19 @@ const Login = () => {
 
     // For demo: use dummy credentials
     if (email === "demo@yoga.com" && password === "demo123") {
-      // Set demo session
-      localStorage.setItem("yoga_app_session", JSON.stringify({ id: "demo", name: "Demo User", email: "demo@yoga.com" }));
+      const demoUser = { id: "demo", name: "Demo User", email: "demo@yoga.com" };
+      localStorage.setItem("yoga_app_session", JSON.stringify(demoUser));
       localStorage.setItem("userRole", selectedRole);
-      // Dispatch custom event to notify Navbar
       window.dispatchEvent(new Event("authChange"));
-      navigate(dashboardRoute);
+      navigate(dashboardRoute, { replace: true });
     } else {
       const result = await login(email, password);
       if (!result.success && result.error) {
         setError(result.error);
       } else {
         localStorage.setItem("userRole", selectedRole);
-        // Dispatch custom event to notify Navbar
         window.dispatchEvent(new Event("authChange"));
-        navigate(dashboardRoute);
+        navigate(dashboardRoute, { replace: true });
       }
     }
     setIsSubmitting(false);
