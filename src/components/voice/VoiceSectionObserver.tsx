@@ -12,12 +12,12 @@ const VoiceSectionObserver = () => {
   const lastIdRef = useRef<string | null>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // On route change: reset memory and narrate the whole page once.
+  // On route change OR when voice is toggled on: narrate the current page once.
   useEffect(() => {
-    clearSpoken();
-    lastIdRef.current = null;
-    cancel();
-    if (!enabled || muted) return;
+    if (!enabled || muted) {
+      cancel();
+      return;
+    }
     const routeKey = `route:${location.pathname}`;
     if (hasSpoken(routeKey)) return;
     const narration = getRouteNarration(location.pathname);
@@ -28,9 +28,16 @@ const VoiceSectionObserver = () => {
       if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT" || active.isContentEditable)) return;
       setCurrentSection(routeKey);
       speak(buildNarration(narration));
-    }, 700);
+    }, 500);
     return () => clearTimeout(t);
-  }, [location.pathname, enabled, muted, clearSpoken, cancel, hasSpoken, markSpoken, setCurrentSection, speak]);
+  }, [location.pathname, enabled, muted, cancel, hasSpoken, markSpoken, setCurrentSection, speak]);
+
+  // Reset per-route memory whenever the path changes
+  useEffect(() => {
+    clearSpoken();
+    lastIdRef.current = null;
+    cancel();
+  }, [location.pathname, clearSpoken, cancel]);
 
   useEffect(() => {
     if (!enabled || muted) {
