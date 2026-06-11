@@ -209,7 +209,14 @@ const Register = () => {
                   id="terms"
                   checked={termsAccepted}
                   disabled={isSubmitting}
-                  onCheckedChange={() => {}}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      // Force-open modal so user must read before accepting
+                      setShowTermsModal(true);
+                    } else {
+                      setTermsAccepted(false);
+                    }
+                  }}
                   className="mt-0.5"
                 />
                 <label htmlFor="terms" className="font-body text-sm text-muted-foreground cursor-pointer">
