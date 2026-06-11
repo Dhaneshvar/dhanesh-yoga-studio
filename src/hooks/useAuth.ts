@@ -108,11 +108,11 @@ export const useAuth = () => {
     // Auto login
     localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(newUser));
     setAuthState({ user: newUser, isAuthenticated: true, isLoading: false });
+    window.dispatchEvent(new Event('authChange'));
 
     toast.success('Account created successfully!');
-    navigate('/');
     return { success: true };
-  }, [navigate]);
+  }, []);
 
   const login = useCallback(async (
     email: string,
@@ -138,11 +138,11 @@ export const useAuth = () => {
     // Login success
     localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(user));
     setAuthState({ user, isAuthenticated: true, isLoading: false });
+    window.dispatchEvent(new Event('authChange'));
 
     toast.success(`Welcome back, ${user.name}!`);
-    navigate('/');
     return { success: true };
-  }, [navigate]);
+  }, []);
 
   const loginWithGoogle = useCallback(async (): Promise<{ success: boolean; error?: string }> => {
     // Demo: Create a mock Google user
