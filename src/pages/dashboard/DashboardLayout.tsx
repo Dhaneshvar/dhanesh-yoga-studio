@@ -17,16 +17,16 @@ const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex w-full">
+    <div className="h-screen bg-background flex w-full overflow-hidden">
       <DashboardSidebar userRole={userRole} onLogout={handleLogout} />
-      <div className="flex-1 flex flex-col overflow-auto">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden min-w-0">
         <DashboardHeader
           userRole={userRole}
           userName={user?.name || "User"}
           userEmail={user?.email || "user@example.com"}
           onLogout={handleLogout}
         />
-        <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6 pt-14 sm:pt-16 md:pt-6">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pt-14 sm:pt-16 md:pt-6">
           <Outlet />
         </main>
       </div>
