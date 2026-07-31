@@ -15,7 +15,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
+import AuthAccount from "./pages/AuthAccount";
+import OAuthConsent from "./pages/OAuthConsent";
 import NotFound from "./pages/NotFound";
+
 import MeditationMode from "./components/interactive/MeditationMode";
 import MeditationToggle from "./components/interactive/MeditationToggle";
 import ChatbotWidget from "./components/chatbot/ChatbotWidget";
