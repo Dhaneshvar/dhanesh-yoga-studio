@@ -104,6 +104,9 @@ const AppContent = () => {
           <Route path="/register" element={<Register />} />
            <Route path="/contact" element={<Contact />} />
            <Route path="/gallery" element={<Gallery />} />
+           <Route path="/account" element={<AuthAccount />} />
+           <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
+
           
           {/* Yoga Studio Dashboard Routes */}
           <Route path="/dashboard" element={<DashboardLayout userRole={userRole} />}>
