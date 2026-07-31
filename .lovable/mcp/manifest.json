@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://vyanvxggiplbtztoycza.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "dhanesh-yoga-studio",
+      "version": "0.1.0",
+      "title": "Dhanesh Yoga Studio"
+    },
+    "tools": [
+      {
+        "name": "get_studio_info",
+        "title": "Get studio info",
+        "description": "Get an overview of Dhanesh Yoga Center: what it offers, the pages available on the site, and how to get in touch.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_programs",
+        "title": "List yoga programs",
+        "description": "List the age-specific yoga programs offered by the studio (Kids, Teens, Adults, Seniors), with age range, duration, capacity and weekly timing.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "ageGroup": {
+              "type": "string",
+              "enum": [
+                "kids",
+                "teens",
+                "adults",
+                "seniors"
+              ],
+              "description": "Optional age group to filter by."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_class_schedule",
+        "title": "Get class schedule",
+        "description": "Get the weekly yoga class timetable: class name, time, audience, duration, instructor and available spots. Optionally filter by day and audience.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "day": {
+              "type": "string",
+              "enum": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ],
+              "description": "Optional day of the week, e.g. 'Monday'. Omit for the whole week."
+            },
+            "audience": {
+              "type": "string",
+              "description": "Optional audience filter, e.g. 'Kids', 'Teens', 'Adults', 'Seniors'."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "search_asanas",
+        "title": "Search asana library",
+        "description": "Search the studio's asana (yoga pose) library by name, difficulty or category. Returns instructions, benefits and breathing cues.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Free-text match against the Sanskrit name, English name or description."
+            },
+            "difficulty": {
+              "type": "string",
+              "enum": [
+                "Beginner",
+                "Intermediate",
+                "Advanced"
+              ],
+              "description": "Optional difficulty filter."
+            },
+            "category": {
+              "type": "string",
+              "description": "Optional category filter, e.g. 'Standing', 'Balance', 'Backbend', 'Resting'."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "Maximum results, default 10."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
