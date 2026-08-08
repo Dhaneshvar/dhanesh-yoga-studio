@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { UserPlus, Upload, CheckCircle, Loader2 } from "lucide-react";
+import { UserPlus, Upload, CheckCircle, Loader2, Camera, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -16,6 +16,8 @@ const RegisterTrainer = () => {
     notes: "",
   });
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -30,8 +32,34 @@ const RegisterTrainer = () => {
     }
   };
 
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload an image file (JPG, PNG or WEBP).");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Photo must be smaller than 5MB.");
+      return;
+    }
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  };
+
+  const removePhoto = () => {
+    setPhotoFile(null);
+    setPhotoPreview(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!photoFile) {
+      toast.error("Profile photo is required", {
+        description: "Please upload a photo of the yoga master before submitting.",
+      });
+      return;
+    }
     setIsSubmitting(true);
     
     // Simulate API call
@@ -51,6 +79,7 @@ const RegisterTrainer = () => {
       notes: "",
     });
     setResumeFile(null);
+    removePhoto();
     setIsSubmitting(false);
   };
 
@@ -210,6 +239,48 @@ const RegisterTrainer = () => {
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Profile Photo (required) */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Yoga Master Photo *
+              </label>
+              <div className="flex flex-col sm:flex-row items-center gap-5 p-5 rounded-xl border-2 border-dashed border-border">
+                <div className="relative w-24 h-24 shrink-0 rounded-full overflow-hidden bg-secondary flex items-center justify-center">
+                  {photoPreview ? (
+                    <img src={photoPreview} alt="Yoga master profile photo preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <Camera className="w-8 h-8 text-muted-foreground" />
+                  )}
+                </div>
+                <div className="flex-1 text-center sm:text-left">
+                  <p className="font-body text-sm text-muted-foreground mb-3">
+                    A clear front-facing photo is mandatory (JPG, PNG or WEBP, max 5MB).
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+                    <label className="relative inline-flex">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handlePhotoChange}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        title="Upload yoga master photo"
+                        aria-label="Upload yoga master photo"
+                      />
+                      <span className="inline-flex items-center px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-medium">
+                        <Upload className="w-4 h-4 mr-2" />
+                        {photoPreview ? "Change Photo" : "Upload Photo"}
+                      </span>
+                    </label>
+                    {photoPreview && (
+                      <Button type="button" variant="outline" size="sm" onClick={removePhoto} title="Remove photo" aria-label="Remove photo">
+                        <X className="w-4 h-4 mr-1" /> Remove
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Resume Upload */}
