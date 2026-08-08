@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { CURRENCIES, useCurrency, type CurrencyCode } from "@/lib/currency";
 
 const AdminSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +35,8 @@ const AdminSettings = () => {
   const [siteName, setSiteName] = useState("Dhanesh Yoga Center");
   const [siteDescription, setSiteDescription] = useState("Transform your life through the ancient art of yoga");
   const [contactEmail, setContactEmail] = useState("admin@dhaneshyoga.com");
-  const [timezone, setTimezone] = useState("UTC");
+  const [timezone, setTimezone] = useState("Asia/Kolkata");
+  const { currency, setCurrency, format } = useCurrency();
 
   // Notification settings
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -134,6 +136,28 @@ const AdminSettings = () => {
                     rows={3}
                   />
                 </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="currency">Currency</Label>
+                  <Select
+                    value={currency}
+                    onValueChange={(value) => setCurrency(value as CurrencyCode)}
+                  >
+                    <SelectTrigger id="currency" className="w-full" title="Select currency" aria-label="Select currency">
+                      <SelectValue placeholder="Select currency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.values(CURRENCIES).map((item) => (
+                        <SelectItem key={item.code} value={item.code}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    All amounts across the admin dashboard display as {format(100000)} style values.
+                  </p>
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="timezone">Timezone</Label>
                   <Select value={timezone} onValueChange={setTimezone}>
@@ -149,6 +173,7 @@ const AdminSettings = () => {
                       <SelectItem value="Asia/Kolkata">India Standard Time</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
                 </div>
               </CardContent>
             </Card>
