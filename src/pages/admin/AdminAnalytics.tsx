@@ -3,7 +3,7 @@ import {
   Users,
   TrendingUp,
   Calendar,
-  DollarSign,
+  IndianRupee,
   ArrowUpRight,
   ArrowDownRight,
   Activity,
@@ -55,13 +55,15 @@ const sessionData = [
   { day: "Sun", sessions: 20, attendance: 75 },
 ];
 
+const TOTAL_REVENUE_INR = 3619300;
+
 const revenueData = [
-  { month: "Jan", revenue: 4200, target: 4000 },
-  { month: "Feb", revenue: 5100, target: 4500 },
-  { month: "Mar", revenue: 6800, target: 5000 },
-  { month: "Apr", revenue: 7200, target: 6000 },
-  { month: "May", revenue: 8500, target: 7000 },
-  { month: "Jun", revenue: 9800, target: 8000 },
+  { month: "Jan", revenue: 357000, target: 340000 },
+  { month: "Feb", revenue: 433500, target: 382500 },
+  { month: "Mar", revenue: 578000, target: 425000 },
+  { month: "Apr", revenue: 612000, target: 510000 },
+  { month: "May", revenue: 722500, target: 595000 },
+  { month: "Jun", revenue: 833000, target: 680000 },
 ];
 
 const yogaStylesData = [
@@ -72,13 +74,13 @@ const yogaStylesData = [
   { name: "Ashtanga", value: 7, color: "#EF4444" },
 ];
 
-const kpiCards = [
+const getKpiCards = (revenue: string) => [
   {
     title: "Total Revenue",
-    value: "$42,580",
+    value: revenue,
     change: "+18.7%",
     trend: "up",
-    icon: DollarSign,
+    icon: IndianRupee,
     color: "text-emerald-600",
     bgColor: "bg-emerald-50",
   },
@@ -137,7 +139,7 @@ const AdminAnalytics = () => {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {kpiCards.map((kpi, index) => (
+        {getKpiCards(format(TOTAL_REVENUE_INR)).map((kpi, index) => (
           <motion.div
             key={kpi.title}
             initial={{ opacity: 0, y: 20 }}
@@ -292,7 +294,7 @@ const AdminAnalytics = () => {
                         border: "1px solid hsl(var(--border))",
                         borderRadius: "8px",
                       }}
-                      formatter={(value) => [`$${value}`, ""]}
+                      formatter={(value) => [format(Number(value)), ""]}
                     />
                     <Legend />
                     <Line
