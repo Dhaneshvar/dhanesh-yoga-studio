@@ -35,7 +35,7 @@ const Login = () => {
   }, [isAuthenticated, isLoading, navigate]);
 
   const roles = [
-    { id: "student" as UserRole, label: "Student", icon: GraduationCap, description: "Access your classes and track progress", color: "bg-turquoise/20 border-turquoise/40 text-turquoise-dark" },
+    { id: "student" as UserRole, label: "Practitioner", icon: GraduationCap, description: "Access your classes and track progress", color: "bg-turquoise/20 border-turquoise/40 text-turquoise-dark" },
     { id: "trainer" as UserRole, label: "Yoga Master", icon: Users, description: "Manage schedules and sessions", color: "bg-lotus/20 border-lotus/40 text-lotus" },
     { id: "admin" as UserRole, label: "Admin", icon: Shield, description: "Full system administration", color: "bg-indigo/20 border-indigo/40 text-indigo-dark" },
   ];

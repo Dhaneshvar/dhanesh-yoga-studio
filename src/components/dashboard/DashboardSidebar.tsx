@@ -63,7 +63,7 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
           {!isCollapsed && (
             <div>
               <h2 className="font-display text-base font-semibold text-foreground leading-tight">Dhanesh Yoga Center</h2>
-              <p className="text-xs text-muted-foreground capitalize">{userRole} Portal</p>
+              <p className="text-xs text-muted-foreground">{userRole === "student" ? "Practitioner" : userRole === "admin" ? "Admin" : "Trainer"} Portal</p>
             </div>
           )}
         </div>
