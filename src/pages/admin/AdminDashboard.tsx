@@ -10,7 +10,7 @@ import {
   MoreHorizontal,
   Sparkles,
   GraduationCap,
-  DollarSign,
+  IndianRupee,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,8 +25,11 @@ import { Progress } from "@/components/ui/progress";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useCurrency } from "@/lib/currency";
 
-const statsCards = [
+const REVENUE_MTD_INR = 2045000;
+
+const getStatsCards = (revenue: string) => [
   {
     title: "Total Users",
     value: "2,847",
@@ -59,10 +62,10 @@ const statsCards = [
   },
   {
     title: "Revenue (MTD)",
-    value: "$24,580",
+    value: revenue,
     change: "+18.7%",
     trend: "up" as const,
-    icon: DollarSign,
+    icon: IndianRupee,
     gradient: "from-amber-500/20 to-amber-500/5",
     iconBg: "bg-amber-500/15",
     iconColor: "text-amber-600",
@@ -96,7 +99,7 @@ const getActivityIcon = (type: string) => {
     case "student": return <GraduationCap className="w-4 h-4" />;
     case "session": return <Calendar className="w-4 h-4" />;
     case "approval": return <Sparkles className="w-4 h-4" />;
-    default: return <DollarSign className="w-4 h-4" />;
+    default: return <IndianRupee className="w-4 h-4" />;
   }
 };
 
@@ -112,12 +115,13 @@ const getActivityColor = (type: string) => {
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const { format } = useCurrency();
 
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {statsCards.map((stat, index) => (
+        {getStatsCards(format(REVENUE_MTD_INR)).map((stat, index) => (
           <motion.div
             key={stat.title}
             initial={{ opacity: 0, y: 20 }}

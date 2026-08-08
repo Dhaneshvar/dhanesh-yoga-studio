@@ -4,7 +4,7 @@ import {
   Download,
   Calendar,
   Users,
-  DollarSign,
+  IndianRupee,
   TrendingUp,
   Clock,
   Filter,
@@ -47,7 +47,7 @@ const reports: Report[] = [
     description: "Monthly revenue breakdown by subscription type and one-time purchases",
     category: "Financial",
     lastGenerated: "1 day ago",
-    icon: DollarSign,
+    icon: IndianRupee,
     color: "bg-emerald-100 text-emerald-600",
   },
   {
@@ -237,7 +237,7 @@ const AdminReports = () => {
               <span className="text-xs text-muted-foreground">CSV Export</span>
             </Button>
             <Button variant="outline" className="h-auto py-6 flex flex-col gap-2">
-              <DollarSign className="w-6 h-6" />
+              <IndianRupee className="w-6 h-6" />
               <span>Transactions</span>
               <span className="text-xs text-muted-foreground">CSV Export</span>
             </Button>
