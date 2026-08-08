@@ -29,7 +29,7 @@ const DashboardHeader = ({
     switch (userRole) {
       case "trainer": return "Yoga Master";
       case "admin": return "Administrator";
-      case "student": return "Student";
+      case "student": return "Practitioner";
       default: return "User";
     }
   };

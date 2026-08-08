@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar, Clock, User, Edit3, Trash2, Search,
-  CheckCircle, XCircle, AlertCircle, Filter
+  CheckCircle, XCircle, AlertCircle, Filter, Plus
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ interface Registration {
 
 const MyRegistrations = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "paused" | "cancelled">("all");
@@ -138,10 +140,34 @@ const MyRegistrations = () => {
         <Card>
           <CardContent className="p-12 text-center">
             <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-foreground">No Registrations Found</h3>
+            <h3 className="text-lg font-semibold text-foreground">
+              {registrations.length === 0 ? "No Registrations Yet" : "No Registrations Found"}
+            </h3>
             <p className="text-muted-foreground mt-1">
-              {registrations.length === 0 ? "You haven't registered for any classes yet." : "No results match your search."}
+              {registrations.length === 0
+                ? "You haven't registered for any classes yet. Register now to begin your practice."
+                : "No results match your search."}
             </p>
+            {registrations.length === 0 ? (
+              <Button
+                className="mt-5"
+                onClick={() => navigate("/dashboard/student-registration")}
+                title="Register for a class"
+                aria-label="Register for a class"
+              >
+                <Plus className="w-4 h-4 mr-2" /> Register for a Class
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                className="mt-5"
+                onClick={() => { setSearchQuery(""); setStatusFilter("all"); }}
+                title="Clear filters"
+                aria-label="Clear filters"
+              >
+                Clear Filters
+              </Button>
+            )}
           </CardContent>
         </Card>
       ) : (
