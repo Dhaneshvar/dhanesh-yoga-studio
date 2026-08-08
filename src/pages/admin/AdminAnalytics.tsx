@@ -9,6 +9,7 @@ import {
   Activity,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { useCurrency } from "@/lib/currency";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -115,6 +116,7 @@ const getKpiCards = (revenue: string) => [
 
 const AdminAnalytics = () => {
   const [timeRange, setTimeRange] = useState("6months");
+  const { format } = useCurrency();
 
   return (
     <div className="space-y-6">
