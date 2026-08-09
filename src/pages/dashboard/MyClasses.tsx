@@ -29,8 +29,12 @@ const MyClasses = () => {
           { icon: Calendar, value: "3", label: "Upcoming Classes", bg: "bg-primary/10", color: "text-primary" },
           { icon: CheckCircle, value: "12", label: "Classes Completed", bg: "bg-secondary", color: "text-secondary-foreground" },
           { icon: Clock, value: "15h", label: "Total Practice Time", bg: "bg-muted", color: "text-muted-foreground" },
-        ].map((stat) => (
-          <Card key={stat.label}>
+        ].map((stat, i) => (
+          <Card
+            key={stat.label}
+            className="bg-card/70 backdrop-blur-xl border-border/60 hover-lift animate-fade-in"
+            style={{ animationDelay: `${i * 80}ms` }}
+          >
             <CardContent className="p-4 flex items-center gap-4">
               <div className={`p-3 rounded-full ${stat.bg}`}>
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
@@ -44,6 +48,7 @@ const MyClasses = () => {
         ))}
       </div>
 
+
       {/* Classes Tabs */}
       <Tabs defaultValue="upcoming" className="w-full">
         <TabsList className="grid w-full grid-cols-2 max-w-md">
@@ -54,7 +59,7 @@ const MyClasses = () => {
         <TabsContent value="upcoming" className="mt-4">
           <div className="space-y-3">
             {upcomingClasses.map((cls) => (
-              <Card key={cls.id} className="hover:shadow-soft transition-shadow">
+              <Card key={cls.id} className="bg-card/70 backdrop-blur-xl border-border/60 hover-lift">
                 <CardContent className="p-4">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="space-y-1.5">
@@ -83,7 +88,7 @@ const MyClasses = () => {
         <TabsContent value="completed" className="mt-4">
           <div className="space-y-3">
             {completedClasses.map((cls) => (
-              <Card key={cls.id} className="hover:shadow-soft transition-shadow">
+              <Card key={cls.id} className="bg-card/70 backdrop-blur-xl border-border/60 hover-lift">
                 <CardContent className="p-4">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="space-y-1.5">
