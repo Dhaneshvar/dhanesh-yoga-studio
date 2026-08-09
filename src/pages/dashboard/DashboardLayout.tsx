@@ -28,9 +28,17 @@ const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
           userEmail={user?.email || "user@example.com"}
           onLogout={handleLogout}
         />
-        <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pt-14 sm:pt-16 md:pt-6">
-          <Outlet />
+        <main className="relative flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pt-14 sm:pt-16 md:pt-6">
+          {userRole === "student" && (
+            <div className="fixed inset-0 -z-10">
+              <PractitionerScene />
+            </div>
+          )}
+          <div className="relative animate-fade-in">
+            <Outlet />
+          </div>
         </main>
+
       </div>
     </div>
   );
