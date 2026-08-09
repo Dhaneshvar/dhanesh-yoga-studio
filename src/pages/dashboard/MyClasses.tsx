@@ -59,7 +59,7 @@ const MyClasses = () => {
         <TabsContent value="upcoming" className="mt-4">
           <div className="space-y-3">
             {upcomingClasses.map((cls) => (
-              <Card key={cls.id} className="hover:shadow-soft transition-shadow">
+              <Card key={cls.id} className="bg-card/70 backdrop-blur-xl border-border/60 hover-lift">
                 <CardContent className="p-4">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="space-y-1.5">
@@ -88,7 +88,7 @@ const MyClasses = () => {
         <TabsContent value="completed" className="mt-4">
           <div className="space-y-3">
             {completedClasses.map((cls) => (
-              <Card key={cls.id} className="hover:shadow-soft transition-shadow">
+              <Card key={cls.id} className="bg-card/70 backdrop-blur-xl border-border/60 hover-lift">
                 <CardContent className="p-4">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="space-y-1.5">

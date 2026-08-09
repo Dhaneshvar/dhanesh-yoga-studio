@@ -181,7 +181,7 @@ const MyRegistrations = () => {
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Card className="hover:shadow-soft transition-shadow">
+                <Card className="bg-card/70 backdrop-blur-xl border-border/60 hover-lift">
                   <CardContent className="p-5">
                     {editingId === reg.id ? (
                       /* Edit Mode */
