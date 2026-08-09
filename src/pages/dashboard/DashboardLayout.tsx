@@ -21,7 +21,8 @@ const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
   return (
     <div className="h-screen bg-background flex w-full overflow-hidden">
       <DashboardSidebar userRole={userRole} onLogout={handleLogout} />
-      <div className="flex-1 flex flex-col h-screen overflow-hidden min-w-0">
+      <div className="relative flex-1 flex flex-col h-screen overflow-hidden min-w-0">
+        {userRole === "student" && <PractitionerScene />}
         <DashboardHeader
           userRole={userRole}
           userName={user?.name || "User"}
@@ -29,11 +30,6 @@ const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
           onLogout={handleLogout}
         />
         <main className="relative flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pt-14 sm:pt-16 md:pt-6">
-          {userRole === "student" && (
-            <div className="fixed inset-0 z-0">
-              <PractitionerScene />
-            </div>
-          )}
           <div className="relative z-10 animate-fade-in">
             <Outlet />
           </div>

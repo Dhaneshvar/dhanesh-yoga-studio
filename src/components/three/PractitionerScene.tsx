@@ -92,7 +92,7 @@ const Mandala = ({ color }: { color: THREE.Color }) => {
 const Shapes = ({ primary, accent }: { primary: THREE.Color; accent: THREE.Color }) => (
   <>
     <Float speed={1.1} rotationIntensity={0.7} floatIntensity={1.4}>
-      <TorusKnot args={[0.75, 0.22, 160, 24]} position={[-4.4, 1.4, -2]}>
+      <TorusKnot args={[0.5, 0.15, 160, 24]} position={[-5, 1.8, -5]}>
         <meshStandardMaterial
           color={primary}
           roughness={0.25}
@@ -104,7 +104,7 @@ const Shapes = ({ primary, accent }: { primary: THREE.Color; accent: THREE.Color
     </Float>
 
     <Float speed={0.8} rotationIntensity={0.5} floatIntensity={1.1}>
-      <Icosahedron args={[0.9, 0]} position={[4.6, -1.2, -1.5]}>
+      <Icosahedron args={[0.65, 0]} position={[5.2, -1.6, -4]}>
         <meshStandardMaterial
           color={accent}
           roughness={0.35}
@@ -117,8 +117,8 @@ const Shapes = ({ primary, accent }: { primary: THREE.Color; accent: THREE.Color
     </Float>
 
     <Float speed={1.4} rotationIntensity={0.4} floatIntensity={0.9}>
-      <mesh position={[3.1, 2.2, -3]}>
-        <sphereGeometry args={[0.42, 32, 32]} />
+      <mesh position={[3.4, 2.6, -6]}>
+        <sphereGeometry args={[0.3, 32, 32]} />
         <meshStandardMaterial
           color={primary}
           roughness={0.1}
@@ -130,8 +130,8 @@ const Shapes = ({ primary, accent }: { primary: THREE.Color; accent: THREE.Color
     </Float>
 
     <Float speed={1} rotationIntensity={0.6} floatIntensity={1.2}>
-      <mesh position={[-3.4, -2.1, -2.5]} rotation={[0.4, 0.3, 0]}>
-        <torusGeometry args={[0.7, 0.08, 24, 100]} />
+      <mesh position={[-3.8, -2.4, -5]} rotation={[0.4, 0.3, 0]}>
+        <torusGeometry args={[0.5, 0.06, 24, 100]} />
         <meshStandardMaterial
           color={accent}
           roughness={0.2}
@@ -161,7 +161,7 @@ const PractitionerScene = () => {
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 opacity-90"
+      className="pointer-events-none absolute inset-0 z-0 opacity-60"
       aria-hidden="true"
     >
       <Canvas
