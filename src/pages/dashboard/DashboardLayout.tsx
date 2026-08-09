@@ -30,11 +30,11 @@ const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
         />
         <main className="relative flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pt-14 sm:pt-16 md:pt-6">
           {userRole === "student" && (
-            <div className="fixed inset-0 -z-10">
+            <div className="fixed inset-0 z-0">
               <PractitionerScene />
             </div>
           )}
-          <div className="relative animate-fade-in">
+          <div className="relative z-10 animate-fade-in">
             <Outlet />
           </div>
         </main>
