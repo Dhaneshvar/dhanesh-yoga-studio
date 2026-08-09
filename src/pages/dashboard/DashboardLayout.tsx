@@ -1,7 +1,9 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import PractitionerScene from "@/components/three/PractitionerScene";
 import { useAuth } from "@/hooks/useAuth";
+
 
 interface DashboardLayoutProps {
   userRole: "trainer" | "admin" | "student";
