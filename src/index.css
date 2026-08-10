@@ -541,3 +541,18 @@
 .voice-hc * {
   text-shadow: none !important;
 }
+
+/* ===== Compact view (Settings → Appearance) ===== */
+html.compact-view {
+  font-size: 15px;
+}
+html.compact-view .p-6 { padding: 1rem; }
+html.compact-view .p-8 { padding: 1.25rem; }
+html.compact-view .py-6 { padding-top: 1rem; padding-bottom: 1rem; }
+html.compact-view .py-8 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+html.compact-view .gap-6 { gap: 1rem; }
+html.compact-view .gap-8 { gap: 1.25rem; }
+html.compact-view .mb-8 { margin-bottom: 1.25rem; }
+html.compact-view .space-y-6 > * + * { margin-top: 1rem; }
+html.compact-view .space-y-8 > * + * { margin-top: 1.25rem; }
+html.compact-view .rounded-2xl { border-radius: 0.75rem; }

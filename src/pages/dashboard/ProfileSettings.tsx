@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import {
   User,
@@ -39,10 +40,18 @@ const ProfileSettings = () => {
     newsletter: true,
   });
 
-  const [appearance, setAppearance] = useState({
-    darkMode: false,
-    compactView: false,
-  });
+  const { theme, resolvedTheme, setTheme } = useTheme();
+  const isDark = (theme === "system" ? resolvedTheme : theme) === "dark";
+
+  const [compactView, setCompactView] = useState<boolean>(
+    () => localStorage.getItem("dyc-compact-view") === "true"
+  );
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("compact-view", compactView);
+    localStorage.setItem("dyc-compact-view", String(compactView));
+  }, [compactView]);
+
 
   const handleSaveProfile = () => {
     toast.success("Profile updated successfully!");
@@ -368,7 +377,11 @@ const ProfileSettings = () => {
             >
               <div className="flex items-center justify-between p-4 bg-secondary/30 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <Moon className="w-5 h-5 text-primary" />
+                  {isDark ? (
+                    <Moon className="w-5 h-5 text-primary" />
+                  ) : (
+                    <Sun className="w-5 h-5 text-primary" />
+                  )}
                   <div>
                     <p className="font-body text-sm font-medium text-foreground">
                       Dark Mode
@@ -379,10 +392,13 @@ const ProfileSettings = () => {
                   </div>
                 </div>
                 <Switch
-                  checked={appearance.darkMode}
-                  onCheckedChange={(checked) =>
-                    setAppearance({ ...appearance, darkMode: checked })
-                  }
+                  aria-label="Toggle dark mode"
+                  title="Toggle dark mode"
+                  checked={isDark}
+                  onCheckedChange={(checked) => {
+                    setTheme(checked ? "dark" : "light");
+                    toast.success(checked ? "Dark mode enabled" : "Light mode enabled");
+                  }}
                 />
               </div>
 
@@ -399,12 +415,16 @@ const ProfileSettings = () => {
                   </div>
                 </div>
                 <Switch
-                  checked={appearance.compactView}
-                  onCheckedChange={(checked) =>
-                    setAppearance({ ...appearance, compactView: checked })
-                  }
+                  aria-label="Toggle compact view"
+                  title="Toggle compact view"
+                  checked={compactView}
+                  onCheckedChange={(checked) => {
+                    setCompactView(checked);
+                    toast.success(checked ? "Compact view on" : "Compact view off");
+                  }}
                 />
               </div>
+
             </motion.div>
           </TabsContent>
         </Tabs>
