@@ -41,9 +41,18 @@ const ProfileSettings = () => {
   });
 
   const [appearance, setAppearance] = useState({
-    darkMode: false,
-    compactView: false,
-  });
+  const { theme, resolvedTheme, setTheme } = useTheme();
+  const isDark = (theme === "system" ? resolvedTheme : theme) === "dark";
+
+  const [compactView, setCompactView] = useState<boolean>(
+    () => localStorage.getItem("dyc-compact-view") === "true"
+  );
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("compact-view", compactView);
+    localStorage.setItem("dyc-compact-view", String(compactView));
+  }, [compactView]);
+
 
   const handleSaveProfile = () => {
     toast.success("Profile updated successfully!");
