@@ -68,7 +68,7 @@ const ProgramsPreview = () => {
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-background relative overflow-hidden">
       {/* Background Decoration */}
-      <div className="absolute top-0 left-0 w-40 sm:w-64 h-40 sm:h-64 bg-sage-light/20 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-0 w-40 sm:w-64 h-40 sm:h-64 bg-sage-light/20 rounded-full blur-3xl animate-float-slow" />
       <div className="absolute bottom-0 right-0 w-60 sm:w-96 h-60 sm:h-96 bg-terracotta-light/10 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -84,7 +84,7 @@ const ProgramsPreview = () => {
             Age-Wise Programs
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground mb-4">
-            Yoga for <span className="text-gradient-sage">Every Stage</span> of Life
+            Yoga for <span className="text-shimmer">Every Stage</span> of Life
           </h2>
           <p className="font-body text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             Tailored programs designed to meet the unique needs of every age group, 
@@ -108,9 +108,9 @@ const ProgramsPreview = () => {
               className="group"
             >
               <Link to={program.path}>
-                <div className="h-full p-5 sm:p-6 rounded-2xl bg-card border border-border shadow-card hover:shadow-elevated transition-all duration-300">
+                <div className="h-full shine-sweep p-5 sm:p-6 rounded-2xl bg-card border border-border shadow-card hover:shadow-elevated hover:border-primary/30 transition-all duration-500">
                   {/* Icon */}
-                  <div className={`w-12 sm:w-14 h-12 sm:h-14 rounded-xl ${program.iconBg} flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-12 sm:w-14 h-12 sm:h-14 rounded-xl ${program.iconBg} flex items-center justify-center mb-4 sm:mb-5 icon-spring`}>
                     <program.icon className="w-6 sm:w-7 h-6 sm:h-7 text-primary-foreground" />
                   </div>
 
@@ -128,7 +128,7 @@ const ProgramsPreview = () => {
                   {/* Link */}
                   <div className="flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all">
                     Learn More
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
                 </div>
               </Link>

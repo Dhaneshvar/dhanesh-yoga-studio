@@ -42,7 +42,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Button 
               size="xl" 
-              className="bg-background text-foreground hover:bg-background/90 shadow-elevated"
+              className="bg-background text-foreground hover:bg-background/90 shadow-elevated animate-glow-breathe"
               asChild
               title="Register for a free trial class"
             >
