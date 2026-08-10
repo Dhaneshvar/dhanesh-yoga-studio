@@ -41,7 +41,7 @@ const TestimonialsSection = () => {
             Student Stories
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground mb-4">
-            Voices of <span className="text-gradient-warm">Transformation</span>
+            Voices of <span className="text-shimmer">Transformation</span>
           </h2>
           <p className="font-body text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             Hear from our community members about their yoga journey with us.
@@ -57,12 +57,12 @@ const TestimonialsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="relative"
+              className="relative group"
             >
-              <div className="h-full p-6 sm:p-8 rounded-2xl bg-card border border-border shadow-card">
+              <div className="h-full shine-sweep p-6 sm:p-8 rounded-2xl bg-card border border-border shadow-card transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-elevated group-hover:border-primary/30">
                 {/* Quote Icon */}
                 <div className="absolute -top-4 left-6 sm:left-8">
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center icon-spring animate-glow-breathe">
                     <Quote className="w-5 h-5 text-primary-foreground" />
                   </div>
                 </div>
@@ -70,7 +70,11 @@ const TestimonialsSection = () => {
                 {/* Rating */}
                 <div className="flex gap-1 mb-4 pt-2">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-gold text-gold" />
+                    <Star
+                      key={i}
+                      className="w-4 h-4 fill-gold text-gold transition-transform duration-300 group-hover:scale-125"
+                      style={{ transitionDelay: `${i * 60}ms` }}
+                    />
                   ))}
                 </div>
 

@@ -39,9 +39,9 @@ const FeaturesSection = () => {
     <section className="py-16 sm:py-20 md:py-24 bg-card relative overflow-hidden">
       {/* Decorative Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 left-10 w-40 h-40 border border-foreground rounded-full" />
+        <div className="absolute top-10 left-10 w-40 h-40 border border-foreground rounded-full animate-float-slow" />
         <div className="absolute top-10 left-10 w-60 h-60 border border-foreground rounded-full" />
-        <div className="absolute bottom-10 right-10 w-32 h-32 border border-foreground rounded-full" />
+        <div className="absolute bottom-10 right-10 w-32 h-32 border border-foreground rounded-full animate-float-slow" />
         <div className="absolute bottom-10 right-10 w-52 h-52 border border-foreground rounded-full" />
       </div>
 
@@ -58,7 +58,7 @@ const FeaturesSection = () => {
             Why Choose Us
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground mb-4">
-            The <span className="text-gradient-warm">Dhanesh</span> Difference
+            The <span className="text-shimmer">Dhanesh</span> Difference
           </h2>
           <p className="font-body text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             Experience yoga the way it was meant to be – mindful, transformative, and deeply personal.
@@ -75,10 +75,11 @@ const FeaturesSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.02 }}
-              className="group p-5 sm:p-6 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-soft transition-all duration-300"
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              className="group shine-sweep p-5 sm:p-6 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-soft transition-all duration-500 hover:-translate-y-1"
             >
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-sage flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-sage flex items-center justify-center shrink-0 icon-spring">
                   <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
                 </div>
                 <div>
