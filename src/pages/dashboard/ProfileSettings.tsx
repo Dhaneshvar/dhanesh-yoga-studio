@@ -40,7 +40,6 @@ const ProfileSettings = () => {
     newsletter: true,
   });
 
-  const [appearance, setAppearance] = useState({
   const { theme, resolvedTheme, setTheme } = useTheme();
   const isDark = (theme === "system" ? resolvedTheme : theme) === "dark";
 
