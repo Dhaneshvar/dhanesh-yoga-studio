@@ -4,6 +4,30 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import YogaCharacter from "@/components/interactive/YogaCharacter";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useCountUp } from "@/hooks/useCountUp";
+
+const CountStat = ({
+  value,
+  suffix,
+  label,
+  color,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+  color: string;
+}) => {
+  const { ref, value: current } = useCountUp<HTMLDivElement>(value);
+  return (
+    <motion.div ref={ref} className="text-center lg:text-left" whileHover={{ scale: 1.06 }}>
+      <div className={`font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-${color}`}>
+        {current}
+        {suffix}
+      </div>
+      <div className="font-body text-xs sm:text-sm text-muted-foreground mt-1">{label}</div>
+    </motion.div>
+  );
+};
 
 const HeroSection = () => {
   const { t } = useLanguage();
