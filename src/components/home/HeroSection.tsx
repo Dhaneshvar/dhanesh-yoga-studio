@@ -135,17 +135,19 @@ const HeroSection = () => {
               className="grid grid-cols-3 gap-4 sm:gap-8 mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-border/50"
             >
               {[
-                { number: "500+", label: t('heroSection.students'), color: "turquoise" },
-                { number: "10+", label: t('heroSection.yearsExperience'), color: "sunset" },
-                { number: "50+", label: t('heroSection.yogaAsanas'), color: "lotus" },
+                { value: 500, suffix: "+", label: t('heroSection.students'), color: "turquoise" },
+                { value: 10, suffix: "+", label: t('heroSection.yearsExperience'), color: "sunset" },
+                { value: 50, suffix: "+", label: t('heroSection.yogaAsanas'), color: "lotus" },
               ].map((stat, index) => (
-                <motion.div key={index} className="text-center lg:text-left" whileHover={{ scale: 1.05 }}>
-                  <div className={`font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-${stat.color}`}>
-                    {stat.number}
-                  </div>
-                  <div className="font-body text-xs sm:text-sm text-muted-foreground mt-1">{stat.label}</div>
-                </motion.div>
+                <CountStat
+                  key={index}
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  label={stat.label}
+                  color={stat.color}
+                />
               ))}
+
             </motion.div>
           </motion.div>
 
