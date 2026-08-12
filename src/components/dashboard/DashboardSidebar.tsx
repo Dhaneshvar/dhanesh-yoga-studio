@@ -161,7 +161,7 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
       {/* Mobile Sidebar Overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden animate-fade-in"
+          className="fixed inset-0 bg-foreground/30 backdrop-blur-sm z-40 md:hidden animate-fade-in"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
@@ -169,7 +169,7 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
       {/* Mobile Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 h-full w-[280px] bg-card border-r border-border z-50 md:hidden transition-transform duration-300",
+          "fixed top-0 left-0 h-full w-[280px] glass-panel border-r z-50 md:hidden transition-transform duration-300",
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -179,10 +179,11 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
       {/* Desktop Sidebar */}
       <aside
         className={cn(
-          "hidden md:flex flex-col h-screen bg-card border-r border-border sticky top-0 transition-[width] duration-300",
+          "hidden md:flex flex-col h-screen glass-panel border-r sticky top-0 transition-[width] duration-300",
           isCollapsed ? "w-20" : "w-[280px]"
         )}
       >
+
         {sidebarContent}
 
         {/* Collapse Toggle */}
