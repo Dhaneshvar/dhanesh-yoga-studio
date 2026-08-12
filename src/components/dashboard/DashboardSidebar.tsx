@@ -91,11 +91,12 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
               to={item.path}
               onClick={() => setIsMobileOpen(false)}
               className={cn(
-                "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors group",
+                "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 group",
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-soft"
-                  : "hover:bg-secondary text-foreground"
+                  ? "glass-nav-item"
+                  : "hover:bg-secondary/60 hover:backdrop-blur-md text-foreground"
               )}
+
               title={item.label}
             >
               <item.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")} />
@@ -115,11 +116,12 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
               to={item.path}
               onClick={() => setIsMobileOpen(false)}
               className={cn(
-                "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors group",
+                "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 group",
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-soft"
-                  : "hover:bg-secondary text-foreground"
+                  ? "glass-nav-item"
+                  : "hover:bg-secondary/60 hover:backdrop-blur-md text-foreground"
               )}
+
               title={item.label}
             >
               <item.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")} />
@@ -148,17 +150,18 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-xl bg-card border border-border shadow-soft md:hidden"
+        className="fixed top-4 left-4 z-50 p-2 rounded-xl glass-panel border shadow-soft md:hidden"
         title={isMobileOpen ? "Close menu" : "Open menu"}
         aria-label={isMobileOpen ? "Close navigation menu" : "Open navigation menu"}
       >
         {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
 
+
       {/* Mobile Sidebar Overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden animate-fade-in"
+          className="fixed inset-0 bg-foreground/30 backdrop-blur-sm z-40 md:hidden animate-fade-in"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
@@ -166,7 +169,7 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
       {/* Mobile Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 h-full w-[280px] bg-card border-r border-border z-50 md:hidden transition-transform duration-300",
+          "fixed top-0 left-0 h-full w-[280px] glass-panel border-r z-50 md:hidden transition-transform duration-300",
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -176,10 +179,11 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
       {/* Desktop Sidebar */}
       <aside
         className={cn(
-          "hidden md:flex flex-col h-screen bg-card border-r border-border sticky top-0 transition-[width] duration-300",
+          "hidden md:flex flex-col h-screen glass-panel border-r sticky top-0 transition-[width] duration-300",
           isCollapsed ? "w-20" : "w-[280px]"
         )}
       >
+
         {sidebarContent}
 
         {/* Collapse Toggle */}
