@@ -517,11 +517,13 @@
   .animate-panel-pop { animation: panel-pop 0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
   /* ===== Page transition ===== */
+  /* NOTE: no transform here — a lingering transform on the page wrapper would
+     create a containing block and break `position: fixed` headers/overlays. */
   @keyframes page-in {
-    0%   { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
   }
-  .animate-page-in { animation: page-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-page-in { animation: page-in 0.35s ease-out both; }
 
   /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
