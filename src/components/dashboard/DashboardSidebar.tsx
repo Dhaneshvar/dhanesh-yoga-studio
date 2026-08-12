@@ -150,12 +150,13 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-xl bg-card border border-border shadow-soft md:hidden"
+        className="fixed top-4 left-4 z-50 p-2 rounded-xl glass-panel border shadow-soft md:hidden"
         title={isMobileOpen ? "Close menu" : "Open menu"}
         aria-label={isMobileOpen ? "Close navigation menu" : "Open navigation menu"}
       >
         {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
+
 
       {/* Mobile Sidebar Overlay */}
       {isMobileOpen && (
