@@ -479,23 +479,6 @@
     @apply bg-background/90 backdrop-blur-2xl border border-border/30;
   }
 
-  /* Glass chrome for app shell (header / sidebar) */
-  .glass-panel {
-    @apply bg-card/60 backdrop-blur-2xl border-border/50;
-    background-image: linear-gradient(
-      to bottom,
-      hsl(var(--card) / 0.75),
-      hsl(var(--card) / 0.45)
-    );
-    box-shadow: 0 8px 32px -16px hsl(var(--primary) / 0.25);
-  }
-
-  .glass-nav-item {
-    @apply bg-primary/85 backdrop-blur-md text-primary-foreground;
-    box-shadow: 0 8px 24px -10px hsl(var(--primary) / 0.6);
-  }
-
-
   /* ===== Hover micro-interactions ===== */
   .hover-lift {
     @apply transition-all duration-300 ease-out;

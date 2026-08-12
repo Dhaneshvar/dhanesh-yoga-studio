@@ -115,7 +115,7 @@ const AdminLayout = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 p-2 rounded-xl glass-panel border shadow-soft lg:hidden"
+        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 p-2 rounded-xl bg-card border border-border shadow-soft lg:hidden"
         title={isSidebarOpen ? "Close menu" : "Open menu"}
       >
         {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -128,7 +128,7 @@ const AdminLayout = () => {
 
       {/* Mobile Sidebar */}
       <aside className={cn(
-        "fixed top-0 left-0 h-full w-[260px] sm:w-[280px] glass-panel border-r z-50 lg:hidden transition-transform duration-300",
+        "fixed top-0 left-0 h-full w-[260px] sm:w-[280px] bg-card border-r border-border z-50 lg:hidden transition-transform duration-300",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         {sidebarContent(false)}
@@ -136,7 +136,7 @@ const AdminLayout = () => {
 
       {/* Desktop Sidebar */}
       <aside className={cn(
-        "hidden lg:flex flex-col h-screen glass-panel border-r sticky top-0 transition-[width] duration-300 relative",
+        "hidden lg:flex flex-col h-screen bg-card border-r border-border sticky top-0 transition-[width] duration-300 relative",
         isCollapsed ? "w-20" : "w-[280px]"
       )}>
         {sidebarContent(isCollapsed)}
@@ -152,7 +152,7 @@ const AdminLayout = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden min-w-0">
         {/* Header */}
-        <header className="sticky top-0 z-30 glass-panel border-b px-3 sm:px-4 lg:px-6 py-2 sm:py-3">
+        <header className="sticky top-0 z-30 bg-card/80 backdrop-blur-md border-b border-border px-3 sm:px-4 lg:px-6 py-2 sm:py-3">
           <div className="flex items-center justify-between">
             <div className="hidden lg:block">
               <h2 className="font-semibold text-lg text-foreground">

@@ -73,9 +73,9 @@ const FeaturesSection = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.02 }}
-
+              transition={{ duration: 0.5, delay: index * 0.08 }}
               className="group shine-sweep p-5 sm:p-6 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-soft transition-all duration-500 hover:-translate-y-1"
             >
               <div className="flex items-start gap-3 sm:gap-4">
