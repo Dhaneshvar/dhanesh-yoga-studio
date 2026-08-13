@@ -586,10 +586,12 @@
 
   /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .hover-lift, .card-hover, .btn-pop,
+    .hover-lift, .card-hover, .btn-pop, .widget-hover,
     .animate-voice-aura, .animate-panel-pop, .animate-page-in {
       animation: none !important;
       transition: none !important;
+    }
+    .btn-pop::before, .widget-hover::after { display: none;
     }
   }
 }

@@ -89,7 +89,7 @@ const VoiceGuideWidget = () => {
         <button
           onClick={() => setExpanded(true)}
           className={cn(
-            "relative p-2.5 rounded-full bg-card/70 backdrop-blur-xl border border-border shadow-md btn-pop",
+            "relative p-2.5 rounded-full bg-card/70 backdrop-blur-xl border border-border shadow-md widget-hover",
             enabled ? "animate-voice-aura" : "hover:border-primary/50"
           )}
           aria-label="Open voice guide"
