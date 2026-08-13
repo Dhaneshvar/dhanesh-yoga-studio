@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
 import SEOHead from "@/components/SEOHead";
@@ -9,7 +9,16 @@ import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2, X, ScrollText } fr
 import { useAuth } from "@/hooks/useAuth";
 import { Checkbox } from "@/components/ui/checkbox";
 
+const PROGRAM_LABELS: Record<string, string> = {
+  kids: "Kids Yoga (5-12 yrs)",
+  teens: "Teen Yoga (13-19 yrs)",
+  adults: "Adult Yoga (20-50 yrs)",
+  seniors: "Senior Yoga (50+ yrs)",
+};
+
 const Register = () => {
+  const [searchParams] = useSearchParams();
+  const selectedProgram = PROGRAM_LABELS[searchParams.get("program") || ""] || "";
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,6 +98,12 @@ const Register = () => {
               </motion.div>
               <h1 className="font-display text-3xl font-semibold text-foreground">Join Dhanesh Yoga</h1>
               <p className="font-body text-muted-foreground mt-2">Start your yoga journey today</p>
+              {selectedProgram && (
+                <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-body">
+                  <Leaf className="w-4 h-4" aria-hidden="true" />
+                  Enrolling in: {selectedProgram}
+                </div>
+              )}
             </div>
 
             {/* Error Message */}

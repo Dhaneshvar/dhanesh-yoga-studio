@@ -12,6 +12,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "@/hooks/use-toast";
 import {
   Select,
   SelectContent,
@@ -94,6 +95,45 @@ const scheduledReports = [
   { name: "Daily Session Stats", schedule: "Daily at 11 PM", nextRun: "Today" },
 ];
 
+const downloadCsv = (filename: string, rows: (string | number)[][]) => {
+  const csv = rows
+    .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+    .join("\n");
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+const quickExports: Record<string, (string | number)[][]> = {
+  "All Users": [
+    ["Name", "Email", "Role", "Status", "Joined"],
+    ["Aarav Sharma", "aarav@example.com", "Practitioner", "Active", "2026-01-12"],
+    ["Priya Sharma", "priya@example.com", "Trainer", "Active", "2025-11-03"],
+    ["Meera Krishnan", "meera@example.com", "Trainer", "Pending", "2026-02-01"],
+  ],
+  Sessions: [
+    ["Session", "Trainer", "Date", "Time", "Attendees"],
+    ["Morning Vinyasa Flow", "Priya Sharma", "2026-02-03", "07:00", 14],
+    ["Gentle Hatha Yoga", "Amit Patel", "2026-02-04", "09:00", 11],
+  ],
+  Transactions: [
+    ["Invoice", "Practitioner", "Amount (INR)", "Date", "Status"],
+    ["INV-1041", "Aarav Sharma", 2500, "2026-02-01", "Paid"],
+    ["INV-1042", "Isha Menon", 4500, "2026-02-02", "Paid"],
+  ],
+  Analytics: [
+    ["Metric", "Value"],
+    ["Active practitioners", 248],
+    ["Monthly revenue (INR)", 412000],
+    ["Average attendance", "82%"],
+  ],
+};
+
 const AdminReports = () => {
   const [categoryFilter, setCategoryFilter] = useState("all");
 
@@ -103,8 +143,17 @@ const AdminReports = () => {
       : reports.filter((r) => r.category === categoryFilter);
 
   const handleDownload = (reportName: string) => {
-    // Simulate download
-    console.log(`Downloading ${reportName}...`);
+    const rows = quickExports[reportName] || [
+      ["Report", "Generated at"],
+      [reportName, new Date().toISOString()],
+    ];
+    downloadCsv(`${reportName.toLowerCase().replace(/\s+/g, "-")}.csv`, rows);
+    toast({ title: "Export ready", description: `${reportName} downloaded as CSV.` });
+  };
+
+  const handleQuickExport = (name: string) => {
+    downloadCsv(`${name.toLowerCase().replace(/\s+/g, "-")}.csv`, quickExports[name]);
+    toast({ title: "Export ready", description: `${name} downloaded as CSV.` });
   };
 
   return (
@@ -226,25 +275,25 @@ const AdminReports = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-auto py-6 flex flex-col gap-2">
+            <Button variant="outline" className="h-auto py-6 flex flex-col gap-2 hover-lift" onClick={() => handleQuickExport("All Users")} title="Export All Users as CSV" aria-label="Export All Users as CSV">
               <Users className="w-6 h-6" />
               <span>All Users</span>
               <span className="text-xs text-muted-foreground">CSV Export</span>
             </Button>
-            <Button variant="outline" className="h-auto py-6 flex flex-col gap-2">
+            <Button variant="outline" className="h-auto py-6 flex flex-col gap-2 hover-lift" onClick={() => handleQuickExport("Sessions")} title="Export Sessions as CSV" aria-label="Export Sessions as CSV">
               <Calendar className="w-6 h-6" />
               <span>Sessions</span>
               <span className="text-xs text-muted-foreground">CSV Export</span>
             </Button>
-            <Button variant="outline" className="h-auto py-6 flex flex-col gap-2">
+            <Button variant="outline" className="h-auto py-6 flex flex-col gap-2 hover-lift" onClick={() => handleQuickExport("Transactions")} title="Export Transactions as CSV" aria-label="Export Transactions as CSV">
               <IndianRupee className="w-6 h-6" />
               <span>Transactions</span>
               <span className="text-xs text-muted-foreground">CSV Export</span>
             </Button>
-            <Button variant="outline" className="h-auto py-6 flex flex-col gap-2">
+            <Button variant="outline" className="h-auto py-6 flex flex-col gap-2 hover-lift" onClick={() => handleQuickExport("Analytics")} title="Export Analytics as CSV" aria-label="Export Analytics as CSV">
               <TrendingUp className="w-6 h-6" />
               <span>Analytics</span>
-              <span className="text-xs text-muted-foreground">PDF Report</span>
+              <span className="text-xs text-muted-foreground">CSV Export</span>
             </Button>
           </div>
         </CardContent>
