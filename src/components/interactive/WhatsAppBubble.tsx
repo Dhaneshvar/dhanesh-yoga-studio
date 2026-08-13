@@ -30,7 +30,7 @@ const WhatsAppBubble = () => {
               exit={{ opacity: 0, y: 20, scale: 0.8 }}
               transition={{ delay: 0.1 }}
               onClick={handleChat}
-              className="flex items-center gap-2 sm:gap-3 bg-card border border-border rounded-full px-3 sm:px-4 py-2 sm:py-3 shadow-elevated hover:shadow-lg transition-all group"
+              className="flex items-center gap-2 sm:gap-3 bg-card border border-border rounded-full px-3 sm:px-4 py-2 sm:py-3 shadow-elevated transition-all group widget-hover"
               title="Send WhatsApp Message"
             >
               <span className="text-xs sm:text-sm font-medium text-foreground">Chat with us</span>
@@ -44,7 +44,7 @@ const WhatsAppBubble = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.8 }}
               onClick={handleCall}
-              className="flex items-center gap-2 sm:gap-3 bg-card border border-border rounded-full px-3 sm:px-4 py-2 sm:py-3 shadow-elevated hover:shadow-lg transition-all group"
+              className="flex items-center gap-2 sm:gap-3 bg-card border border-border rounded-full px-3 sm:px-4 py-2 sm:py-3 shadow-elevated transition-all group widget-hover"
               title="WhatsApp Call"
             >
               <span className="text-xs sm:text-sm font-medium text-foreground">Call us</span>
