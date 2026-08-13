@@ -73,6 +73,12 @@ const Schedule = () => {
     (cls) => filterType === "All" || cls.type === filterType || cls.type === "All Ages" || cls.type === "All Levels"
   );
 
+  const shiftDay = (dir: -1 | 1) => {
+    const idx = weekDaysEn.indexOf(selectedDay);
+    const next = (idx + dir + weekDaysEn.length) % weekDaysEn.length;
+    setSelectedDay(weekDaysEn[next]);
+  };
+
   const getTranslatedDay = (day: string) => {
     const idx = weekDaysEn.indexOf(day);
     return idx >= 0 ? t(`schedulePage.days.${weekDayKeys[idx]}`) : day;
@@ -106,7 +112,7 @@ const Schedule = () => {
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8 space-y-4">
               <div className="flex items-center justify-between">
-                <button className="p-2 rounded-lg hover:bg-muted transition-colors"><ChevronLeft className="w-5 h-5" /></button>
+                <button onClick={() => shiftDay(-1)} title="Previous day" aria-label="Previous day" className="p-2 rounded-lg hover:bg-muted transition-colors widget-hover"><ChevronLeft className="w-5 h-5" /></button>
                 <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
                   {weekDaysEn.map((day) => (
                     <button key={day} onClick={() => setSelectedDay(day)} className={`px-4 py-2 rounded-xl font-body text-sm whitespace-nowrap transition-all ${selectedDay === day ? "bg-primary text-primary-foreground shadow-soft" : "bg-card border border-border hover:border-primary/30"}`}>
@@ -114,7 +120,7 @@ const Schedule = () => {
                     </button>
                   ))}
                 </div>
-                <button className="p-2 rounded-lg hover:bg-muted transition-colors"><ChevronRight className="w-5 h-5" /></button>
+                <button onClick={() => shiftDay(1)} title="Next day" aria-label="Next day" className="p-2 rounded-lg hover:bg-muted transition-colors widget-hover"><ChevronRight className="w-5 h-5" /></button>
               </div>
               <div className="flex items-center gap-4">
                 <span className="font-body text-sm text-muted-foreground">{t('schedulePage.filter')}</span>

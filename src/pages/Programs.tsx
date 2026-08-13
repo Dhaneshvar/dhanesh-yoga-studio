@@ -96,7 +96,7 @@ const Programs = () => {
                       <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted"><span className="font-body text-sm text-foreground">{program.duration}</span></div>
                       <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted"><Users className="w-4 h-4 text-primary" /><span className="font-body text-sm text-foreground">{program.capacity}</span></div>
                     </div>
-                    <Button variant="hero" size="lg" asChild><Link to={`/programs/${program.id}`}>{t('programsPage.enrollNow')}<ArrowRight className="w-5 h-5" /></Link></Button>
+                    <Button variant="hero" size="lg" asChild><Link to={`/register?program=${program.id}`}>{t('programsPage.enrollNow')}<ArrowRight className="w-5 h-5" /></Link></Button>
                   </div>
                   <div className={index % 2 === 1 ? "lg:order-1" : ""}>
                     <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }} className="relative">
