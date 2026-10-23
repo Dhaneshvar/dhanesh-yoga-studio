@@ -64,7 +64,7 @@ const Index = () => {
       
       <main>
         <div data-voice-section="home-welcome" data-voice-title="Welcome to Dhanesh Yoga Studio">
-          <YogaMatConcept embedded />
+          <YogaMatConcept />
         </div>
 
         <div data-voice-section="home-hero" data-voice-title="Welcome"><HeroSection /></div>

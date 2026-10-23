@@ -9,7 +9,6 @@ A responsive yoga-studio website built with React, TypeScript and Vite. The home
 - Age-specific yoga programs, asana library and weekly schedule
 - Student, trainer and administrator dashboard routes
 - Supabase authentication and data integration
-- Separate concept preview at `/concept/yoga-mat`
 
 ## Technology
 
@@ -69,7 +68,6 @@ npm run preview
 | `/login` and `/register` | Account access |
 | `/dashboard/*` | Student and trainer workspace |
 | `/admin/*` | Administration workspace |
-| `/concept/yoga-mat` | Standalone animation preview |
 
 ## Deployment
 

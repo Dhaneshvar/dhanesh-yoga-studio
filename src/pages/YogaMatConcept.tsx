@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowLeft, ArrowRight, RotateCcw } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import suryaPose from "@/assets/concept/yoga-practitioner-surya-v2.png";
 import forwardFoldPose from "@/assets/concept/yoga-practitioner-forward-fold-clean.png";
 import cobraPose from "@/assets/concept/yoga-practitioner-cobra-clean.png";
@@ -28,8 +28,7 @@ const poses = [
   { src: duoHoldingMat, label: "Roll the mat together · studio welcome", guide: false },
 ];
 
-const YogaMatConcept = ({ embedded = false }: { embedded?: boolean }) => {
-  const [sceneKey, setSceneKey] = useState(0);
+const YogaMatConcept = () => {
   const [poseIndex, setPoseIndex] = useState(0);
   const [sequenceComplete, setSequenceComplete] = useState(false);
   const [matClosing, setMatClosing] = useState(false);
@@ -38,8 +37,7 @@ const YogaMatConcept = ({ embedded = false }: { embedded?: boolean }) => {
   const [orbit, setOrbit] = useState({ x: 0, y: 0 });
   const dragRef = useRef({ active: false, x: 0, y: 0, orbitX: 0, orbitY: 0 });
   const reducedMotion = useReducedMotion();
-  const location = useLocation();
-  const showFinalFrame = reducedMotion || new URLSearchParams(location.search).get("preview") === "final";
+  const showFinalFrame = reducedMotion;
 
   const duration = (value: number) => (showFinalFrame ? 0 : value);
   const delay = (value: number) => (showFinalFrame ? 0 : value);
@@ -76,7 +74,7 @@ const YogaMatConcept = ({ embedded = false }: { embedded?: boolean }) => {
       setExitScene(true);
     }, 28200));
     return () => timers.forEach(window.clearTimeout);
-  }, [sceneKey, showFinalFrame]);
+  }, [showFinalFrame]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLElement>) => {
     dragRef.current = { active: true, x: event.clientX, y: event.clientY, orbitX: orbit.x, orbitY: orbit.y };
@@ -132,29 +130,6 @@ const YogaMatConcept = ({ embedded = false }: { embedded?: boolean }) => {
         <span className="-mt-2 text-[9px] font-semibold uppercase tracking-[0.36em]">Dhanesh Yoga Studio</span>
       </div>
 
-      {!embedded && <header className="absolute inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-5 sm:px-8 sm:py-7 lg:px-12">
-        <Link
-          to="/"
-          className="group inline-flex items-center gap-3 rounded-full border border-[#403a2f]/10 bg-[#f8f2e7]/65 py-2 pl-2 pr-4 text-[#28372f] shadow-sm backdrop-blur-md transition hover:bg-[#fffaf0]/90"
-        >
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-[#24483a] text-[#f7efe1] transition-transform group-hover:-translate-x-0.5">
-            <ArrowLeft className="h-4 w-4" />
-          </span>
-          <span className="text-[11px] font-semibold uppercase tracking-[0.2em]">Dhanesh Yoga</span>
-        </Link>
-        <button
-          type="button"
-          onClick={() => {
-            setOrbit({ x: 0, y: 0 });
-            setSceneKey((value) => value + 1);
-          }}
-          className="inline-flex items-center gap-2 rounded-full border border-[#403a2f]/10 bg-[#f8f2e7]/65 px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#28372f] shadow-sm backdrop-blur-md transition hover:bg-[#fffaf0]/90"
-        >
-          <RotateCcw className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">Replay ritual</span>
-        </button>
-      </header>}
-
       <motion.div
         initial={{ opacity: 0, x: "-50%", y: -12 }}
         animate={{ opacity: 1, x: "-50%", y: 0 }}
@@ -166,7 +141,6 @@ const YogaMatConcept = ({ embedded = false }: { embedded?: boolean }) => {
       </motion.div>
 
       <section
-        key={sceneKey}
         aria-label="Interactive Surya Namaskar yoga mat welcome"
         className="absolute inset-0 z-10 cursor-grab select-none active:cursor-grabbing"
         onPointerDown={handlePointerDown}
