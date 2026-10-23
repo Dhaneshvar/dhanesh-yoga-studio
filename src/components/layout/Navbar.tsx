@@ -108,7 +108,7 @@ const Navbar = () => {
       } ${
         scrolled
           ? "bg-background/90 backdrop-blur-lg shadow-soft"
-          : "bg-transparent"
+          : "border-b border-[#24483a]/10 bg-[#f7f0e5]/88 backdrop-blur-md shadow-[0_8px_28px_rgba(43,38,29,.08)] dark:border-white/10 dark:bg-[#132a23]/92"
       }`}
     >
       <div className="container mx-auto px-3 sm:px-4 lg:px-8">
@@ -122,7 +122,7 @@ const Navbar = () => {
             >
               <img src={logoImg} alt="Dhanesh Yoga Center logo" className="w-full h-full object-cover" />
             </motion.div>
-            <span className="font-display text-base sm:text-xl font-semibold text-foreground leading-tight">
+            <span className="font-display text-base sm:text-xl font-semibold leading-tight text-[#24483a] dark:text-[#f6efe2]">
               <span className="hidden xs:inline sm:inline">Dhanesh Yoga Center</span>
               <span className="xs:hidden sm:hidden inline">DYC</span>
             </span>
@@ -135,7 +135,7 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 title={`Navigate to ${t(link.name)} page`}
-                className="relative font-body text-sm font-medium text-foreground/80 hover:text-foreground transition-colors group whitespace-nowrap"
+                className="relative whitespace-nowrap font-body text-sm font-semibold text-[#24483a]/90 transition-colors hover:text-[#132f25] dark:text-[#f6efe2]/90 dark:hover:text-white"
               >
                 {t(link.name)}
                 <motion.span
@@ -180,7 +180,13 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Button variant="ghost" size="sm" asChild title={t("nav.login")}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  asChild
+                  title={t("nav.login")}
+                  className="text-[#24483a] hover:bg-[#24483a]/10 hover:text-[#132f25] dark:text-[#f6efe2] dark:hover:bg-white/10 dark:hover:text-white"
+                >
                   <Link to="/login">{t("nav.login")}</Link>
                 </Button>
                 <Button variant="hero" size="default" asChild title={t("nav.joinNow")}>

@@ -11,6 +11,7 @@ import WhatsAppBubble from "@/components/interactive/WhatsAppBubble";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
 import Reveal from "@/components/animation/Reveal";
 import SEOHead from "@/components/SEOHead";
+import YogaMatConcept from "@/pages/YogaMatConcept";
 
 const Index = () => {
   return (
@@ -62,6 +63,10 @@ const Index = () => {
       <Navbar />
       
       <main>
+        <div data-voice-section="home-welcome" data-voice-title="Welcome to Dhanesh Yoga Studio">
+          <YogaMatConcept embedded />
+        </div>
+
         <div data-voice-section="home-hero" data-voice-title="Welcome"><HeroSection /></div>
 
         {/* Floating quote between sections */}

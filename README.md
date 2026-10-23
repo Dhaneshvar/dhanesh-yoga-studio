@@ -1,73 +1,86 @@
-# Welcome to your Lovable project
+# Dhanesh Yoga Studio
 
-## Project info
+A responsive yoga-studio website built with React, TypeScript and Vite. The homepage opens with an immersive yoga-room sequence: a mat unfolds, instructors demonstrate a guided practice, the mat is packed away, and the experience transitions into the main studio content.
 
-**URL**: https://lovable.dev/projects/2bd6d28a-9bfc-4cc5-9a3f-dbdcf1b0d175
+## Highlights
 
-## How can I edit this code?
+- Animated yoga-studio welcome experience with light and dark themes
+- Responsive navigation, multilingual UI and accessible controls
+- Age-specific yoga programs, asana library and weekly schedule
+- Student, trainer and administrator dashboard routes
+- Supabase authentication and data integration
+- Separate concept preview at `/concept/yoga-mat`
 
-There are several ways of editing your application.
+## Technology
 
-**Use Lovable**
+- React 18 and TypeScript
+- Vite
+- Tailwind CSS and shadcn/ui
+- Framer Motion
+- React Router
+- TanStack Query
+- Supabase
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2bd6d28a-9bfc-4cc5-9a3f-dbdcf1b0d175) and start prompting.
+## Local development
 
-Changes made via Lovable will be committed automatically to this repo.
+Requirements: Node.js 20 or newer and npm.
 
-**Use your preferred IDE**
+```bash
+git clone https://github.com/Dhaneshvar/dhanesh-yoga-studio.git
+cd dhanesh-yoga-studio
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Copy `.env.example` to `.env` and provide the public Supabase project settings:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```env
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
+VITE_SUPABASE_PROJECT_ID=your-project-ref
+```
 
-Follow these steps:
+Start the development server:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The default local URL is `http://127.0.0.1:5173`. The port may change when another process is already using it.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Quality checks
 
-**Use GitHub Codespaces**
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+npm run preview
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Main routes
 
-## What technologies are used for this project?
+| Route | Purpose |
+| --- | --- |
+| `/` | Animated welcome and complete marketing homepage |
+| `/programs` | Yoga programs by audience and age |
+| `/asanas` | Asana library |
+| `/schedule` | Weekly class schedule |
+| `/gallery` | Studio gallery |
+| `/contact` | Contact page |
+| `/login` and `/register` | Account access |
+| `/dashboard/*` | Student and trainer workspace |
+| `/admin/*` | Administration workspace |
+| `/concept/yoga-mat` | Standalone animation preview |
 
-This project is built with:
+## Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+The frontend builds to `dist/` and can be deployed to Vercel, Railway or Render. Configure the three `VITE_SUPABASE_*` variables in the hosting provider rather than committing a local `.env` file. See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for provider settings and release checks.
 
-## How can I deploy this project?
+## Security
 
-Simply open [Lovable](https://lovable.dev/projects/2bd6d28a-9bfc-4cc5-9a3f-dbdcf1b0d175) and click on Share -> Publish.
+- Never commit `.env` or Supabase service-role keys.
+- Only the Supabase publishable/anonymous key belongs in the browser application.
+- Configure Row Level Security policies before accepting production user data.
 
-## Can I connect a custom domain to my Lovable project?
+## Lovable
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project originated in Lovable and remains connected to its project workflow. Local Git commits pushed to this repository can be synchronized with Lovable.

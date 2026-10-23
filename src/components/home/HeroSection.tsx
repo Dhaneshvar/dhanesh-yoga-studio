@@ -34,6 +34,11 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-[85vh] sm:min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#684733] via-background/85 to-transparent dark:from-[#2b211b] dark:via-background/90 sm:h-44"
+      />
+
       {/* Multi-color animated background - responsive sizes */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div

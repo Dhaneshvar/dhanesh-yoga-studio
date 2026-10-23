@@ -17,6 +17,7 @@ import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
 import AuthAccount from "./pages/AuthAccount";
 import OAuthConsent from "./pages/OAuthConsent";
+import YogaMatConcept from "./pages/YogaMatConcept";
 import NotFound from "./pages/NotFound";
 
 import MeditationMode from "./components/interactive/MeditationMode";
@@ -62,6 +63,8 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 };
 
 const AppContent = () => {
+  const location = useLocation();
+  const isConceptPreview = location.pathname === "/concept/yoga-mat";
   const [meditationOpen, setMeditationOpen] = useState(false);
   const [userRole, setUserRole] = useState<"trainer" | "admin" | "student">(
     () => (localStorage.getItem("userRole") as "trainer" | "admin" | "student") || "trainer"
@@ -106,6 +109,7 @@ const AppContent = () => {
            <Route path="/gallery" element={<Gallery />} />
            <Route path="/account" element={<AuthAccount />} />
            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
+           <Route path="/concept/yoga-mat" element={<YogaMatConcept />} />
 
           
           {/* Yoga Studio Dashboard Routes */}
@@ -137,12 +141,16 @@ const AppContent = () => {
         </Routes>
       </PageTransition>
       
-      <MeditationToggle onClick={() => setMeditationOpen(true)} />
-      <MeditationMode isOpen={meditationOpen} onClose={() => setMeditationOpen(false)} />
-      <ChatbotWidget />
-      <ScrollToTop />
-      <VoiceSectionObserver />
-      <VoiceGuideWidget />
+      {!isConceptPreview && (
+        <>
+          <MeditationToggle onClick={() => setMeditationOpen(true)} />
+          <MeditationMode isOpen={meditationOpen} onClose={() => setMeditationOpen(false)} />
+          <ChatbotWidget />
+          <ScrollToTop />
+          <VoiceSectionObserver />
+          <VoiceGuideWidget />
+        </>
+      )}
     </div>
   );
 };

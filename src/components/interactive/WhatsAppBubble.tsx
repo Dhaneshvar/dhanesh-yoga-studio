@@ -1,12 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, Phone, X } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const WHATSAPP_NUMBER = "919876543210";
 const WHATSAPP_MESSAGE = "Hello! I'm interested in your yoga classes.";
 
 const WhatsAppBubble = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPastWelcome, setIsPastWelcome] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const updateVisibility = () => {
+      setIsPastWelcome(location.pathname !== "/" || window.scrollY > window.innerHeight * 0.72);
+    };
+
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    window.addEventListener("resize", updateVisibility);
+    return () => {
+      window.removeEventListener("scroll", updateVisibility);
+      window.removeEventListener("resize", updateVisibility);
+    };
+  }, [location.pathname]);
 
   const handleChat = () => {
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
@@ -17,6 +34,8 @@ const WhatsAppBubble = () => {
     const url = `https://wa.me/${WHATSAPP_NUMBER}`;
     window.open(url, "_blank");
   };
+
+  if (!isPastWelcome) return null;
 
   return (
     <div className="fixed bottom-20 sm:bottom-24 left-3 sm:left-6 z-50 flex flex-col items-start gap-2 sm:gap-3">
