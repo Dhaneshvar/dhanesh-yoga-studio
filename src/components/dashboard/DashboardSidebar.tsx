@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import {
-  UserPlus, Users, Calendar, Clock, LogOut, Menu, X,
-  ChevronLeft, Home, User, Settings, Shield, ClipboardList, BookOpen, GraduationCap,
-} from "lucide-react";
+import { LogOut, Menu, X, ChevronLeft, Home, ClipboardList, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/logo.webp";
 
 interface DashboardSidebarProps {
   userRole: "trainer" | "admin" | "student";
@@ -18,35 +15,12 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const trainerMenuItems = [
-    { icon: UserPlus, label: "Register Trainer", path: "/dashboard/register-trainer" },
-    { icon: Users, label: "Trainer Directory", path: "/dashboard/trainer-directory" },
-    { icon: Calendar, label: "Trainer Schedule", path: "/dashboard/trainer-schedule" },
-    { icon: Clock, label: "Availability Overview", path: "/dashboard/availability" },
-  ];
-
-  const adminMenuItems = [
-    { icon: Shield, label: "User Management", path: "/dashboard/admin/users" },
-    { icon: UserPlus, label: "Register Trainer", path: "/dashboard/register-trainer" },
-    { icon: Users, label: "Trainer Directory", path: "/dashboard/trainer-directory" },
-    { icon: Calendar, label: "Trainer Schedule", path: "/dashboard/trainer-schedule" },
-    { icon: Clock, label: "Availability Overview", path: "/dashboard/availability" },
-  ];
-
   const studentMenuItems = [
     { icon: GraduationCap, label: "Register for Class", path: "/dashboard/student-registration" },
     { icon: ClipboardList, label: "My Registrations", path: "/dashboard/my-registrations" },
-    { icon: BookOpen, label: "My Classes", path: "/dashboard/my-classes" },
-    { icon: Users, label: "Find Trainers", path: "/dashboard/trainer-directory" },
-    { icon: Clock, label: "Schedule", path: "/dashboard/trainer-schedule" },
   ];
 
-  const bottomMenuItems = [
-    { icon: User, label: "Profile", path: "/dashboard/profile" },
-    { icon: Settings, label: "Settings", path: "/dashboard/settings" },
-  ];
-
-  const menuItems = userRole === "admin" ? adminMenuItems : userRole === "trainer" ? trainerMenuItems : studentMenuItems;
+  const menuItems = studentMenuItems;
 
   const sidebarContent = (
     <div className="flex flex-col h-full">
@@ -104,30 +78,6 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
           );
         })}
       </nav>
-
-      {/* Profile & Settings */}
-      <div className="p-4 pt-2 space-y-1 border-t border-border">
-        {bottomMenuItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              onClick={() => setIsMobileOpen(false)}
-              className={cn(
-                "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors group",
-                isActive
-                  ? "bg-primary text-primary-foreground shadow-soft"
-                  : "hover:bg-secondary text-foreground"
-              )}
-              title={item.label}
-            >
-              <item.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")} />
-              {!isCollapsed && <span className="font-body text-sm font-medium">{item.label}</span>}
-            </NavLink>
-          );
-        })}
-      </div>
 
       {/* Logout */}
       <div className="p-4 border-t border-border">

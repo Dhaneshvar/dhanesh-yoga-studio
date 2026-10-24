@@ -1,9 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import {
-  LayoutDashboard, Users, UserCheck, Calendar, BarChart3, Settings,
-  Bell, LogOut, ChevronDown, Menu, X, Home, FileText, Mail, Activity,
-  ChevronLeft,
-} from "lucide-react";
+import { Calendar, Bell, LogOut, ChevronDown, Menu, X, Home, Activity, ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,17 +9,10 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import ThemeToggle from "@/components/ThemeToggle";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/logo.webp";
 
 const adminMenuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
-  { icon: Users, label: "User Management", path: "/admin/users" },
-  { icon: UserCheck, label: "Trainer Approvals", path: "/admin/approvals" },
-  { icon: Calendar, label: "Session Management", path: "/admin/sessions" },
-  { icon: BarChart3, label: "Analytics", path: "/admin/analytics" },
-  { icon: FileText, label: "Reports", path: "/admin/reports" },
-  { icon: Mail, label: "Communications", path: "/admin/communications" },
-  { icon: Settings, label: "System Settings", path: "/admin/settings" },
+  { icon: Calendar, label: "Studio classes", path: "/admin/sessions" },
 ];
 
 const AdminLayout = () => {
@@ -34,8 +23,7 @@ const AdminLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("userRole");
-    logout();
+    void logout();
     navigate("/login");
   };
 
@@ -193,10 +181,6 @@ const AdminLayout = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/admin/settings")}>
-                    <Settings className="w-4 h-4 mr-2" /> Settings
-                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="text-destructive">
                     <LogOut className="w-4 h-4 mr-2" /> Logout

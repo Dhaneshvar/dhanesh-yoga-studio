@@ -17,6 +17,7 @@
  import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
  import { useToast } from "@/hooks/use-toast";
  import { useLanguage } from "@/contexts/LanguageContext";
+ import { submitContact, submitFeedback } from "@/lib/studioApi";
  
  const contactSchema = z.object({
    name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -54,18 +55,24 @@
  
    const onContactSubmit = async (data: ContactFormData) => {
      setIsContactSubmitting(true);
-     await new Promise((resolve) => setTimeout(resolve, 1500));
-     setIsContactSubmitting(false);
-     toast({ title: t('contactPage.messageSent'), description: t('contactPage.messageSentDesc') });
-     contactForm.reset();
+     try {
+       await submitContact(data);
+       toast({ title: t('contactPage.messageSent'), description: t('contactPage.messageSentDesc') });
+       contactForm.reset();
+     } catch (error) {
+       toast({ title: "Unable to send your message", description: error instanceof Error ? error.message : "Please try again.", variant: "destructive" });
+     } finally { setIsContactSubmitting(false); }
    };
  
    const onFeedbackSubmit = async (data: FeedbackFormData) => {
      setIsFeedbackSubmitting(true);
-     await new Promise((resolve) => setTimeout(resolve, 1500));
-     setIsFeedbackSubmitting(false);
-     toast({ title: t('contactPage.feedbackReceived'), description: t('contactPage.feedbackReceivedDesc') });
-     feedbackForm.reset();
+     try {
+       await submitFeedback({ name: data.name, email: data.email, issue_type: data.issueType, description: data.description });
+       toast({ title: t('contactPage.feedbackReceived'), description: t('contactPage.feedbackReceivedDesc') });
+       feedbackForm.reset();
+     } catch (error) {
+       toast({ title: "Unable to submit feedback", description: error instanceof Error ? error.message : "Please try again.", variant: "destructive" });
+     } finally { setIsFeedbackSubmitting(false); }
    };
  
    const contactInfo = [

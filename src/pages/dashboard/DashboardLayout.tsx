@@ -1,9 +1,10 @@
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import PractitionerScene from "@/components/three/PractitionerScene";
 import { useAuth } from "@/hooks/useAuth";
 
+const PractitionerScene = lazy(() => import("@/components/three/PractitionerScene"));
 
 interface DashboardLayoutProps {
   userRole: "trainer" | "admin" | "student";
@@ -12,6 +13,12 @@ interface DashboardLayoutProps {
 const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
+  const [sceneReady, setSceneReady] = useState(false);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => setSceneReady(true), 1200);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -22,7 +29,11 @@ const DashboardLayout = ({ userRole }: DashboardLayoutProps) => {
     <div className="h-screen bg-background flex w-full overflow-hidden">
       <DashboardSidebar userRole={userRole} onLogout={handleLogout} />
       <div className="relative flex-1 flex flex-col h-screen overflow-hidden min-w-0">
-        {userRole === "student" && <PractitionerScene />}
+        {userRole === "student" && sceneReady && (
+          <Suspense fallback={null}>
+            <PractitionerScene />
+          </Suspense>
+        )}
         <DashboardHeader
           userRole={userRole}
           userName={user?.name || "User"}

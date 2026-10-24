@@ -1,55 +1,39 @@
-import { useState, useEffect } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import Index from "./pages/Index";
-import About from "./pages/About";
-import Programs from "./pages/Programs";
-import Asanas from "./pages/Asanas";
-import Schedule from "./pages/Schedule";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Contact from "./pages/Contact";
-import Gallery from "./pages/Gallery";
-import AuthAccount from "./pages/AuthAccount";
-import OAuthConsent from "./pages/OAuthConsent";
-import NotFound from "./pages/NotFound";
-
-import MeditationMode from "./components/interactive/MeditationMode";
-import MeditationToggle from "./components/interactive/MeditationToggle";
-import ChatbotWidget from "./components/chatbot/ChatbotWidget";
-import ScrollToTop from "./components/interactive/ScrollToTop";
 import { VoiceGuideProvider } from "./contexts/VoiceGuideContext";
-import VoiceGuideWidget from "./components/voice/VoiceGuideWidget";
-import VoiceSectionObserver from "./components/voice/VoiceSectionObserver";
+import { useAuth, type UserRole } from "./hooks/useAuth";
+import PageLoader from "./components/feedback/PageLoader";
 
-// Dashboard imports (Yoga Studio)
-import DashboardLayout from "./pages/dashboard/DashboardLayout";
-import RegisterTrainer from "./pages/dashboard/RegisterTrainer";
-import TrainerDirectory from "./pages/dashboard/TrainerDirectory";
-import TrainerSchedule from "./pages/dashboard/TrainerSchedule";
-import AvailabilityOverview from "./pages/dashboard/AvailabilityOverview";
-import ProfileSettings from "./pages/dashboard/ProfileSettings";
-import MyClasses from "./pages/dashboard/MyClasses";
-import StudentRegistration from "./pages/dashboard/StudentRegistration";
-import MyRegistrations from "./pages/dashboard/MyRegistrations";
+const Index = lazy(() => import("./pages/Index"));
+const About = lazy(() => import("./pages/About"));
+const Programs = lazy(() => import("./pages/Programs"));
+const Asanas = lazy(() => import("./pages/Asanas"));
+const Schedule = lazy(() => import("./pages/Schedule"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Gallery = lazy(() => import("./pages/Gallery"));
+const AuthAccount = lazy(() => import("./pages/AuthAccount"));
+const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const DashboardLayout = lazy(() => import("./pages/dashboard/DashboardLayout"));
+const StudentRegistration = lazy(() => import("./pages/dashboard/StudentRegistration"));
+const MyRegistrations = lazy(() => import("./pages/dashboard/MyRegistrations"));
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminSessions = lazy(() => import("./pages/admin/AdminSessions"));
 
-// Admin Dashboard imports (Separate)
-import AdminLayout from "./pages/admin/AdminLayout";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminUserManagement from "./pages/admin/AdminUserManagement";
-import AdminTrainerApprovals from "./pages/admin/AdminTrainerApprovals";
-import AdminSessions from "./pages/admin/AdminSessions";
-import AdminAnalytics from "./pages/admin/AdminAnalytics";
-import AdminReports from "./pages/admin/AdminReports";
-import AdminCommunications from "./pages/admin/AdminCommunications";
-import AdminSettings from "./pages/admin/AdminSettings";
-
-const queryClient = new QueryClient();
+// Secondary tools are intentionally downloaded after the first screen is interactive.
+const MeditationMode = lazy(() => import("./components/interactive/MeditationMode"));
+const MeditationToggle = lazy(() => import("./components/interactive/MeditationToggle"));
+const ChatbotWidget = lazy(() => import("./components/chatbot/ChatbotWidget"));
+const ScrollToTop = lazy(() => import("./components/interactive/ScrollToTop"));
+const VoiceGuideWidget = lazy(() => import("./components/voice/VoiceGuideWidget"));
+const VoiceSectionObserver = lazy(() => import("./components/voice/VoiceSectionObserver"));
 
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
@@ -61,23 +45,29 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+const ProtectedRoute = ({ children, roles }: { children: React.ReactNode; roles?: UserRole[] }) => {
+  const { user, isAuthenticated, isLoading } = useAuth();
+  if (isLoading) return <div className="min-h-screen grid place-items-center text-muted-foreground">Loading your account…</div>;
+  if (!isAuthenticated || !user) return <Navigate to="/login" replace />;
+  if (roles && !roles.includes(user.role)) return <Navigate to="/dashboard/my-classes" replace />;
+  return <>{children}</>;
+};
+
 const AppContent = () => {
   const [meditationOpen, setMeditationOpen] = useState(false);
-  const [userRole, setUserRole] = useState<"trainer" | "admin" | "student">(
-    () => (localStorage.getItem("userRole") as "trainer" | "admin" | "student") || "trainer"
-  );
+  const [deferredToolsReady, setDeferredToolsReady] = useState(false);
+  const { user } = useAuth();
 
-  // Keep userRole reactive — update on authChange & storage events
   useEffect(() => {
-    const syncRole = () => {
-      const role = (localStorage.getItem("userRole") as "trainer" | "admin" | "student") || "trainer";
-      setUserRole(role);
+    const browserWindow = window as Window & {
+      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+      cancelIdleCallback?: (handle: number) => void;
     };
-    window.addEventListener("authChange", syncRole);
-    window.addEventListener("storage", syncRole);
+    const idleId = browserWindow.requestIdleCallback?.(() => setDeferredToolsReady(true), { timeout: 2500 });
+    const timeoutId = idleId === undefined ? window.setTimeout(() => setDeferredToolsReady(true), 1200) : undefined;
     return () => {
-      window.removeEventListener("authChange", syncRole);
-      window.removeEventListener("storage", syncRole);
+      if (idleId !== undefined) browserWindow.cancelIdleCallback?.(idleId);
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
     };
   }, []);
 
@@ -93,8 +83,9 @@ const AppContent = () => {
 
   return (
     <div>
-      <PageTransition>
-        <Routes>
+      <Suspense fallback={<PageLoader />}>
+        <PageTransition>
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/programs" element={<Programs />} />
@@ -108,60 +99,52 @@ const AppContent = () => {
            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           
           {/* Yoga Studio Dashboard Routes */}
-          <Route path="/dashboard" element={<DashboardLayout userRole={userRole} />}>
-            <Route path="register-trainer" element={<RegisterTrainer />} />
-            <Route path="trainer-directory" element={<TrainerDirectory />} />
-            <Route path="trainer-schedule" element={<TrainerSchedule />} />
-            <Route path="availability" element={<AvailabilityOverview />} />
-            <Route path="my-classes" element={<MyClasses />} />
+          <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout userRole={user?.role ?? "student"} /></ProtectedRoute>}>
+            <Route index element={<Navigate to="my-registrations" replace />} />
+            <Route path="my-classes" element={<Navigate to="/dashboard/my-registrations" replace />} />
             <Route path="student-registration" element={<StudentRegistration />} />
             <Route path="my-registrations" element={<MyRegistrations />} />
-            <Route path="profile" element={<ProfileSettings />} />
-            <Route path="settings" element={<ProfileSettings />} />
           </Route>
 
           {/* Separate Admin Dashboard Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="users" element={<AdminUserManagement />} />
-            <Route path="approvals" element={<AdminTrainerApprovals />} />
+          <Route path="/admin" element={<ProtectedRoute roles={["admin"]}><AdminLayout /></ProtectedRoute>}>
+            <Route index element={<Navigate to="sessions" replace />} />
             <Route path="sessions" element={<AdminSessions />} />
-            <Route path="analytics" element={<AdminAnalytics />} />
-            <Route path="reports" element={<AdminReports />} />
-            <Route path="communications" element={<AdminCommunications />} />
-            <Route path="settings" element={<AdminSettings />} />
           </Route>
           
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </PageTransition>
-      
-      <MeditationToggle onClick={() => setMeditationOpen(true)} />
-      <MeditationMode isOpen={meditationOpen} onClose={() => setMeditationOpen(false)} />
-      <ChatbotWidget />
-      <ScrollToTop />
-      <VoiceSectionObserver />
-      <VoiceGuideWidget />
+          </Routes>
+        </PageTransition>
+      </Suspense>
+
+      {deferredToolsReady && (
+        <Suspense fallback={null}>
+          <MeditationToggle onClick={() => setMeditationOpen(true)} />
+          <MeditationMode isOpen={meditationOpen} onClose={() => setMeditationOpen(false)} />
+          <ChatbotWidget />
+          <ScrollToTop />
+          <VoiceSectionObserver />
+          <VoiceGuideWidget />
+        </Suspense>
+      )}
     </div>
   );
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-      <LanguageProvider>
-        <VoiceGuideProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <AppContent />
-            </BrowserRouter>
-          </TooltipProvider>
-        </VoiceGuideProvider>
-      </LanguageProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+    <LanguageProvider>
+      <VoiceGuideProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </TooltipProvider>
+      </VoiceGuideProvider>
+    </LanguageProvider>
+  </ThemeProvider>
 );
 
 export default App;

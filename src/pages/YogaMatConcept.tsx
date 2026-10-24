@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import suryaPose from "@/assets/concept/yoga-practitioner-surya-v2.png";
-import forwardFoldPose from "@/assets/concept/yoga-practitioner-forward-fold-clean.png";
-import cobraPose from "@/assets/concept/yoga-practitioner-cobra-clean.png";
-import womanSideStretch from "@/assets/concept/yoga-woman-side-stretch-v2.png";
-import womanTreePose from "@/assets/concept/yoga-woman-tree-pose-v2.png";
-import womanSeatedStretch from "@/assets/concept/yoga-woman-seated-stretch-v2.png";
-import duoHoldingMat from "@/assets/concept/yoga-duo-holding-mat.png";
-import manWithMatBackpack from "@/assets/concept/yoga-man-mat-backpack.png";
-import womanWithMatBag from "@/assets/concept/yoga-woman-mat-bag.png";
-import roomProps from "@/assets/concept/yoga-room-props.png";
-import studioLogo from "@/assets/logo.png";
+import suryaPose from "@/assets/concept/yoga-practitioner-surya-v2.webp";
+import forwardFoldPose from "@/assets/concept/yoga-practitioner-forward-fold-clean.webp";
+import cobraPose from "@/assets/concept/yoga-practitioner-cobra-clean.webp";
+import womanSideStretch from "@/assets/concept/yoga-woman-side-stretch-v2.webp";
+import womanTreePose from "@/assets/concept/yoga-woman-tree-pose-v2.webp";
+import womanSeatedStretch from "@/assets/concept/yoga-woman-seated-stretch-v2.webp";
+import duoHoldingMat from "@/assets/concept/yoga-duo-holding-mat.webp";
+import manWithMatBackpack from "@/assets/concept/yoga-man-mat-backpack.webp";
+import womanWithMatBag from "@/assets/concept/yoga-woman-mat-bag.webp";
+import roomProps from "@/assets/concept/yoga-room-props.webp";
+import studioLogo from "@/assets/logo.webp";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 const poseStepMs = 2800;
@@ -29,15 +29,17 @@ const poses = [
 ];
 
 const YogaMatConcept = () => {
-  const [poseIndex, setPoseIndex] = useState(0);
-  const [sequenceComplete, setSequenceComplete] = useState(false);
-  const [matClosing, setMatClosing] = useState(false);
-  const [matDelivered, setMatDelivered] = useState(false);
-  const [exitScene, setExitScene] = useState(false);
+  const reducedMotion = useReducedMotion();
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  const constrainedNetwork = Boolean(connection?.saveData || connection?.effectiveType === "slow-2g" || connection?.effectiveType === "2g");
+  const showFinalFrame = Boolean(reducedMotion || constrainedNetwork);
+  const [poseIndex, setPoseIndex] = useState(showFinalFrame ? 7 : 0);
+  const [sequenceComplete, setSequenceComplete] = useState(showFinalFrame);
+  const [matClosing, setMatClosing] = useState(showFinalFrame);
+  const [matDelivered, setMatDelivered] = useState(showFinalFrame);
+  const [exitScene, setExitScene] = useState(showFinalFrame);
   const [orbit, setOrbit] = useState({ x: 0, y: 0 });
   const dragRef = useRef({ active: false, x: 0, y: 0, orbitX: 0, orbitY: 0 });
-  const reducedMotion = useReducedMotion();
-  const showFinalFrame = reducedMotion;
 
   const duration = (value: number) => (showFinalFrame ? 0 : value);
   const delay = (value: number) => (showFinalFrame ? 0 : value);
@@ -75,6 +77,19 @@ const YogaMatConcept = () => {
     }, 28200));
     return () => timers.forEach(window.clearTimeout);
   }, [showFinalFrame]);
+
+  useEffect(() => {
+    if (showFinalFrame) return;
+    const nextSources = [poses[Math.min(poseIndex + 1, poses.length - 1)]?.src];
+    if (poseIndex >= 6) nextSources.push(manWithMatBackpack, womanWithMatBag);
+    const preloaders = nextSources.filter(Boolean).map((source) => {
+      const image = new Image();
+      image.decoding = "async";
+      image.src = source;
+      return image;
+    });
+    return () => preloaders.forEach((image) => image.removeAttribute("src"));
+  }, [poseIndex, showFinalFrame]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLElement>) => {
     dragRef.current = { active: true, x: event.clientX, y: event.clientY, orbitX: orbit.x, orbitY: orbit.y };
@@ -122,11 +137,13 @@ const YogaMatConcept = () => {
       <img
         src={roomProps}
         alt="Rolled yoga mats, blocks, bolster and plant in the studio"
+        loading="lazy"
+        decoding="async"
         className="absolute bottom-[4%] left-[2vw] z-[4] hidden w-[19vw] max-w-[280px] object-contain drop-shadow-[0_18px_24px_rgba(42,28,19,.28)] lg:block"
       />
 
       <div className={`absolute left-1/2 top-[5vh] z-[3] hidden -translate-x-1/2 flex-col items-center text-[#6a563b]/55 transition-opacity duration-500 dark:text-[#d8e7dd]/55 md:flex ${exitScene ? "opacity-0" : ""}`}>
-        <img src={studioLogo} alt="Dhanesh Yoga Studio logo" className="h-20 w-20 object-contain mix-blend-multiply opacity-35 dark:brightness-150 dark:mix-blend-screen dark:opacity-50" />
+        <img src={studioLogo} alt="Dhanesh Yoga Studio logo" decoding="async" className="h-20 w-20 object-contain mix-blend-multiply opacity-35 dark:brightness-150 dark:mix-blend-screen dark:opacity-50" />
         <span className="-mt-2 text-[9px] font-semibold uppercase tracking-[0.36em]">Dhanesh Yoga Studio</span>
       </div>
 
@@ -166,6 +183,8 @@ const YogaMatConcept = () => {
               key={poses[poseIndex].src + poseIndex}
               src={poses[poseIndex].src}
               alt={`Yoga teacher in ${poses[poseIndex].label}`}
+              decoding="async"
+              fetchPriority={poseIndex === 0 ? "high" : "auto"}
               initial={{ opacity: 0, y: 18, scale: 0.94 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -14, scale: 1.03 }}
@@ -181,6 +200,8 @@ const YogaMatConcept = () => {
               <motion.img
                 src={manWithMatBackpack}
                 alt="Yoga instructor leaving with a rolled mat on his back"
+                loading="lazy"
+                decoding="async"
                 initial={{ left: "42%", x: "-50%", opacity: 0, scale: 0.86 }}
                 animate={{ left: "23%", x: "-50%", opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
@@ -190,6 +211,8 @@ const YogaMatConcept = () => {
               <motion.img
                 src={womanWithMatBag}
                 alt="Yoga instructor leaving with a yoga mat bag"
+                loading="lazy"
+                decoding="async"
                 initial={{ left: "58%", x: "-50%", opacity: 0, scale: 0.86 }}
                 animate={{ left: "77%", x: "-50%", opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
@@ -322,7 +345,7 @@ const YogaMatConcept = () => {
             transition={{ duration: duration(0.9), delay: delay(0.65), ease: easeOut }}
             className="pointer-events-none absolute left-1/2 top-[46%] z-40 flex w-[min(54vw,420px)] -translate-x-1/2 flex-col items-center text-center text-[#5e4931]"
           >
-            <img src={studioLogo} alt="Dhanesh Yoga Studio" className="h-20 w-20 object-contain mix-blend-multiply dark:brightness-150 dark:mix-blend-screen sm:h-24 sm:w-24" />
+            <img src={studioLogo} alt="Dhanesh Yoga Studio" loading="lazy" decoding="async" className="h-20 w-20 object-contain mix-blend-multiply dark:brightness-150 dark:mix-blend-screen sm:h-24 sm:w-24" />
             <p className="mt-2 font-display text-[clamp(1.35rem,3vw,2.35rem)] font-semibold tracking-[0.16em] text-[#59442e] dark:text-[#f5e9d7]">DHANESH YOGA</p>
             <p className="mt-2 text-[9px] font-semibold uppercase tracking-[0.36em] text-[#6b563e]/80 dark:text-[#d6e4da]/80 sm:text-[10px]">Yoga Studio</p>
             <div className="mt-4 h-px w-16 bg-[#6b563e]/40 dark:bg-[#d6e4da]/35" />

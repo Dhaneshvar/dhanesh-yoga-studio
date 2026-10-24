@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LayoutDashboard, LogOut } from "lucide-react";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/logo.webp";
 import { Button } from "@/components/ui/button";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth, type UserRole } from "@/hooks/useAuth";
 
 const navLinks = [
   { name: "nav.home", path: "/" },
@@ -18,30 +19,27 @@ const navLinks = [
   { name: "nav.contact", path: "/contact" },
 ];
 
-type UserRole = "student" | "trainer" | "admin";
-
 const getDashboardRoute = (role: UserRole) => {
   switch (role) {
     case "admin":
       return "/admin";
     case "trainer":
-      return "/dashboard/trainer-directory";
+      return "/schedule";
     case "student":
-      return "/dashboard/my-classes";
+      return "/dashboard/my-registrations";
     default:
-      return "/dashboard/trainer-directory";
+      return "/";
   }
 };
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [tickerVisible, setTickerVisible] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { user, isAuthenticated, logout } = useAuth();
 
   // Listen for ticker visibility changes
   useEffect(() => {
@@ -52,37 +50,14 @@ const Navbar = () => {
     return () => window.removeEventListener("tickerVisibilityChange", handleTickerChange as EventListener);
   }, []);
 
-  // Check auth state on mount, route change, and via custom event
-  useEffect(() => {
-    const checkAuth = () => {
-      const session = localStorage.getItem("yoga_app_session");
-      const role = localStorage.getItem("userRole") as UserRole | null;
-      setIsLoggedIn(!!session);
-      setUserRole(role);
-    };
-    
-    checkAuth();
-    
-    window.addEventListener("storage", checkAuth);
-    window.addEventListener("authChange", checkAuth);
-    
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-      window.removeEventListener("authChange", checkAuth);
-    };
-  }, [location]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("yoga_app_session");
-    localStorage.removeItem("userRole");
-    setIsLoggedIn(false);
-    setUserRole(null);
+  const handleLogout = async () => {
+    await logout();
     navigate("/");
   };
 
   const goToDashboard = () => {
-    if (userRole) {
-      navigate(getDashboardRoute(userRole));
+    if (user) {
+      navigate(getDashboardRoute(user.role));
     }
   };
 
@@ -155,7 +130,7 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center gap-2 xl:gap-4">
             <ThemeToggle />
             <LanguageSwitcher variant="navbar" />
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <>
                 <Button 
                   variant="hero" 
@@ -253,7 +228,7 @@ const Navbar = () => {
                   <ThemeToggle />
                   <LanguageSwitcher variant="navbar" />
                 </div>
-                {isLoggedIn ? (
+                {isAuthenticated ? (
                   <>
                     <Button 
                       variant="hero" 

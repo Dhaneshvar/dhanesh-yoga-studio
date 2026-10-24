@@ -1,167 +1,96 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import { useCallback, useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
-interface User {
+export type UserRole = "student" | "trainer" | "admin";
+
+export interface StudioUser {
   id: string;
   name: string;
   email: string;
-  phone?: string;
+  phone?: string | null;
+  role: UserRole;
 }
 
 interface AuthState {
-  user: User | null;
+  user: StudioUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
 }
 
-const USERS_STORAGE_KEY = 'yoga_app_users';
-const SESSION_STORAGE_KEY = 'yoga_app_session';
+const emptyState: AuthState = { user: null, isAuthenticated: false, isLoading: true };
 
+const getProfile = async (id: string, email: string): Promise<StudioUser> => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id, full_name, phone, role")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return {
+    id: data.id,
+    name: data.full_name || email.split("@")[0],
+    email,
+    phone: data.phone,
+    role: data.role as UserRole,
+  };
+};
+
+/** Supabase-backed authentication. No credentials, roles or sessions live in browser storage. */
 export const useAuth = () => {
-  const [authState, setAuthState] = useState<AuthState>({
-    user: null,
-    isAuthenticated: false,
-    isLoading: true,
-  });
-  const navigate = useNavigate();
+  const [authState, setAuthState] = useState<AuthState>(emptyState);
 
-  // Check for existing session on mount
   useEffect(() => {
-    const session = localStorage.getItem(SESSION_STORAGE_KEY);
-    if (session) {
-      try {
-        const user = JSON.parse(session);
-        setAuthState({ user, isAuthenticated: true, isLoading: false });
-      } catch {
-        localStorage.removeItem(SESSION_STORAGE_KEY);
+    let active = true;
+    const load = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!active) return;
+      if (!session?.user) {
         setAuthState({ user: null, isAuthenticated: false, isLoading: false });
+        return;
       }
-    } else {
-      setAuthState({ user: null, isAuthenticated: false, isLoading: false });
-    }
-  }, []);
-
-  const getStoredUsers = (): User[] => {
-    try {
-      const users = localStorage.getItem(USERS_STORAGE_KEY);
-      return users ? JSON.parse(users) : [];
-    } catch {
-      return [];
-    }
-  };
-
-  const saveUser = (user: User) => {
-    const users = getStoredUsers();
-    users.push(user);
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-  };
-
-  const register = useCallback(async (
-    name: string,
-    email: string,
-    phone: string,
-    password: string,
-    confirmPassword: string
-  ): Promise<{ success: boolean; error?: string }> => {
-    // Validation
-    if (!name.trim() || !email.trim() || !password) {
-      return { success: false, error: 'All fields are required' };
-    }
-
-    if (password.length < 6) {
-      return { success: false, error: 'Password must be at least 6 characters' };
-    }
-
-    if (password !== confirmPassword) {
-      return { success: false, error: 'Passwords do not match' };
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return { success: false, error: 'Please enter a valid email address' };
-    }
-
-    // Check if user already exists
-    const users = getStoredUsers();
-    const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-    if (existingUser) {
-      return { success: false, error: 'An account with this email already exists' };
-    }
-
-    // Create new user
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      name: name.trim(),
-      email: email.toLowerCase().trim(),
-      phone: phone.trim(),
+      try {
+        const user = await getProfile(session.user.id, session.user.email ?? "");
+        if (active) setAuthState({ user, isAuthenticated: true, isLoading: false });
+      } catch {
+        if (active) setAuthState({ user: null, isAuthenticated: false, isLoading: false });
+      }
     };
 
-    // Store user (password would be hashed in real app - storing email only for demo)
-    saveUser(newUser);
-
-    // Store password mapping (demo only - never do this in production!)
-    const passwords = JSON.parse(localStorage.getItem('yoga_passwords') || '{}');
-    passwords[email.toLowerCase()] = password;
-    localStorage.setItem('yoga_passwords', JSON.stringify(passwords));
-
-    // Auto login
-    localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(newUser));
-    setAuthState({ user: newUser, isAuthenticated: true, isLoading: false });
-    window.dispatchEvent(new Event('authChange'));
-
-    toast.success('Account created successfully!');
-    return { success: true };
+    void load();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session?.user) {
+        if (active) setAuthState({ user: null, isAuthenticated: false, isLoading: false });
+        return;
+      }
+      void getProfile(session.user.id, session.user.email ?? "")
+        .then((user) => active && setAuthState({ user, isAuthenticated: true, isLoading: false }))
+        .catch(() => active && setAuthState({ user: null, isAuthenticated: false, isLoading: false }));
+    });
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
-  const login = useCallback(async (
-    email: string,
-    password: string
-  ): Promise<{ success: boolean; error?: string }> => {
-    if (!email.trim() || !password) {
-      return { success: false, error: 'Email and password are required' };
-    }
-
-    const users = getStoredUsers();
-    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase().trim());
-
-    if (!user) {
-      return { success: false, error: 'No account found with this email' };
-    }
-
-    // Check password (demo only)
-    const passwords = JSON.parse(localStorage.getItem('yoga_passwords') || '{}');
-    if (passwords[email.toLowerCase()] !== password) {
-      return { success: false, error: 'Incorrect password' };
-    }
-
-    // Login success
-    localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(user));
-    setAuthState({ user, isAuthenticated: true, isLoading: false });
-    window.dispatchEvent(new Event('authChange'));
-
-    toast.success(`Welcome back, ${user.name}!`);
-    return { success: true };
+  const register = useCallback(async (name: string, email: string, phone: string, password: string, confirmPassword: string) => {
+    if (!name.trim() || !email.trim() || !password) return { success: false, error: "Name, email and password are required" };
+    if (password.length < 8) return { success: false, error: "Password must be at least 8 characters" };
+    if (password !== confirmPassword) return { success: false, error: "Passwords do not match" };
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim().toLowerCase(), password,
+      options: { data: { full_name: name.trim(), phone: phone.trim() }, emailRedirectTo: `${window.location.origin}/login` },
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true, needsEmailConfirmation: !data.session };
   }, []);
 
-  const loginWithGoogle = useCallback(async (): Promise<{ success: boolean; error?: string }> => {
-    // Demo: Create a mock Google user
-    toast.info('Google login requires backend authentication. Please use email/password for now.');
-    return { success: false, error: 'Google login requires backend setup. Please register with email/password.' };
+  const login = useCallback(async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
+    return error ? { success: false, error: error.message } : { success: true };
   }, []);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem(SESSION_STORAGE_KEY);
-    setAuthState({ user: null, isAuthenticated: false, isLoading: false });
-    toast.success('Logged out successfully');
-    navigate('/login');
-  }, [navigate]);
+  const logout = useCallback(async () => { await supabase.auth.signOut(); }, []);
 
-  return {
-    ...authState,
-    register,
-    login,
-    loginWithGoogle,
-    logout,
-  };
+  return { ...authState, register, login, logout };
 };
