@@ -64,8 +64,8 @@ const FlashNewsTicker = () => {
       animate={{ y: 0, opacity: 1 }}
       className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-primary via-primary/90 to-lotus overflow-hidden"
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-10 md:h-11">
+      <div className="container mx-auto px-2 sm:px-4">
+        <div className="flex min-h-10 items-center justify-between py-1 md:h-11 md:py-0">
           {/* Decorative sparkle */}
           <motion.div
             animate={{ rotate: 360 }}
@@ -84,12 +84,12 @@ const FlashNewsTicker = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="flex items-center gap-2 text-sm md:text-base"
+                className="flex items-center gap-1 text-[11px] leading-tight sm:gap-2 sm:text-sm md:text-base"
               >
                 {currentNews.link ? (
                   <Link
                     to={currentNews.link}
-                    className="flex items-center gap-2 text-primary-foreground hover:text-white transition-colors group"
+                    className="flex items-center justify-center gap-1 text-center text-primary-foreground transition-colors group hover:text-white sm:gap-2"
                   >
                     <span className="font-medium">{currentNews.text}</span>
                     <span className="font-bold">{currentNews.highlight}</span>
