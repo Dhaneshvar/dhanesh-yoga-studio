@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useFloatingControlsVisibility } from "@/hooks/useFloatingControlsVisibility";
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const controlsVisible = useFloatingControlsVisibility();
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -29,7 +27,7 @@ const ScrollToTop = () => {
 
   return (
     <AnimatePresence>
-      {isVisible && controlsVisible && (
+      {isVisible && (
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
