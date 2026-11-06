@@ -124,7 +124,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground font-body text-xs sm:text-sm text-center sm:text-left">
-            © {currentYear} {t("footer.copyright")}
+            © {currentYear} Dhanesh Yoga Studio. {t("footer.allRights")}
           </p>
           <div className="flex items-center gap-3 sm:gap-4">
             <LanguageSwitcher variant="footer" />
