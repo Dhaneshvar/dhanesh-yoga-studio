@@ -32,11 +32,11 @@ const DashboardSidebar = ({ userRole, onLogout }: DashboardSidebarProps) => {
             className="w-10 h-10 rounded-xl overflow-hidden cursor-pointer hover:scale-105 transition-transform"
             title="Go to home page"
           >
-            <img src={logoImg} alt="Dhanesh Yoga Center" className="w-full h-full object-contain" />
+            <img src={logoImg} alt="Dhanesh Yoga Studio" className="w-full h-full object-contain" />
           </button>
           {!isCollapsed && (
             <div>
-              <h2 className="font-display text-base font-semibold text-foreground leading-tight">Dhanesh Yoga Center</h2>
+            <h2 className="font-display text-base font-semibold text-foreground leading-tight">Dhanesh Yoga Studio</h2>
               <p className="text-xs text-muted-foreground">{userRole === "student" ? "Practitioner" : userRole === "admin" ? "Admin" : "Trainer"} Portal</p>
             </div>
           )}

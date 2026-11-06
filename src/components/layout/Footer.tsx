@@ -36,12 +36,12 @@ const Footer = () => {
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4 sm:mb-6" title="Go to Dhanesh Yoga Center Homepage">
+            <Link to="/" className="flex items-center gap-2 mb-4 sm:mb-6" title="Go to Dhanesh Yoga Studio Homepage">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden">
-                <img src={logoImg} alt="Dhanesh Yoga Center logo" className="w-full h-full object-cover" />
+                <img src={logoImg} alt="Dhanesh Yoga Studio logo" className="w-full h-full object-cover" />
               </div>
               <span className="font-display text-lg sm:text-xl font-semibold text-foreground leading-tight">
-                Dhanesh Yoga Center
+                Dhanesh Yoga Studio
               </span>
             </Link>
             <p className="text-muted-foreground font-body text-sm mb-4 sm:mb-6 max-w-sm">

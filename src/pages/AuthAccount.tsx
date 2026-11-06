@@ -62,7 +62,7 @@ const AuthAccount = () => {
           {mode === "signin" ? "Sign in to your account" : "Create your account"}
         </h1>
         <p className="font-body text-sm text-muted-foreground mb-6">
-          Used to authorize connected apps and assistants for Dhanesh Yoga Center.
+          Used to authorize connected apps and assistants for Dhanesh Yoga Studio.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">

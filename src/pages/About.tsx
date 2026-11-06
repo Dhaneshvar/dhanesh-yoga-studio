@@ -52,7 +52,7 @@ const About = () => {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Person",
-          "name": "Dhanesh Yoga Center Instructor",
+          "name": "Dhanesh Yoga Studio Instructor",
           "jobTitle": "Certified Yoga Instructor (RYT-500)",
           "description": "10+ years experience teaching yoga for all age groups",
         }}

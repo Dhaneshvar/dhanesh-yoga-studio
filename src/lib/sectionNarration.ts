@@ -6,7 +6,7 @@ export interface SectionNarration {
 
 export const SECTION_NARRATION: Record<string, SectionNarration> = {
   "home-hero": {
-    title: "Welcome to Dhanesh Yoga Center",
+    title: "Welcome to Dhanesh Yoga Studio",
     summary: "Our hero section introduces our mission to help you balance body and calm mind through yoga.",
     actions: ["explore programs", "start your free trial", "watch the introduction"],
   },
@@ -36,7 +36,7 @@ export const SECTION_NARRATION: Record<string, SectionNarration> = {
 // gets a proper introduction without needing per-section tagging.
 export const ROUTE_NARRATION: Record<string, SectionNarration> = {
   "/": {
-    title: "the Dhanesh Yoga Center home page",
+    title: "the Dhanesh Yoga Studio home page",
     summary: "This is our welcome page introducing our yoga programs, instructors, and student stories.",
     actions: ["scroll to explore programs", "read testimonials", "register for a free trial"],
   },

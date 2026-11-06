@@ -64,8 +64,8 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Register – Join Dhanesh Yoga Center"
-        description="Create your account at Dhanesh Yoga Center. Start your wellness journey with personalized yoga programs, expert guidance, and a supportive community."
+        title="Register – Join Dhanesh Yoga Studio"
+        description="Create your account at Dhanesh Yoga Studio. Start your wellness journey with personalized yoga programs, expert guidance, and a supportive community."
         keywords="yoga registration, join yoga studio, create yoga account, sign up yoga classes"
         canonicalPath="/register"
       />
@@ -281,7 +281,7 @@ const Register = () => {
                 className="w-full" 
                 size="lg" 
                 disabled={isSubmitting || !termsAccepted} 
-                title={termsAccepted ? "Create your Dhanesh Yoga Center account" : "Please accept Terms & Conditions to continue"}
+                title={termsAccepted ? "Create your Dhanesh Yoga Studio account" : "Please accept Terms & Conditions to continue"}
               >
                 {isSubmitting ? (
                   <>
@@ -352,7 +352,7 @@ const Register = () => {
               <div className="p-6 overflow-y-auto max-h-[50vh] space-y-4 font-body text-sm text-muted-foreground">
                 <h3 className="font-semibold text-foreground">1. Acceptance of Terms</h3>
                 <p>
-                  By creating an account with Dhanesh Yoga Center, you agree to be bound by these Terms and 
+                  By creating an account with Dhanesh Yoga Studio, you agree to be bound by these Terms and
                   Conditions. If you do not agree to these terms, please do not register or use our services.
                 </p>
 
@@ -368,7 +368,7 @@ const Register = () => {
                 <p>
                   • You confirm you are in good physical health to participate in yoga classes.<br />
                   • Please inform instructors of any injuries or medical conditions.<br />
-                  • Dhanesh Yoga Center is not responsible for injuries during classes.<br />
+                  • Dhanesh Yoga Studio is not responsible for injuries during classes.<br />
                   • Practice at your own pace and listen to your body.
                 </p>
 

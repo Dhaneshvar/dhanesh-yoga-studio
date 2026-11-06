@@ -13,7 +13,7 @@ interface SEOHeadProps {
 
 const BASE_URL = (import.meta.env.VITE_SITE_URL || "https://dhaneshyoga.com").replace(/\/$/, "");
 const DEFAULT_OG_IMAGE = "https://lovable.dev/opengraph-image-p98pqg.png";
-const SITE_NAME = "Dhanesh Yoga Center";
+const SITE_NAME = "Dhanesh Yoga Studio";
 
 const SEOHead = ({
   title,

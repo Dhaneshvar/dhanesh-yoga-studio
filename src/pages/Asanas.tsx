@@ -30,8 +30,8 @@ const Asanas = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Yoga Poses & Guided Practice | Dhanesh Yoga Center"
-        description="Explore a small selection of guided yoga poses for beginners, adults, children and seniors at Dhanesh Yoga Center."
+        title="Yoga Poses & Guided Practice | Dhanesh Yoga Studio"
+        description="Explore a small selection of guided yoga poses for beginners, adults, children and seniors at Dhanesh Yoga Studio."
         keywords="beginner yoga poses, guided yoga classes, yoga for seniors, kids yoga, stress relief yoga"
         canonicalPath="/asanas"
       />

@@ -128,8 +128,8 @@ const Gallery = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Gallery | Dhanesh Yoga Center"
-        description="Explore our achievements, events, workshops, and class moments at Dhanesh Yoga Center."
+        title="Gallery | Dhanesh Yoga Studio"
+        description="Explore our achievements, events, workshops, and class moments at Dhanesh Yoga Studio."
         keywords="yoga gallery, yoga events, yoga achievements, yoga workshops, Dhanesh Yoga"
         canonicalPath="/gallery"
       />

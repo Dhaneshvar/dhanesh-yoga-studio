@@ -123,7 +123,7 @@ const OAuthConsent = () => {
                 <ShieldCheck className="w-5 h-5" aria-hidden="true" />
               </span>
               <h1 className="font-display text-xl font-semibold text-foreground leading-tight">
-                Connect {clientName} to Dhanesh Yoga Center
+                Connect {clientName} to Dhanesh Yoga Studio
               </h1>
             </div>
 

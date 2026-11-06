@@ -5,7 +5,7 @@ const testimonials = [
   {
     name: "Sarah Mitchell",
     role: "Yoga Student, 2 years",
-    content: "Dhanesh Yoga Center transformed my life. The instructor's patience and expertise helped me overcome anxiety and find inner peace.",
+    content: "Dhanesh Yoga Studio transformed my life. The instructor's patience and expertise helped me overcome anxiety and find inner peace.",
     rating: 5,
   },
   {

@@ -32,7 +32,7 @@ const AdminSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // General settings
-  const [siteName, setSiteName] = useState("Dhanesh Yoga Center");
+  const [siteName, setSiteName] = useState("Dhanesh Yoga Studio");
   const [siteDescription, setSiteDescription] = useState("Transform your life through the ancient art of yoga");
   const [contactEmail, setContactEmail] = useState("admin@dhaneshyoga.com");
   const [timezone, setTimezone] = useState("Asia/Kolkata");

@@ -18,15 +18,15 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
       <SEOHead
-        title="Dhanesh Yoga Center | Balance Body, Calm Mind"
-        description="Transform your life through yoga at Dhanesh Yoga Center. Age-wise programs for kids, teens, adults, and seniors. Expert instruction and flexible schedules."
+        title="Dhanesh Yoga Studio | Balance Body, Calm Mind"
+        description="Transform your life through yoga at Dhanesh Yoga Studio. Age-wise programs for kids, teens, adults, and seniors. Expert instruction and flexible schedules."
         keywords="yoga studio, yoga classes, meditation, wellness, kids yoga, senior yoga, pranayama, asanas, Dhanesh Yoga"
         canonicalPath="/"
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "YogaStudio",
-            "name": "Dhanesh Yoga Center",
+            "name": "Dhanesh Yoga Studio",
             "description": "Transform your life through yoga. Age-wise programs for everyone.",
             "url": "https://dhaneshyoga.com",
             "telephone": "+919876543210",
@@ -44,7 +44,7 @@ const Index = () => {
           {
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "Dhanesh Yoga Center",
+            "name": "Dhanesh Yoga Studio",
             "url": "https://dhaneshyoga.com",
             "potentialAction": {
               "@type": "SearchAction",

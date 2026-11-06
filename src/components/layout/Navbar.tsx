@@ -89,16 +89,16 @@ const Navbar = () => {
       <div className="container mx-auto px-3 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group shrink-0" title="Go to Dhanesh Yoga Center Homepage">
+          <Link to="/" className="flex items-center gap-2 group shrink-0" title="Go to Dhanesh Yoga Studio Homepage">
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
               className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden"
             >
-              <img src={logoImg} alt="Dhanesh Yoga Center logo" className="w-full h-full object-cover" />
+              <img src={logoImg} alt="Dhanesh Yoga Studio logo" className="w-full h-full object-cover" />
             </motion.div>
             <span className="font-display text-base sm:text-xl font-semibold leading-tight text-[#24483a] dark:text-[#f6efe2]">
-              <span className="hidden xs:inline sm:inline">Dhanesh Yoga Center</span>
+              <span className="hidden xs:inline sm:inline">Dhanesh Yoga Studio</span>
               <span className="xs:hidden sm:hidden inline">DYC</span>
             </span>
           </Link>
