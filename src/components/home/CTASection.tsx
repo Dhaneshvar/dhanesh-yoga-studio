@@ -68,11 +68,11 @@ const CTASection = () => {
               size="xl"
               className="text-primary-foreground hover:bg-primary-foreground/10"
               asChild
-              title="Download our yoga studio brochure"
+              title="Request the yoga studio brochure"
             >
-              <Link to="/brochure">
+              <Link to="/contact">
                 <Download className="w-5 h-5" aria-hidden="true" />
-                Download Brochure
+                Request Brochure
               </Link>
             </Button>
           </div>

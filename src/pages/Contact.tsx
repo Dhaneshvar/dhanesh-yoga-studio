@@ -77,8 +77,8 @@
  
    const contactInfo = [
      { icon: MapPin, titleKey: 'contactPage.visitUs', details: [t('contactPage.studioAddress'), t('contactPage.addressLine'), t('contactPage.city')] },
-     { icon: Phone, titleKey: 'contactPage.callUs', details: ["+91 98765 43210", "+91 80 1234 5678"] },
-     { icon: Mail, titleKey: 'contactPage.emailUs', details: ["info@innerpeaceyoga.com", "support@innerpeaceyoga.com"] },
+     { icon: Phone, titleKey: 'contactPage.callUs', details: ["8122277XXX"] },
+     { icon: Mail, titleKey: 'contactPage.emailUs', details: ["dhaneshvar2912@gmail.com", "dhaneshyogastudio@gmail.com"] },
      { icon: Clock, titleKey: 'contactPage.workingHours', details: [t('contactPage.monFri'), t('contactPage.satSun')] },
    ];
  

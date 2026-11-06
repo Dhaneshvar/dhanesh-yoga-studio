@@ -19,7 +19,7 @@ const Footer = () => {
     resources: [
       { name: t('footerSection.asanaLibrary'), path: "/asanas" },
       { name: t('footerSection.classSchedule'), path: "/schedule" },
-      { name: t('footerSection.brochure'), path: "/brochure" },
+      { name: t('footerSection.brochure'), path: "/contact" },
       { name: t('footerSection.faqs'), path: "/faq" },
     ],
     company: [
@@ -111,11 +111,15 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-primary shrink-0" />
-                <span className="text-muted-foreground font-body text-xs sm:text-sm">+1 (555) 123-4567</span>
+                <span className="text-muted-foreground font-body text-xs sm:text-sm">8122277XXX</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-primary shrink-0" />
-                <span className="text-muted-foreground font-body text-xs sm:text-sm">hello@dhaneshyoga.com</span>
+                <span className="text-muted-foreground font-body text-xs sm:text-sm">dhaneshvar2912@gmail.com</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-primary shrink-0" />
+                <span className="text-muted-foreground font-body text-xs sm:text-sm">dhaneshyogastudio@gmail.com</span>
               </li>
             </ul>
           </div>

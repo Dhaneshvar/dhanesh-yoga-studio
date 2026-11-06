@@ -128,6 +128,9 @@ const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-2 xl:gap-4">
+            <span className="hidden xl:inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary">
+              In-person &amp; online classes
+            </span>
             <ThemeToggle />
             <LanguageSwitcher variant="navbar" />
             {isAuthenticated ? (
@@ -203,6 +206,9 @@ const Navbar = () => {
             className="lg:hidden bg-background/95 backdrop-blur-lg border-t border-border max-h-[80vh] overflow-y-auto"
           >
             <div className="container mx-auto px-4 py-4 sm:py-6 space-y-2 sm:space-y-4">
+              <p className="rounded-lg border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-medium text-primary">
+                In-person &amp; online classes available
+              </p>
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.path}
