@@ -334,11 +334,11 @@ const YogaMatConcept = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: duration(0.6), ease: easeOut }}
-              className="pointer-events-none absolute left-[4vw] top-[45%] z-40 hidden max-w-[300px] rounded-r-3xl bg-[#e9dfcf]/92 px-5 py-5 text-left text-[#4b3928] shadow-[14px_16px_32px_rgba(52,35,20,.12)] backdrop-blur-md dark:bg-[#14201d]/90 dark:text-[#f5e9d7] xl:block"
+              className="pointer-events-none absolute left-[4vw] top-[45%] z-40 hidden max-w-[300px] rounded-r-3xl border border-[#6b4d39]/20 bg-[#f6f0e7]/[.98] px-5 py-5 text-left text-[#332920] shadow-[14px_16px_32px_rgba(52,35,20,.16)] backdrop-blur-md dark:border-[#d9e8dd]/15 dark:bg-[#14201d]/90 dark:text-[#f5e9d7] xl:block"
             >
-              <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#71604b]/80 dark:text-[#d9e8dd]/70">{journeyCopy[poseIndex].eyebrow}</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#624936] dark:text-[#d9e8dd]/70">{journeyCopy[poseIndex].eyebrow}</p>
               <h2 className="mt-3 font-display text-3xl font-semibold leading-tight">{journeyCopy[poseIndex].title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-[#62503d]/85 dark:text-[#e8ded0]/75">{journeyCopy[poseIndex].body}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[#4d3d31] dark:text-[#e8ded0]/75">{journeyCopy[poseIndex].body}</p>
             </motion.div>
           )}
         </AnimatePresence>
