@@ -99,7 +99,7 @@ const Navbar = () => {
             </motion.div>
             <span className="font-display text-base sm:text-xl font-semibold leading-tight text-[#24483a] dark:text-[#f6efe2]">
               <span className="hidden xs:inline sm:inline">Dhanesh Yoga Studio</span>
-              <span className="xs:hidden sm:hidden inline">DYC</span>
+              <span className="xs:hidden sm:hidden inline" aria-label="Dhanesh Yoga Studio">DYS</span>
             </span>
           </Link>
 
