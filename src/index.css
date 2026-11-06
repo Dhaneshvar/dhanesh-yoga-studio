@@ -164,6 +164,11 @@
     scroll-behavior: smooth;
   }
 
+  :focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+
   body {
     @apply bg-background text-foreground font-body antialiased;
     overflow-x: hidden;
@@ -171,6 +176,18 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
+  }
+
+  /* Make every animation and smooth scroll optional for vestibular and
+     cognitive accessibility preferences. */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -459,6 +476,31 @@
 }
 
 @layer utilities {
+  /* Native range input retained for mouse, touch, and keyboard accessibility. */
+  .age-journey-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: 9999px;
+    border: 3px solid hsl(var(--background));
+    background: hsl(var(--primary));
+    box-shadow: 0 3px 10px hsl(var(--foreground) / 0.28);
+  }
+  .age-journey-range::-moz-range-thumb {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 9999px;
+    border: 3px solid hsl(var(--background));
+    background: hsl(var(--primary));
+    box-shadow: 0 3px 10px hsl(var(--foreground) / 0.28);
+  }
+  .age-journey-range:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px hsl(var(--ring) / 0.35), 0 3px 10px hsl(var(--foreground) / 0.28);
+  }
+  .age-journey-range:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 4px hsl(var(--ring) / 0.35), 0 3px 10px hsl(var(--foreground) / 0.28);
+  }
+
   .font-display {
     font-family: var(--font-display);
   }
@@ -535,10 +577,13 @@
 
   /* ===== Floating widgets / icon buttons ===== */
   .widget-hover {
-    position: relative;
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
       box-shadow 0.35s ease-out;
   }
+  /* Keep viewport widgets anchored to the viewport; the generic hover class
+     must not override Tailwind's fixed positioning. */
+  .widget-hover:not(.fixed) { position: relative; }
+  .widget-hover.fixed { position: fixed; }
   .widget-hover::after {
     content: "";
     position: absolute;

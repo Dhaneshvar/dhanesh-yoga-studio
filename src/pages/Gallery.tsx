@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trophy, Calendar, Users, Heart, Star, Camera } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
@@ -7,12 +7,12 @@ import SEOHead from "@/components/SEOHead";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 
-import yogaClassGroup from "@/assets/gallery/yoga-class-group.jpg";
-import achievementAwards from "@/assets/gallery/achievement-awards.jpg";
-import yogaRetreat from "@/assets/gallery/yoga-retreat.jpg";
-import yogaDayEvent from "@/assets/gallery/yoga-day-event.jpg";
-import kidsYoga from "@/assets/gallery/kids-yoga.jpg";
-import workshop from "@/assets/gallery/workshop.jpg";
+import yogaClassGroup from "@/assets/gallery/yoga-class-group.webp";
+import achievementAwards from "@/assets/gallery/achievement-awards.webp";
+import yogaRetreat from "@/assets/gallery/yoga-retreat.webp";
+import yogaDayEvent from "@/assets/gallery/yoga-day-event.webp";
+import kidsYoga from "@/assets/gallery/kids-yoga.webp";
+import workshop from "@/assets/gallery/workshop.webp";
 
 type Category = "all" | "achievements" | "events" | "classes" | "workshops";
 
@@ -111,6 +111,15 @@ const Gallery = () => {
   const { language } = useLanguage();
   const isHi = language === "hi";
 
+  useEffect(() => {
+    if (!selectedItem) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedItem(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedItem]);
+
   const filtered =
     activeCategory === "all"
       ? galleryItems
@@ -153,6 +162,9 @@ const Gallery = () => {
             <button
               key={cat.key}
               onClick={() => setActiveCategory(cat.key)}
+              type="button"
+              aria-pressed={activeCategory === cat.key}
+              title={`Filter gallery by ${isHi ? cat.labelHi : cat.label}`}
               className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 activeCategory === cat.key
                   ? "bg-primary text-primary-foreground shadow-md"
@@ -175,20 +187,23 @@ const Gallery = () => {
             {filtered.map((item) => {
               const Icon = item.icon;
               return (
-                <motion.div
+                <motion.button
                   key={item.id}
+                  type="button"
                   layout
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className="group cursor-pointer rounded-2xl overflow-hidden border border-border bg-card shadow-sm hover:shadow-lg transition-shadow"
+                  className="group card-hover w-full cursor-pointer overflow-hidden rounded-2xl border border-border bg-card text-left shadow-sm"
                   onClick={() => setSelectedItem(item)}
+                  aria-label={`Open ${isHi ? item.titleHi : item.title}`}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <img
                       src={item.src}
                       alt={isHi ? item.titleHi : item.title}
+                      title={isHi ? item.titleHi : item.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                       decoding="async"
@@ -209,7 +224,7 @@ const Gallery = () => {
                       {isHi ? item.titleHi : item.title}
                     </h3>
                   </div>
-                </motion.div>
+                </motion.button>
               );
             })}
           </AnimatePresence>
@@ -225,6 +240,9 @@ const Gallery = () => {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
             onClick={() => setSelectedItem(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={isHi ? selectedItem.titleHi : selectedItem.title}
           >
             <motion.div
               initial={{ scale: 0.85, opacity: 0 }}
@@ -236,6 +254,9 @@ const Gallery = () => {
             >
               <button
                 onClick={() => setSelectedItem(null)}
+                type="button"
+                title={isHi ? "बंद करें" : "Close image"}
+                aria-label={isHi ? "बंद करें" : "Close image"}
                 className="absolute top-3 right-3 z-10 p-2 rounded-full bg-background/80 text-foreground hover:bg-background transition"
               >
                 <X className="w-5 h-5" />
@@ -243,6 +264,7 @@ const Gallery = () => {
               <img
                 src={selectedItem.src}
                 alt={isHi ? selectedItem.titleHi : selectedItem.title}
+                title={isHi ? selectedItem.titleHi : selectedItem.title}
                 decoding="async"
                 className="w-full max-h-[60vh] object-cover"
               />

@@ -38,7 +38,7 @@ const WhatsAppBubble = () => {
   if (!isPastWelcome) return null;
 
   return (
-    <div className="fixed bottom-20 sm:bottom-24 left-3 sm:left-6 z-50 flex flex-col items-start gap-2 sm:gap-3">
+    <div className="fixed bottom-6 left-4 z-50 flex flex-col items-start gap-2 sm:bottom-8 sm:left-8 sm:gap-3">
       {/* Expanded Options */}
       <AnimatePresence>
         {isOpen && (

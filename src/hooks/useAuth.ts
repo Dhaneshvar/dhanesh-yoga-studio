@@ -73,13 +73,23 @@ export const useAuth = () => {
     };
   }, []);
 
-  const register = useCallback(async (name: string, email: string, phone: string, password: string, confirmPassword: string) => {
+  const register = useCallback(async (
+    name: string,
+    email: string,
+    phone: string,
+    password: string,
+    confirmPassword: string,
+    accountType: "practitioner" | "instructor" = "practitioner",
+  ) => {
     if (!name.trim() || !email.trim() || !password) return { success: false, error: "Name, email and password are required" };
     if (password.length < 8) return { success: false, error: "Password must be at least 8 characters" };
     if (password !== confirmPassword) return { success: false, error: "Passwords do not match" };
     const { data, error } = await supabase.auth.signUp({
       email: email.trim().toLowerCase(), password,
-      options: { data: { full_name: name.trim(), phone: phone.trim() }, emailRedirectTo: `${window.location.origin}/login` },
+      options: {
+        data: { full_name: name.trim(), phone: phone.trim(), account_type: accountType },
+        emailRedirectTo: `${window.location.origin}/login`,
+      },
     });
     if (error) return { success: false, error: error.message };
     return { success: true, needsEmailConfirmation: !data.session };

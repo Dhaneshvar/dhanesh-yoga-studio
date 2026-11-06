@@ -5,6 +5,7 @@ import ProgramsPreview from "@/components/home/ProgramsPreview";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import CTASection from "@/components/home/CTASection";
+import AgeJourneySection from "@/components/home/AgeJourneySection";
 import BreathingBackground from "@/components/interactive/BreathingBackground";
 import FloatingQuote from "@/components/interactive/FloatingQuote";
 import WhatsAppBubble from "@/components/interactive/WhatsAppBubble";
@@ -68,6 +69,8 @@ const Index = () => {
         </div>
 
         <div data-voice-section="home-hero" data-voice-title="Welcome"><HeroSection /></div>
+
+        <AgeJourneySection />
 
         {/* Floating quote between sections */}
         <Reveal as="section" className="py-16 relative" y={20}>

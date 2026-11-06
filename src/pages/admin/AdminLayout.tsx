@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { Calendar, Bell, LogOut, ChevronDown, Menu, X, Home, Activity, ChevronLeft } from "lucide-react";
+import { Calendar, LogOut, ChevronDown, Menu, X, Home, Activity, ChevronLeft, UserCheck, Users } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,9 +10,12 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import ThemeToggle from "@/components/ThemeToggle";
 import logoImg from "@/assets/logo.webp";
+import NotificationBell from "@/components/dashboard/NotificationBell";
 
 const adminMenuItems = [
   { icon: Calendar, label: "Studio classes", path: "/admin/sessions" },
+  { icon: UserCheck, label: "Instructor approvals", path: "/admin/trainer-approvals" },
+  { icon: Users, label: "Members & activity", path: "/admin/users" },
 ];
 
 const AdminLayout = () => {
@@ -160,10 +163,7 @@ const AdminLayout = () => {
                 <span className="text-sm font-medium text-primary">System Online</span>
               </div>
 
-              <Button variant="ghost" size="icon" className="relative h-8 w-8 sm:h-9 sm:w-9">
-                <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground text-[10px] rounded-full flex items-center justify-center">5</span>
-              </Button>
+              <NotificationBell role="admin" userId={user?.id} compact />
 
               {/* User Menu */}
               <DropdownMenu>

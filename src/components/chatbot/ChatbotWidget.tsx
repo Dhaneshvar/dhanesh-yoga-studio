@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, Minimize2, Maximize2, MessageCircle } from 'lucide-react';
+import { X, Send, Minimize2, Maximize2, Bot, Sparkles, Volume2 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import MeditationMark from '@/components/interactive/MeditationMark';
+import VoiceGuideWidget from '@/components/voice/VoiceGuideWidget';
 
 interface Message {
   sender: 'user' | 'bot';
@@ -13,6 +15,7 @@ const QUICK_REPLIES = ['Classes', 'Programs', 'Asanas', 'Meditation'];
 const ChatbotWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [activePanel, setActivePanel] = useState<'chat' | 'voice'>('chat');
   const [messages, setMessages] = useState<Message[]>([
     { sender: 'bot', text: "Namaste! 🙏 I'm your yoga assistant. How can I help you today?" }
   ]);
@@ -26,15 +29,15 @@ const ChatbotWidget: React.FC = () => {
   }, [messages, isTyping]);
 
   useEffect(() => {
-    if (isOpen) inputRef.current?.focus();
-  }, [isOpen]);
+    if (isOpen && activePanel === 'chat') inputRef.current?.focus();
+  }, [isOpen, activePanel]);
 
   const getBotResponse = (query: string): string => {
     const q = query.toLowerCase();
     if (q.includes('class') || q.includes('schedule'))
-      return "We offer yoga classes for all age groups! Check our Schedule page for timings. Would you like help finding a specific class?";
+      return "Open the Schedule page to see the studio's currently published class times and availability.";
     if (q.includes('program') || q.includes('course'))
-      return "We have age-specific programs: Kids Yoga (5-12), Teens Yoga (13-19), Adults Yoga (20-50), and Senior Yoga (50+). Which one interests you?";
+      return "Open the Programmes page to see the studio's currently published programmes and their details.";
     if (q.includes('asana') || q.includes('pose'))
       return "Visit our Asana Library to explore various yoga poses with detailed instructions and benefits. Would you like recommendations based on your level?";
     if (q.includes('meditation'))
@@ -67,11 +70,16 @@ const ChatbotWidget: React.FC = () => {
             exit={{ scale: 0 }}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => setIsOpen(true)}
-            className="fixed bottom-5 right-[5.5rem] sm:right-24 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center widget-hover"
+            onClick={() => { setActivePanel('chat'); setIsOpen(true); }}
+            className="fixed bottom-4 right-20 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg widget-hover sm:bottom-5 sm:right-24"
+            title="Open Yoga Guide chat"
             aria-label="Open yoga assistant"
           >
-            <MessageCircle className="w-6 h-6" />
+            <span className="relative grid place-items-center">
+              <Bot className="h-7 w-7" aria-hidden="true" />
+              <MeditationMark className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-primary p-0.5 text-primary-foreground" />
+              <Sparkles className="absolute -top-2 -left-2 h-3.5 w-3.5 text-accent" aria-hidden="true" />
+            </span>
             {/* Notification dot */}
             <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-accent rounded-full border-2 border-background" />
           </motion.button>
@@ -98,10 +106,10 @@ const ChatbotWidget: React.FC = () => {
             <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-primary-foreground/15 flex items-center justify-center">
-                  <span className="text-lg">🧘</span>
+                  <MeditationMark className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm leading-tight">Yoga Guide</h3>
+                  <h3 className="font-semibold text-sm leading-tight">{activePanel === 'chat' ? 'Yoga Guide' : 'Voice guidance'}</h3>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                     <span className="text-xs opacity-80">Online</span>
@@ -110,7 +118,18 @@ const ChatbotWidget: React.FC = () => {
               </div>
               <div className="flex items-center gap-1">
                 <button
+                  type="button"
+                  onClick={() => setActivePanel((panel) => panel === 'chat' ? 'voice' : 'chat')}
+                  className="flex h-8 items-center gap-1 rounded-lg px-2 text-xs font-semibold hover:bg-primary-foreground/15 transition-colors"
+                  aria-label={activePanel === 'chat' ? 'Open voice guidance' : 'Return to Yoga Guide chat'}
+                  title={activePanel === 'chat' ? 'Voice guidance' : 'Yoga Guide chat'}
+                >
+                  <Volume2 className="h-4 w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">{activePanel === 'chat' ? 'Voice' : 'Chat'}</span>
+                </button>
+                <button
                   onClick={() => setIsFullScreen(!isFullScreen)}
+                  type="button"
                   className="hidden md:flex w-8 h-8 items-center justify-center rounded-lg hover:bg-primary-foreground/15 transition-colors"
                   aria-label={isFullScreen ? "Minimize" : "Maximize"}
                 >
@@ -118,6 +137,7 @@ const ChatbotWidget: React.FC = () => {
                 </button>
                 <button
                   onClick={() => { setIsOpen(false); setIsFullScreen(false); }}
+                  type="button"
                   className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-primary-foreground/15 transition-colors"
                   aria-label="Close chat"
                 >
@@ -126,6 +146,9 @@ const ChatbotWidget: React.FC = () => {
               </div>
             </div>
 
+            {activePanel === 'voice' ? (
+              <VoiceGuideWidget embedded />
+            ) : <>
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted/30">
               {messages.map((msg, i) => (
@@ -138,7 +161,7 @@ const ChatbotWidget: React.FC = () => {
                 >
                   {msg.sender === 'bot' && (
                     <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 text-sm mt-0.5">
-                      🧘
+                      <MeditationMark className="h-4 w-4" />
                     </div>
                   )}
                   <div
@@ -156,8 +179,8 @@ const ChatbotWidget: React.FC = () => {
 
               {isTyping && (
                 <div className="flex gap-2 items-end">
-                  <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 text-sm">
-                    🧘
+                    <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 text-sm">
+                    <MeditationMark className="h-4 w-4" />
                   </div>
                   <div className="bg-card border border-border px-4 py-3 rounded-2xl rounded-bl-sm">
                     <div className="flex gap-1">
@@ -178,6 +201,7 @@ const ChatbotWidget: React.FC = () => {
                   <button
                     key={label}
                     onClick={() => handleSend(label)}
+                    type="button"
                     className="px-3 py-1.5 text-xs font-medium rounded-full border border-border bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
                   >
                     {label}
@@ -200,6 +224,7 @@ const ChatbotWidget: React.FC = () => {
                 />
                 <button
                   onClick={() => handleSend()}
+                  type="button"
                   disabled={!inputValue.trim()}
                   className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                   aria-label="Send message"
@@ -208,6 +233,7 @@ const ChatbotWidget: React.FC = () => {
                 </button>
               </div>
             </div>
+            </>}
           </motion.div>
         )}
       </AnimatePresence>

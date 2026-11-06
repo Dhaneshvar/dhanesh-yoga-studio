@@ -8,6 +8,9 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { VoiceGuideProvider } from "./contexts/VoiceGuideContext";
 import { useAuth, type UserRole } from "./hooks/useAuth";
 import PageLoader from "./components/feedback/PageLoader";
+import AppErrorBoundary from "./components/feedback/AppErrorBoundary";
+import PwaInstallPrompt from "./components/pwa/PwaInstallPrompt";
+import { useActivityTracking } from "./hooks/useActivityTracking";
 
 const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
@@ -26,13 +29,15 @@ const StudentRegistration = lazy(() => import("./pages/dashboard/StudentRegistra
 const MyRegistrations = lazy(() => import("./pages/dashboard/MyRegistrations"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminSessions = lazy(() => import("./pages/admin/AdminSessions"));
+const AdminTrainerApprovalsLive = lazy(() => import("./pages/admin/AdminTrainerApprovalsLive"));
+const AdminUsersLive = lazy(() => import("./pages/admin/AdminUsersLive"));
+const TrainerWorkspace = lazy(() => import("./pages/trainer/TrainerWorkspace"));
 
 // Secondary tools are intentionally downloaded after the first screen is interactive.
 const MeditationMode = lazy(() => import("./components/interactive/MeditationMode"));
 const MeditationToggle = lazy(() => import("./components/interactive/MeditationToggle"));
 const ChatbotWidget = lazy(() => import("./components/chatbot/ChatbotWidget"));
 const ScrollToTop = lazy(() => import("./components/interactive/ScrollToTop"));
-const VoiceGuideWidget = lazy(() => import("./components/voice/VoiceGuideWidget"));
 const VoiceSectionObserver = lazy(() => import("./components/voice/VoiceSectionObserver"));
 
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
@@ -45,11 +50,14 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+const homeForRole = (role: UserRole) =>
+  role === "admin" ? "/admin" : role === "trainer" ? "/trainer" : "/dashboard/my-registrations";
+
 const ProtectedRoute = ({ children, roles }: { children: React.ReactNode; roles?: UserRole[] }) => {
   const { user, isAuthenticated, isLoading } = useAuth();
   if (isLoading) return <div className="min-h-screen grid place-items-center text-muted-foreground">Loading your account…</div>;
   if (!isAuthenticated || !user) return <Navigate to="/login" replace />;
-  if (roles && !roles.includes(user.role)) return <Navigate to="/dashboard/my-classes" replace />;
+  if (roles && !roles.includes(user.role)) return <Navigate to={homeForRole(user.role)} replace />;
   return <>{children}</>;
 };
 
@@ -57,6 +65,7 @@ const AppContent = () => {
   const [meditationOpen, setMeditationOpen] = useState(false);
   const [deferredToolsReady, setDeferredToolsReady] = useState(false);
   const { user } = useAuth();
+  useActivityTracking();
 
   useEffect(() => {
     const browserWindow = window as Window & {
@@ -99,17 +108,21 @@ const AppContent = () => {
            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           
           {/* Yoga Studio Dashboard Routes */}
-          <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout userRole={user?.role ?? "student"} /></ProtectedRoute>}>
+          <Route path="/dashboard" element={<ProtectedRoute roles={["student"]}><DashboardLayout userRole="student" /></ProtectedRoute>}>
             <Route index element={<Navigate to="my-registrations" replace />} />
             <Route path="my-classes" element={<Navigate to="/dashboard/my-registrations" replace />} />
             <Route path="student-registration" element={<StudentRegistration />} />
             <Route path="my-registrations" element={<MyRegistrations />} />
           </Route>
 
+          <Route path="/trainer" element={<ProtectedRoute roles={["trainer"]}><TrainerWorkspace /></ProtectedRoute>} />
+
           {/* Separate Admin Dashboard Routes */}
           <Route path="/admin" element={<ProtectedRoute roles={["admin"]}><AdminLayout /></ProtectedRoute>}>
             <Route index element={<Navigate to="sessions" replace />} />
             <Route path="sessions" element={<AdminSessions />} />
+            <Route path="trainer-approvals" element={<AdminTrainerApprovalsLive />} />
+            <Route path="users" element={<AdminUsersLive />} />
           </Route>
           
           <Route path="*" element={<NotFound />} />
@@ -124,9 +137,9 @@ const AppContent = () => {
           <ChatbotWidget />
           <ScrollToTop />
           <VoiceSectionObserver />
-          <VoiceGuideWidget />
         </Suspense>
       )}
+      <PwaInstallPrompt />
     </div>
   );
 };
@@ -139,7 +152,9 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <AppContent />
+            <AppErrorBoundary>
+              <AppContent />
+            </AppErrorBoundary>
           </BrowserRouter>
         </TooltipProvider>
       </VoiceGuideProvider>

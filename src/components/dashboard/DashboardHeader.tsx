@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Home, ArrowLeft, User, Settings, Bell, ChevronDown, LogOut, Mail, Phone,
+  Home, ArrowLeft, User, Settings, ChevronDown, LogOut, Mail, Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
+import NotificationBell from "@/components/dashboard/NotificationBell";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -12,6 +13,7 @@ import {
 
 interface DashboardHeaderProps {
   userRole: "trainer" | "admin" | "student";
+  userId?: string;
   userName?: string;
   userEmail?: string;
   onLogout: () => void;
@@ -19,6 +21,7 @@ interface DashboardHeaderProps {
 
 const DashboardHeader = ({
   userRole,
+  userId,
   userName = "User",
   userEmail = "user@example.com",
   onLogout,
@@ -53,13 +56,7 @@ const DashboardHeader = ({
         <div className="flex items-center gap-2 md:gap-3">
           <ThemeToggle />
 
-          {/* Notifications */}
-          <Button variant="ghost" size="icon" className="relative" title="Notifications">
-            <Bell className="w-5 h-5" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-[10px] rounded-full flex items-center justify-center">
-              3
-            </span>
-          </Button>
+          <NotificationBell role={userRole} userId={userId} />
 
           {/* Settings */}
           <DropdownMenu>

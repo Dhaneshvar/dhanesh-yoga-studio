@@ -1,0 +1,64 @@
+{
+  "expo": {
+    "name": "Dhanesh Yoga",
+    "slug": "dhanesh-yoga",
+    "scheme": "dhaneshyoga",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#f8fafb",
+    "description": "Dhanesh Yoga Studio classes, programmes, and bookings.",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-system-ui",
+        {
+          "userInterfaceStyle": "automatic"
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#2fd8c2",
+          "defaultChannel": "practice-reminders"
+        }
+      ],
+      [
+        "expo-secure-store",
+        { "configureAndroidBackup": true }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "enablePngCrunchInReleaseBuilds": true
+          }
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dhaneshyoga.studio",
+      "buildNumber": "1",
+      "config": { "usesNonExemptEncryption": false }
+    },
+    "android": {
+      "package": "com.dhaneshyoga.studio",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#225f77",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

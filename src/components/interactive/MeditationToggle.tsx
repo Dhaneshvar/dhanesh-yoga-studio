@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Volume2 } from "lucide-react";
+import MeditationMark from "@/components/interactive/MeditationMark";
 
 interface MeditationToggleProps {
   onClick: () => void;
@@ -9,9 +10,9 @@ const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
   return (
     <motion.button
       onClick={onClick}
-      className="widget-hover fixed bottom-4 left-3 sm:bottom-8 sm:left-8 z-40 p-3 sm:p-4 rounded-full glass shadow-glow group"
-      title="Enter Meditation Mode - guided breathing experience"
-      aria-label="Enter Meditation Mode"
+      className="widget-hover fixed bottom-24 left-4 z-[60] rounded-full border border-primary/40 bg-card/95 p-3 text-primary shadow-glow backdrop-blur-sm group sm:bottom-28 sm:left-8 sm:p-4"
+      title="Open guided meditation sounds"
+      aria-label="Open guided meditation sounds"
       animate={{
         boxShadow: [
           "0 0 20px hsl(172 70% 55% / 0.3)",
@@ -28,10 +29,14 @@ const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
       }}
     >
       <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        className="relative grid place-items-center"
+        animate={{ scale: [1, 1.06, 1] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       >
-        <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-turquoise group-hover:text-turquoise-dark transition-colors" aria-hidden="true" />
+        <Volume2 className="h-5 w-5 transition-colors group-hover:text-primary/70 sm:h-6 sm:w-6" aria-hidden="true" />
+        <span className="absolute -bottom-1 -right-1 grid h-3.5 w-3.5 place-items-center rounded-full border border-card bg-primary text-primary-foreground sm:h-4 sm:w-4">
+          <MeditationMark className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+        </span>
       </motion.div>
       
       {/* Tooltip - hidden on mobile */}
@@ -41,7 +46,7 @@ const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
         whileHover={{ x: 0 }}
         aria-hidden="true"
       >
-        Meditation Mode
+        Meditation sounds
       </motion.span>
     </motion.button>
   );

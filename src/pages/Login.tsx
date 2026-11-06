@@ -7,7 +7,7 @@ import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
-const dashboardFor = (role: "student" | "trainer" | "admin") => role === "admin" ? "/admin" : role === "trainer" ? "/schedule" : "/dashboard/my-registrations";
+const dashboardFor = (role: "student" | "trainer" | "admin") => role === "admin" ? "/admin" : role === "trainer" ? "/trainer" : "/dashboard/my-registrations";
 
 const Login = () => {
   const navigate = useNavigate();

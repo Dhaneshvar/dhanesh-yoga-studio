@@ -24,7 +24,7 @@ const getDashboardRoute = (role: UserRole) => {
     case "admin":
       return "/admin";
     case "trainer":
-      return "/schedule";
+      return "/trainer";
     case "student":
       return "/dashboard/my-registrations";
     default:
@@ -174,6 +174,9 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
+            type="button"
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
             className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
             title={isOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -195,6 +198,8 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
+            id="mobile-navigation"
+            aria-label="Mobile navigation"
             className="lg:hidden bg-background/95 backdrop-blur-lg border-t border-border max-h-[80vh] overflow-y-auto"
           >
             <div className="container mx-auto px-4 py-4 sm:py-6 space-y-2 sm:space-y-4">

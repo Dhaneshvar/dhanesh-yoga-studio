@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import suryaPose from "@/assets/concept/yoga-practitioner-surya-v2.webp";
@@ -15,8 +15,6 @@ import roomProps from "@/assets/concept/yoga-room-props.webp";
 import studioLogo from "@/assets/logo.webp";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
-const poseStepMs = 2800;
-
 const poses = [
   { src: suryaPose, label: "Urdhva Hastasana · arms raised", guide: true },
   { src: forwardFoldPose, label: "Uttanasana · forward fold", guide: true },
@@ -28,6 +26,17 @@ const poses = [
   { src: duoHoldingMat, label: "Roll the mat together · studio welcome", guide: false },
 ];
 
+const journeyCopy = [
+  { eyebrow: "Arrive as you are", title: "Return to your calm.", body: "Settle into a practice that begins with one quiet breath." },
+  { eyebrow: "Breathe with intention", title: "Move with strength.", body: "Let every movement follow the rhythm of your breath." },
+  { eyebrow: "Open and renew", title: "Breathe with purpose.", body: "Create space through a gentle, unhurried flow." },
+  { eyebrow: "Rise again", title: "Strengthen your body.", body: "Build steadiness one mindful movement at a time." },
+  { eyebrow: "Make room", title: "Reconnect with yourself.", body: "Lengthen softly and return to what your body needs." },
+  { eyebrow: "Steady and present", title: "Find balance in every breath.", body: "Root down, grow tall, and let the mind become clear." },
+  { eyebrow: "Evening release", title: "Release stress. Restore your energy.", body: "Slow down into a restorative moment made for you." },
+  { eyebrow: "Practice together", title: "Your journey begins with one breath.", body: "A welcoming studio, ready whenever you are." },
+];
+
 const YogaMatConcept = () => {
   const reducedMotion = useReducedMotion();
   const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
@@ -35,48 +44,42 @@ const YogaMatConcept = () => {
   const showFinalFrame = Boolean(reducedMotion || constrainedNetwork);
   const [poseIndex, setPoseIndex] = useState(showFinalFrame ? 7 : 0);
   const [sequenceComplete, setSequenceComplete] = useState(showFinalFrame);
-  const [matClosing, setMatClosing] = useState(showFinalFrame);
   const [matDelivered, setMatDelivered] = useState(showFinalFrame);
   const [exitScene, setExitScene] = useState(showFinalFrame);
   const [orbit, setOrbit] = useState({ x: 0, y: 0 });
+  const journeyRef = useRef<HTMLElement>(null);
   const dragRef = useRef({ active: false, x: 0, y: 0, orbitX: 0, orbitY: 0 });
+  const { scrollYProgress } = useScroll({ target: journeyRef, offset: ["start start", "end end"] });
+  const sceneLift = useTransform(scrollYProgress, [0, 1], [0, -18]);
+  const matScaleY = useTransform(scrollYProgress, [0, 0.07, 0.68, 0.81], [0.025, 1, 1, 0.07]);
+  const matOpacity = useTransform(scrollYProgress, [0, 0.06, 0.72, 0.83], [1, 1, 1, 0]);
+  const matRollY = useTransform(scrollYProgress, [0, 0.06, 0.68], [0, 0, 8]);
 
   const duration = (value: number) => (showFinalFrame ? 0 : value);
   const delay = (value: number) => (showFinalFrame ? 0 : value);
 
   useEffect(() => {
-    if (showFinalFrame) {
-      setPoseIndex(7);
-      setSequenceComplete(true);
-      setMatClosing(true);
-      setMatDelivered(true);
-      setExitScene(true);
-      setOrbit({ x: 0, y: 0 });
-      return;
-    }
-
-    setPoseIndex(0);
-    setSequenceComplete(false);
-    setMatClosing(false);
-    setMatDelivered(false);
-    setExitScene(false);
-    const timers = [1, 2, 3, 4, 5, 6].map((nextPose, index) =>
-      window.setTimeout(() => setPoseIndex(nextPose), 5000 + index * poseStepMs),
-    );
-    timers.push(window.setTimeout(() => {
-      setSequenceComplete(true);
-      setMatClosing(true);
-    }, 23500));
-    timers.push(window.setTimeout(() => {
-      setPoseIndex(7);
-      setMatDelivered(true);
-    }, 26200));
-    timers.push(window.setTimeout(() => {
-      setOrbit({ x: 0, y: 0 });
-      setExitScene(true);
-    }, 28200));
-    return () => timers.forEach(window.clearTimeout);
+    if (!showFinalFrame) return;
+    setPoseIndex(7);
+    setSequenceComplete(true);
+    setMatDelivered(true);
+    setExitScene(true);
+    setOrbit({ x: 0, y: 0 });
   }, [showFinalFrame]);
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    if (showFinalFrame) return;
+
+    const nextPose = Math.min(7, Math.floor(progress * 8.2));
+    setPoseIndex((current) => current === nextPose ? current : nextPose);
+    setSequenceComplete(progress >= 0.72);
+    setMatDelivered(progress >= 0.84);
+    setExitScene(progress >= 0.87);
+
+    if (progress < 0.87) {
+      setOrbit((current) => current.x === 0 && current.y === 0 ? current : { x: 0, y: 0 });
+    }
+  });
 
   useEffect(() => {
     if (showFinalFrame) return;
@@ -92,6 +95,7 @@ const YogaMatConcept = () => {
   }, [poseIndex, showFinalFrame]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== "mouse") return;
     dragRef.current = { active: true, x: event.clientX, y: event.clientY, orbitX: orbit.x, orbitY: orbit.y };
     event.currentTarget.setPointerCapture(event.pointerId);
   };
@@ -107,13 +111,9 @@ const YogaMatConcept = () => {
     dragRef.current.active = false;
   };
 
-  const handleWheel = (event: React.WheelEvent<HTMLElement>) => {
-    event.preventDefault();
-    setOrbit((current) => ({ ...current, x: Math.max(-11, Math.min(11, current.x + event.deltaY * -0.015)) }));
-  };
-
   return (
-    <main className="relative h-[100svh] min-h-[620px] overflow-hidden bg-[#d9c9ae] text-[#f8f4ea] dark:bg-[#101816]">
+    <section ref={journeyRef} className="relative h-[480svh] min-h-[2480px] bg-[#d9c9ae] text-[#f8f4ea] dark:bg-[#101816] motion-reduce:h-[100svh] motion-reduce:min-h-[620px]">
+      <main className="sticky top-0 h-[100svh] min-h-[620px] overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-[39%] bg-[linear-gradient(180deg,#d8cbb7_0%,#e9dfcf_64%,#cbbba2_100%)] transition-[filter] duration-500 dark:brightness-[.34] dark:saturate-[.68]" />
       <div className="absolute inset-x-0 top-0 h-[39%] opacity-70 transition-opacity duration-500 [background-image:radial-gradient(circle_at_50%_-20%,rgba(255,255,255,.95),transparent_52%),linear-gradient(90deg,rgba(87,67,44,.07)_1px,transparent_1px)] [background-size:auto,88px_100%] dark:opacity-20" />
 
@@ -137,13 +137,14 @@ const YogaMatConcept = () => {
       <img
         src={roomProps}
         alt="Rolled yoga mats, blocks, bolster and plant in the studio"
+        title="Yoga studio props"
         loading="lazy"
         decoding="async"
         className="absolute bottom-[4%] left-[2vw] z-[4] hidden w-[19vw] max-w-[280px] object-contain drop-shadow-[0_18px_24px_rgba(42,28,19,.28)] lg:block"
       />
 
       <div className={`absolute left-1/2 top-[5vh] z-[3] hidden -translate-x-1/2 flex-col items-center text-[#6a563b]/55 transition-opacity duration-500 dark:text-[#d8e7dd]/55 md:flex ${exitScene ? "opacity-0" : ""}`}>
-        <img src={studioLogo} alt="Dhanesh Yoga Studio logo" decoding="async" className="h-20 w-20 object-contain mix-blend-multiply opacity-35 dark:brightness-150 dark:mix-blend-screen dark:opacity-50" />
+        <img src={studioLogo} alt="Dhanesh Yoga Studio logo" title="Dhanesh Yoga Studio" decoding="async" className="h-20 w-20 object-contain mix-blend-multiply opacity-35 dark:brightness-150 dark:mix-blend-screen dark:opacity-50" />
         <span className="-mt-2 text-[9px] font-semibold uppercase tracking-[0.36em]">Dhanesh Yoga Studio</span>
       </div>
 
@@ -157,26 +158,27 @@ const YogaMatConcept = () => {
         <div className="mx-auto mt-3 h-px w-12 bg-[#6f776d]/45 dark:bg-[#dce9e1]/35" />
       </motion.div>
 
-      <section
+      <motion.section
         aria-label="Interactive Surya Namaskar yoga mat welcome"
         className="absolute inset-0 z-10 cursor-grab select-none active:cursor-grabbing"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={stopDragging}
         onPointerCancel={stopDragging}
-        onWheel={handleWheel}
         style={{
-          transform: `perspective(1200px) rotateX(${orbit.x}deg) rotateY(${orbit.y}deg)`,
+          y: sceneLift,
+          rotateX: orbit.x,
+          rotateY: orbit.y,
+          transformPerspective: 1200,
           transformStyle: "preserve-3d",
-          touchAction: "none",
-          transition: dragRef.current.active ? "none" : "transform 180ms ease-out",
+          touchAction: "pan-y",
         }}
       >
         {!exitScene && <motion.div
           initial={{ opacity: 0, x: "-50%", y: 30, scale: 0.92 }}
           animate={{ opacity: 1, x: "-50%", y: sequenceComplete ? 30 : 0, scale: sequenceComplete ? 1.08 : 1 }}
-          transition={{ duration: duration(1.05), delay: delay(3.7), ease: easeOut }}
-          className={`absolute bottom-[43%] left-1/2 z-30 min-h-[210px] max-h-[410px] ${poseIndex === 7 ? "h-[37vh] sm:h-[43vh]" : poseIndex >= 4 ? "h-[28vh] sm:h-[32vh]" : "h-[34vh] sm:h-[38vh]"}`}
+          transition={{ duration: duration(0.8), ease: easeOut }}
+          className={`absolute bottom-[43%] left-1/2 z-30 min-h-[210px] max-h-[410px] xl:left-[60%] ${poseIndex === 7 ? "h-[37vh] sm:h-[43vh]" : poseIndex >= 4 ? "h-[28vh] sm:h-[32vh]" : "h-[34vh] sm:h-[38vh]"}`}
         >
           <AnimatePresence mode="wait">
             <motion.img
@@ -188,7 +190,7 @@ const YogaMatConcept = () => {
               initial={{ opacity: 0, y: 18, scale: 0.94 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -14, scale: 1.03 }}
-              transition={{ duration: duration(poseIndex === 7 ? 0.85 : 0.5), ease: easeOut }}
+              transition={{ duration: duration(poseIndex === 7 ? 0.85 : 0.7), ease: easeOut }}
               className="h-full w-auto max-w-none object-contain drop-shadow-[0_25px_20px_rgba(36,26,17,.28)]"
             />
           </AnimatePresence>
@@ -200,6 +202,7 @@ const YogaMatConcept = () => {
               <motion.img
                 src={manWithMatBackpack}
                 alt="Yoga instructor leaving with a rolled mat on his back"
+                title="Yoga instructor with rolled mat"
                 loading="lazy"
                 decoding="async"
                 initial={{ left: "42%", x: "-50%", opacity: 0, scale: 0.86 }}
@@ -211,6 +214,7 @@ const YogaMatConcept = () => {
               <motion.img
                 src={womanWithMatBag}
                 alt="Yoga instructor leaving with a yoga mat bag"
+                title="Yoga instructor with mat bag"
                 loading="lazy"
                 decoding="async"
                 initial={{ left: "58%", x: "-50%", opacity: 0, scale: 0.86 }}
@@ -238,17 +242,8 @@ const YogaMatConcept = () => {
         >
           <div className="relative h-full w-full origin-top [transform:rotateX(58deg)] [transform-style:preserve-3d]">
             <motion.div
-              initial={{ scaleY: showFinalFrame ? 1 : 0.025 }}
-              animate={{
-                scaleY: matClosing ? [1, 1, 0.3, 0.07] : showFinalFrame ? 1 : [0.025, 0.025, 0.22, 1],
-                opacity: matClosing ? [1, 1, 0] : 1,
-              }}
-              transition={{
-                duration: duration(matClosing ? 2.7 : 2.6),
-                delay: delay(matClosing ? 0.15 : 1.35),
-                times: matClosing ? [0, 0.25, 0.72, 1] : [0, 0.22, 0.58, 1],
-                ease: [0.2, 0.75, 0.22, 1],
-              }}
+              initial={false}
+              style={{ scaleY: showFinalFrame ? 1 : matScaleY, opacity: showFinalFrame ? 0 : matOpacity }}
               className="absolute inset-0 origin-top overflow-hidden rounded-b-[2.5rem] rounded-t-[0.6rem] border border-[#a97153]/60 bg-[linear-gradient(92deg,#5f2530_0%,#914250_5%,#a9575e_48%,#74313d_96%,#4d2028_100%)] shadow-[0_45px_65px_rgba(32,19,13,.42)]"
             >
               <div className="absolute inset-0 opacity-45 [background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.04)_0,rgba(255,255,255,.04)_1px,transparent_1px,transparent_4px),linear-gradient(180deg,rgba(255,255,255,.14),transparent_20%,rgba(34,8,14,.16))]" />
@@ -280,13 +275,10 @@ const YogaMatConcept = () => {
             </motion.div>
 
             <motion.div
-              initial={{ top: "-1.2%", rotate: 0, opacity: 1 }}
-              animate={
-                matClosing
-                  ? { opacity: 0 }
-                  : { top: "94%", rotate: 0, opacity: showFinalFrame ? 0 : [1, 1, 1, 0] }
-              }
-              transition={{ duration: duration(matClosing ? 0.2 : 2.6), delay: delay(matClosing ? 0.1 : 1.35), ease: [0.2, 0.75, 0.22, 1] }}
+              initial={false}
+              style={{ y: showFinalFrame ? 0 : matRollY, opacity: showFinalFrame ? 0 : matOpacity }}
+              animate={{ top: "94%", rotate: 0 }}
+              transition={{ duration: duration(0.45), ease: easeOut }}
               className="absolute left-[-1.5%] z-30 h-10 w-[103%] rounded-full border border-[#d67e82]/45 bg-[linear-gradient(180deg,#d87980_0%,#9d4854_31%,#71303c_60%,#bc606b_100%)] shadow-[0_14px_18px_rgba(45,19,16,.42)] sm:h-12"
             >
               <div className="absolute inset-x-4 top-[22%] h-[18%] rounded-full bg-[#f2b0a5]/35 blur-[2px]" />
@@ -322,7 +314,7 @@ const YogaMatConcept = () => {
 
         {!matDelivered && !exitScene ? (
           <div className="pointer-events-none absolute left-1/2 top-[64%] z-50 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#f6e7cf]/20 bg-[#2d1b1d]/25 px-3 py-1.5 text-[8px] font-medium uppercase tracking-[0.24em] text-[#f6e7cf]/70 backdrop-blur-sm sm:text-[9px]">
-            {poses[poseIndex].label}
+            {journeyCopy[poseIndex].eyebrow} · {poses[poseIndex].label}
           </div>
         ) : matDelivered && !exitScene ? (
           <motion.div
@@ -334,7 +326,23 @@ const YogaMatConcept = () => {
             Your practice begins here
           </motion.div>
         ) : null}
-      </section>
+        <AnimatePresence mode="wait">
+          {!exitScene && (
+            <motion.div
+              key={poseIndex}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: duration(0.6), ease: easeOut }}
+              className="pointer-events-none absolute left-[4vw] top-[45%] z-40 hidden max-w-[300px] rounded-r-3xl bg-[#e9dfcf]/92 px-5 py-5 text-left text-[#4b3928] shadow-[14px_16px_32px_rgba(52,35,20,.12)] backdrop-blur-md dark:bg-[#14201d]/90 dark:text-[#f5e9d7] xl:block"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#71604b]/80 dark:text-[#d9e8dd]/70">{journeyCopy[poseIndex].eyebrow}</p>
+              <h2 className="mt-3 font-display text-3xl font-semibold leading-tight">{journeyCopy[poseIndex].title}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-[#62503d]/85 dark:text-[#e8ded0]/75">{journeyCopy[poseIndex].body}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.section>
 
       <AnimatePresence>
         {exitScene && (
@@ -345,7 +353,7 @@ const YogaMatConcept = () => {
             transition={{ duration: duration(0.9), delay: delay(0.65), ease: easeOut }}
             className="pointer-events-none absolute left-1/2 top-[46%] z-40 flex w-[min(54vw,420px)] -translate-x-1/2 flex-col items-center text-center text-[#5e4931]"
           >
-            <img src={studioLogo} alt="Dhanesh Yoga Studio" loading="lazy" decoding="async" className="h-20 w-20 object-contain mix-blend-multiply dark:brightness-150 dark:mix-blend-screen sm:h-24 sm:w-24" />
+            <img src={studioLogo} alt="Dhanesh Yoga Studio" title="Dhanesh Yoga Studio" loading="lazy" decoding="async" className="h-20 w-20 object-contain mix-blend-multiply dark:brightness-150 dark:mix-blend-screen sm:h-24 sm:w-24" />
             <p className="mt-2 font-display text-[clamp(1.35rem,3vw,2.35rem)] font-semibold tracking-[0.16em] text-[#59442e] dark:text-[#f5e9d7]">DHANESH YOGA</p>
             <p className="mt-2 text-[9px] font-semibold uppercase tracking-[0.36em] text-[#6b563e]/80 dark:text-[#d6e4da]/80 sm:text-[10px]">Yoga Studio</p>
             <div className="mt-4 h-px w-16 bg-[#6b563e]/40 dark:bg-[#d6e4da]/35" />
@@ -355,7 +363,8 @@ const YogaMatConcept = () => {
 
       <div className="pointer-events-none absolute inset-0 z-30 bg-[radial-gradient(ellipse_at_center,transparent_42%,rgba(30,20,13,.18)_100%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-32 bg-gradient-to-t from-[#2a1b12]/35 to-transparent" />
-    </main>
+      </main>
+    </section>
   );
 };
 

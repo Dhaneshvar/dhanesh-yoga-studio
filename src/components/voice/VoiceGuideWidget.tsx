@@ -17,7 +17,7 @@ const STATUS_COLOR: Record<string, string> = {
   listening: "bg-emerald-500 animate-pulse",
 };
 
-const VoiceGuideWidget = () => {
+const VoiceGuideWidget = ({ embedded = false }: { embedded?: boolean }) => {
   const vg = useVoiceGuide();
   const { enabled, muted, status, currentSection, expanded, setEnabled, setMuted, setExpanded, setStatus } = vg;
   const { speak, cancel, pause, resume, supported: ttsSupported } = useSpeech();
@@ -83,7 +83,7 @@ const VoiceGuideWidget = () => {
   if (!ttsSupported) return null;
 
   // Collapsed: tiny sparkle launcher only
-  if (!expanded) {
+  if (!embedded && !expanded) {
     return (
       <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
         <button
@@ -103,8 +103,8 @@ const VoiceGuideWidget = () => {
 
   // Expanded panel
   return (
-    <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50">
-      <div className="w-[min(92vw,320px)] rounded-2xl bg-card/85 backdrop-blur-xl border border-border shadow-2xl overflow-hidden animate-panel-pop">
+    <div className={embedded ? "flex min-h-0 flex-1 flex-col" : "fixed bottom-4 right-3 z-50 sm:bottom-6 sm:right-6"}>
+      <div className={cn("flex min-h-0 flex-1 flex-col overflow-hidden bg-card/85 backdrop-blur-xl", embedded ? "border-0 shadow-none" : "w-[min(92vw,320px)] rounded-2xl border border-border shadow-2xl animate-panel-pop")}>
         {/* Header */}
         <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-background/60">
           <div className="flex items-center gap-2 min-w-0">
@@ -114,7 +114,7 @@ const VoiceGuideWidget = () => {
           </div>
           <div className="flex items-center gap-0.5">
             <button onClick={() => setShowSettings(s => !s)} className="p-1.5 rounded-md hover:bg-muted text-foreground" aria-label="Settings" title="Settings"><SettingsIcon className="w-3.5 h-3.5" /></button>
-            <button onClick={() => setExpanded(false)} className="p-1.5 rounded-md hover:bg-muted text-foreground" aria-label="Close" title="Close"><X className="w-3.5 h-3.5" /></button>
+            {!embedded && <button onClick={() => setExpanded(false)} className="p-1.5 rounded-md hover:bg-muted text-foreground" aria-label="Close" title="Close"><X className="w-3.5 h-3.5" /></button>}
           </div>
         </div>
 

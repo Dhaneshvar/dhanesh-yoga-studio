@@ -4,9 +4,19 @@ import { createClient } from '@supabase/supabase-js';
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
+if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+  throw new Error('Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.');
+}
+
+// A service-role/secret key must never be bundled into a browser or mobile app.
+// Fail fast during development instead of silently shipping an admin credential.
+if (SUPABASE_PUBLISHABLE_KEY.startsWith('sb_secret_')) {
+  throw new Error('A Supabase secret key was provided to the client. Use a publishable key instead.');
+}
+
 
 function isNewSupabaseApiKey(value: string): boolean {
-  return value.startsWith('sb_publishable_') || value.startsWith('sb_secret_');
+  return value.startsWith('sb_publishable_');
 }
 
 function createSupabaseFetch(supabaseKey: string): typeof fetch {

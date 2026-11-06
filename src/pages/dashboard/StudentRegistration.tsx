@@ -4,7 +4,7 @@ import { Calendar, CheckCircle, Loader2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { bookSession, getPublicSessions, saveIntake, type ClassSession } from "@/lib/studioApi";
+import { bookSession, getPublicSessions, getStudioDataError, saveIntake, type ClassSession } from "@/lib/studioApi";
 import { useAuth } from "@/hooks/useAuth";
 
 const StudentRegistration = () => {
@@ -13,7 +13,7 @@ const StudentRegistration = () => {
   const [loading, setLoading] = useState(true); const [saving, setSaving] = useState(false); const [error, setError] = useState("");
   const [form, setForm] = useState({ fullName: user?.name ?? "", phone: user?.phone ?? "", age: "", emergencyContact: "", healthConditions: "", experience: "beginner", goals: "" });
   useEffect(() => { setForm((previous) => ({ ...previous, fullName: user?.name ?? previous.fullName, phone: user?.phone ?? previous.phone })); }, [user]);
-  useEffect(() => { void getPublicSessions().then(setSessions).catch((e) => setError(e instanceof Error ? e.message : "Could not load available classes.")).finally(() => setLoading(false)); }, []);
+  useEffect(() => { void getPublicSessions().then(setSessions).catch((e) => setError(getStudioDataError(e, "classes"))).finally(() => setLoading(false)); }, []);
   const update = (key: keyof typeof form, value: string) => setForm((current) => ({ ...current, [key]: value }));
   const submit = async (event: React.FormEvent) => {
     event.preventDefault(); if (!selectedSession) return setError("Choose a class before booking.");

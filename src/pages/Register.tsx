@@ -5,7 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import FlashNewsTicker from "@/components/interactive/FlashNewsTicker";
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
-import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2, X, ScrollText } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2, X, ScrollText, GraduationCap, BriefcaseBusiness } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -29,6 +29,7 @@ const Register = () => {
     name: "",
     email: "",
     phone: "",
+    accountType: "practitioner" as "practitioner" | "instructor",
     password: "",
     confirmPassword: "",
   });
@@ -50,7 +51,8 @@ const Register = () => {
       formData.email,
       formData.phone,
       formData.password,
-      formData.confirmPassword
+      formData.confirmPassword,
+      formData.accountType,
     );
 
     if (!result.success && result.error) setError(result.error);
@@ -166,6 +168,31 @@ const Register = () => {
               </div>
 
               <div>
+                <label htmlFor="accountType" className="font-body text-sm text-foreground block mb-2">I am joining as</label>
+                <select
+                  id="accountType"
+                  name="accountType"
+                  value={formData.accountType}
+                  onChange={(e) => {
+                    setFormData({ ...formData, accountType: e.target.value as "practitioner" | "instructor" });
+                    setError("");
+                  }}
+                  title="Choose whether you are joining as a practitioner or instructor"
+                  className="w-full pl-4 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
+                  disabled={isSubmitting}
+                >
+                  <option value="practitioner">Practitioner — I want to attend yoga classes</option>
+                  <option value="instructor">Instructor — I want to teach at Dhanesh Yoga</option>
+                </select>
+                <p className="mt-2 text-xs text-muted-foreground flex items-start gap-2">
+                  {formData.accountType === "instructor" ? <BriefcaseBusiness className="w-4 h-4 shrink-0 text-primary" aria-hidden="true" /> : <GraduationCap className="w-4 h-4 shrink-0 text-primary" aria-hidden="true" />}
+                  {formData.accountType === "instructor"
+                    ? "Instructor access is reviewed and approved by the studio before teaching tools are enabled."
+                    : "Practitioner access is ready after you confirm your email."}
+                </p>
+              </div>
+
+              <div>
                 <label className="font-body text-sm text-foreground block mb-2">Password</label>
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -174,12 +201,12 @@ const Register = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="Create a password (min 6 characters)"
-                    title="Create a strong password with at least 6 characters"
+                    placeholder="Create a password (min 8 characters)"
+                    title="Create a strong password with at least 8 characters"
                     className="w-full pl-12 pr-12 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body transition-all"
                     required
                     disabled={isSubmitting}
-                    minLength={6}
+                    minLength={8}
                   />
                   <button
                     type="button"

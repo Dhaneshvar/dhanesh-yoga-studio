@@ -7,7 +7,7 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
+      if (window.scrollY > 120) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -33,7 +33,7 @@ const ScrollToTop = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           onClick={scrollToTop}
-          className="widget-hover fixed bottom-20 right-3 sm:bottom-24 sm:right-6 z-40 p-2 sm:p-3 bg-primary/90 hover:bg-primary text-primary-foreground rounded-full shadow-lg backdrop-blur-sm md:bottom-28 md:right-8"
+          className="widget-hover fixed bottom-20 right-4 z-[55] rounded-full bg-primary/95 p-2 text-primary-foreground shadow-lg backdrop-blur-sm hover:bg-primary sm:bottom-28 sm:right-8 sm:p-3"
           title="Scroll to top - Return to the beginning of the page"
           aria-label="Scroll to top of page"
         >
@@ -45,7 +45,7 @@ const ScrollToTop = () => {
               ease: "easeInOut",
             }}
           >
-            <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+            <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" aria-hidden="true" />
           </motion.div>
         </motion.button>
       )}

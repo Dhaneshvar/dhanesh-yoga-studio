@@ -15,6 +15,10 @@ dist-ssr
 .env.*
 !.env.example
 
+# Generated only on an individual developer machine when the Supabase CLI links a project.
+# It contains connection metadata, not application source.
+supabase/.temp/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
