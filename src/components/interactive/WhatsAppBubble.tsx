@@ -25,6 +25,14 @@ const WhatsAppBubble = () => {
     };
   }, [location.pathname]);
 
+  // Let the other floating controls coordinate their space while the menu is open.
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("whatsapp-menu-toggle", { detail: { isOpen } }));
+    return () => {
+      window.dispatchEvent(new CustomEvent("whatsapp-menu-toggle", { detail: { isOpen: false } }));
+    };
+  }, [isOpen]);
+
   const handleChat = () => {
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
     window.open(url, "_blank");

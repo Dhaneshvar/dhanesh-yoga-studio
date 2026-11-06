@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Volume2 } from "lucide-react";
 import MeditationMark from "@/components/interactive/MeditationMark";
 
@@ -7,27 +8,41 @@ interface MeditationToggleProps {
 }
 
 const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
+  const [whatsappOpen, setWhatsappOpen] = useState(false);
+
+  useEffect(() => {
+    const handleWhatsAppMenu = (event: Event) => {
+      const isOpen = (event as CustomEvent<{ isOpen?: boolean }>).detail?.isOpen === true;
+      setWhatsappOpen(isOpen);
+    };
+    window.addEventListener("whatsapp-menu-toggle", handleWhatsAppMenu);
+    return () => window.removeEventListener("whatsapp-menu-toggle", handleWhatsAppMenu);
+  }, []);
+
   return (
-    <motion.button
-      onClick={onClick}
-      className="widget-hover fixed bottom-24 left-4 z-[60] rounded-full border border-primary/40 bg-card/95 p-3 text-primary shadow-glow backdrop-blur-sm group sm:bottom-28 sm:left-8 sm:p-4"
-      title="Open guided meditation sounds"
-      aria-label="Open guided meditation sounds"
-      animate={{
-        boxShadow: [
-          "0 0 20px hsl(172 70% 55% / 0.3)",
-          "0 0 40px hsl(172 70% 55% / 0.5)",
-          "0 0 20px hsl(172 70% 55% / 0.3)",
-        ],
-      }}
-      transition={{
-        boxShadow: {
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        },
-      }}
-    >
+    <AnimatePresence>
+      {!whatsappOpen && <motion.button
+        initial={{ opacity: 0, scale: 0.75 }}
+        exit={{ opacity: 0, scale: 0.75 }}
+        onClick={onClick}
+        className="widget-hover fixed bottom-24 left-4 z-[60] rounded-full border border-primary/40 bg-card/95 p-3 text-primary shadow-glow backdrop-blur-sm group sm:bottom-28 sm:left-8 sm:p-4"
+        title="Open guided meditation sounds"
+        aria-label="Open guided meditation sounds"
+        animate={{
+          opacity: 1,
+          scale: 1,
+          boxShadow: [
+            "0 0 20px hsl(172 70% 55% / 0.3)",
+            "0 0 40px hsl(172 70% 55% / 0.5)",
+            "0 0 20px hsl(172 70% 55% / 0.3)",
+          ],
+        }}
+        transition={{
+          boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+          opacity: { duration: 0.18 },
+          scale: { duration: 0.18 },
+        }}
+      >
       <motion.div
         className="relative grid place-items-center"
         animate={{ scale: [1, 1.06, 1] }}
@@ -48,7 +63,8 @@ const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
       >
         Meditation sounds
       </motion.span>
-    </motion.button>
+      </motion.button>}
+    </AnimatePresence>
   );
 };
 
