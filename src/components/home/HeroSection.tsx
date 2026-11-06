@@ -19,12 +19,12 @@ const CountStat = ({
 }) => {
   const { ref, value: current } = useCountUp<HTMLDivElement>(value);
   return (
-    <motion.div ref={ref} className="text-center lg:text-left" whileHover={{ scale: 1.06 }}>
-      <div className={`font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-${color}`}>
+    <motion.div ref={ref} className="relative z-10 min-w-0 rounded-2xl bg-background/25 px-1 py-2 text-center lg:text-left" whileHover={{ scale: 1.04 }}>
+      <div className={`whitespace-nowrap font-display text-2xl leading-none sm:text-3xl md:text-4xl font-semibold text-${color}`}>
         {current}
         {suffix}
       </div>
-      <div className="font-body text-xs sm:text-sm text-muted-foreground mt-1">{label}</div>
+      <div className="mx-auto mt-2 max-w-[7rem] font-body text-xs leading-4 text-muted-foreground sm:text-sm">{label}</div>
     </motion.div>
   );
 };
