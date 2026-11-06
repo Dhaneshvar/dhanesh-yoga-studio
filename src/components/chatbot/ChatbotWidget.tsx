@@ -21,8 +21,25 @@ const ChatbotWidget: React.FC = () => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setViewportHeight(null);
+      return;
+    }
+    const viewport = window.visualViewport;
+    const updateViewportHeight = () => setViewportHeight(viewport?.height ?? window.innerHeight);
+    updateViewportHeight();
+    viewport?.addEventListener('resize', updateViewportHeight);
+    viewport?.addEventListener('scroll', updateViewportHeight);
+    return () => {
+      viewport?.removeEventListener('resize', updateViewportHeight);
+      viewport?.removeEventListener('scroll', updateViewportHeight);
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -95,15 +112,16 @@ const ChatbotWidget: React.FC = () => {
             exit={{ opacity: 0, y: 16, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              "fixed z-50 flex flex-col overflow-hidden border border-border bg-background shadow-xl",
+              "fixed z-50 flex min-h-0 flex-col overflow-hidden border border-border bg-background shadow-xl",
               isFullScreen
                 ? "inset-0 rounded-none"
                 : "bottom-5 right-5 w-[380px] h-[520px] rounded-2xl",
-              "max-md:inset-0 max-md:rounded-none max-md:w-full max-md:h-full"
+              "max-md:inset-x-0 max-md:top-0 max-md:bottom-0 max-md:w-full max-md:h-[var(--chat-viewport-height,100dvh)] max-md:max-h-[var(--chat-viewport-height,100dvh)] max-md:min-h-0 max-md:rounded-none"
             )}
+            style={{ '--chat-viewport-height': viewportHeight ? `${viewportHeight}px` : undefined } as React.CSSProperties}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground">
+            <div className="flex shrink-0 items-center justify-between px-4 py-3 bg-primary text-primary-foreground">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-primary-foreground/15 flex items-center justify-center">
                   <MeditationMark className="h-5 w-5" />
@@ -150,7 +168,7 @@ const ChatbotWidget: React.FC = () => {
               <VoiceGuideWidget embedded />
             ) : <>
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted/30">
+            <div className="min-h-0 flex-1 overscroll-contain overflow-y-auto p-4 space-y-3 bg-muted/30">
               {messages.map((msg, i) => (
                 <div
                   key={i}
@@ -196,7 +214,7 @@ const ChatbotWidget: React.FC = () => {
 
             {/* Quick Replies */}
             {messages.length <= 1 && (
-              <div className="px-4 py-2 border-t border-border bg-background flex gap-2 flex-wrap">
+              <div className="shrink-0 px-4 py-2 border-t border-border bg-background flex gap-2 flex-wrap">
                 {QUICK_REPLIES.map((label) => (
                   <button
                     key={label}
@@ -211,7 +229,7 @@ const ChatbotWidget: React.FC = () => {
             )}
 
             {/* Input */}
-            <div className="p-3 border-t border-border bg-background">
+            <div className="shrink-0 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] border-t border-border bg-background">
               <div className="flex items-center gap-2">
                 <input
                   ref={inputRef}
