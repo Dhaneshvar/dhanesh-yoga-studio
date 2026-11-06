@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, Phone, X } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import { useFloatingControlsVisibility } from "@/hooks/useFloatingControlsVisibility";
 
 const WHATSAPP_NUMBER = "919876543210";
 const WHATSAPP_MESSAGE = "Hello! I'm interested in your yoga classes.";
@@ -9,6 +10,7 @@ const WHATSAPP_MESSAGE = "Hello! I'm interested in your yoga classes.";
 const WhatsAppBubble = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPastWelcome, setIsPastWelcome] = useState(false);
+  const controlsVisible = useFloatingControlsVisibility();
   const location = useLocation();
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const WhatsAppBubble = () => {
     window.open(url, "_blank");
   };
 
-  if (!isPastWelcome) return null;
+  if (!isPastWelcome || !controlsVisible) return null;
 
   return (
     <div className="fixed bottom-6 left-4 z-50 flex flex-col items-start gap-2 sm:bottom-8 sm:left-8 sm:gap-3">

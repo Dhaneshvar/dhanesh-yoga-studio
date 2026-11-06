@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Volume2 } from "lucide-react";
 import MeditationMark from "@/components/interactive/MeditationMark";
+import { useFloatingControlsVisibility } from "@/hooks/useFloatingControlsVisibility";
 
 interface MeditationToggleProps {
   onClick: () => void;
@@ -9,6 +10,7 @@ interface MeditationToggleProps {
 
 const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
   const [whatsappOpen, setWhatsappOpen] = useState(false);
+  const controlsVisible = useFloatingControlsVisibility();
 
   useEffect(() => {
     const handleWhatsAppMenu = (event: Event) => {
@@ -21,7 +23,7 @@ const MeditationToggle = ({ onClick }: MeditationToggleProps) => {
 
   return (
     <AnimatePresence>
-      {!whatsappOpen && <motion.button
+      {!whatsappOpen && controlsVisible && <motion.button
         initial={{ opacity: 0, scale: 0.75 }}
         exit={{ opacity: 0, scale: 0.75 }}
         onClick={onClick}

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import MeditationMark from '@/components/interactive/MeditationMark';
 import VoiceGuideWidget from '@/components/voice/VoiceGuideWidget';
+import { useFloatingControlsVisibility } from '@/hooks/useFloatingControlsVisibility';
 
 interface Message {
   sender: 'user' | 'bot';
@@ -13,6 +14,7 @@ interface Message {
 const QUICK_REPLIES = ['Classes', 'Programs', 'Asanas', 'Meditation'];
 
 const ChatbotWidget: React.FC = () => {
+  const controlsVisible = useFloatingControlsVisibility();
   const [isOpen, setIsOpen] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [activePanel, setActivePanel] = useState<'chat' | 'voice'>('chat');
@@ -80,7 +82,7 @@ const ChatbotWidget: React.FC = () => {
     <>
       {/* Floating Button */}
       <AnimatePresence>
-        {!isOpen && (
+        {!isOpen && controlsVisible && (
           <motion.button
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}

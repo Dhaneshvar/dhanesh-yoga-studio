@@ -39,6 +39,7 @@ const MeditationToggle = lazy(() => import("./components/interactive/MeditationT
 const ChatbotWidget = lazy(() => import("./components/chatbot/ChatbotWidget"));
 const ScrollToTop = lazy(() => import("./components/interactive/ScrollToTop"));
 const VoiceSectionObserver = lazy(() => import("./components/voice/VoiceSectionObserver"));
+const MobileControlsToggle = lazy(() => import("./components/interactive/MobileControlsToggle"));
 
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
@@ -137,6 +138,7 @@ const AppContent = () => {
           <ChatbotWidget />
           <ScrollToTop />
           <VoiceSectionObserver />
+          <MobileControlsToggle />
         </Suspense>
       )}
       <PwaInstallPrompt />
